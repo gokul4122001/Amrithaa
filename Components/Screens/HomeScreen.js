@@ -5,26 +5,24 @@ import {
   StyleSheet,
   ScrollView,
   TouchableOpacity,
-  Image,
   SafeAreaView,
   StatusBar,
 } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
-import FontAwesome from 'react-native-vector-icons/FontAwesome';
 
-const App = () => {
+const HomeScreen = ({ navigation }) => {
   const services = [
-    { id: 1, name: 'Ambulance', icon: '🚑' },
-    { id: 2, name: 'Home care Nursing', icon: '👩‍⚕️' },
-    { id: 3, name: 'Physiotherapy', icon: '🏃‍♂️' },
-    { id: 4, name: 'Lab', icon: '🧪' },
-    { id: 5, name: 'Tractor & Machinery Service', icon: '🚜' },
-    { id: 6, name: 'Listing', icon: '📋' },
-    { id: 7, name: 'Hospital', icon: '🏥' },
-    { id: 8, name: 'Clinic', icon: '🏥' },
-    { id: 9, name: 'Blood Bank', icon: '🩸' },
-    { id: 10, name: 'Pharmacy', icon: '💊' },
-    { id: 11, name: 'Medical Equipment', icon: '🩺' },
+    { id: 1, name: 'Ambulance', icon: '🚑', screen: 'AmbulanceBookingScreen' },
+    { id: 2, name: 'Home care Nursing', icon: '👩‍⚕️', screen: null },
+    { id: 3, name: 'Physiotherapy', icon: '🏃‍♂️', screen: null },
+    { id: 4, name: 'Lab', icon: '🧪', screen: null },
+    { id: 5, name: 'Tractor & Machinery Service', icon: '🚜', screen: null },
+    { id: 6, name: 'Listing', icon: '📋', screen: null },
+    { id: 7, name: 'Hospital', icon: '🏥', screen: null },
+    { id: 8, name: 'Clinic', icon: '🏥', screen: null },
+    { id: 9, name: 'Blood Bank', icon: '🩸', screen: null },
+    { id: 10, name: 'Pharmacy', icon: '💊', screen: null },
+    { id: 11, name: 'Medical Equipment', icon: '🩺', screen: null },
   ];
 
   const transactions = [
@@ -34,8 +32,20 @@ const App = () => {
     { id: 4, service: 'Pharmacy', amount: 150, type: 'debit', icon: '💊' },
   ];
 
+ const handleServicePress = (service) => {
+  if (service.screen) {
+    navigation.navigate(service.screen);
+  } else {
+    console.log(`${service.name} pressed - Coming Soon!`);
+  }
+};
+
+
   const ServiceCard = ({ service }) => (
-    <TouchableOpacity style={styles.serviceCard}>
+    <TouchableOpacity 
+      style={styles.serviceCard}
+     onPress={() => handleServicePress(service)}
+    >
       <View style={styles.serviceIconContainer}>
         <Text style={styles.serviceIcon}>{service.icon}</Text>
       </View>
@@ -367,4 +377,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default App;
+export default HomeScreen;
