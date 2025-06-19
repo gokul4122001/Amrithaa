@@ -2,11 +2,11 @@ import React from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import CustomTabButton from '../Navigations/CustomTabButton';
-import HomeStackScreen from '../Navigations/StackNavigationScreen'; 
+import HomeStackScreen from './HomeStackNavigationScreen'; 
 import MenuScreen from '../Screens/MenuScreen';
-import BookmarkScreen from '../Screens/BookmarkScreen';
-import AlertScreen from '../Screens/AlertScreen';
-import ProfileScreen from '../Screens/ProfileScreen';
+import BookmarkScreen from '../Screens/HomeScreenFlow/BookmarkScreen';
+import AlertScreen from '../Screens/EmergencyFlow/EmergencyHomeScreen';
+import ProfileStackScreen from '../Navigations/ProfileStackNavigationScreen';
 
 const Tab = createBottomTabNavigator();
 
@@ -50,7 +50,7 @@ const BottomTabs = () => {
     >
       <Tab.Screen
         name="Home"
-        component={HomeStackScreen} // Use HomeStackScreen instead of HomeScreen
+        component={HomeStackScreen}
         options={{
           tabBarButton: (props) => (
             <CustomTabButton {...props} label="Home" />
@@ -86,7 +86,7 @@ const BottomTabs = () => {
       />
       <Tab.Screen
         name="Profile"
-        component={ProfileScreen}
+        component={ProfileStackScreen}
         options={{
           tabBarButton: (props) => (
             <CustomTabButton {...props} label="Profile" />
