@@ -11,13 +11,13 @@ import {
 } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
 
-const AmbulanceSelectionScreen = () => {
+const AmbulanceSelectionScreen = ({ navigation }) => {
   const [selectedAmbulance, setSelectedAmbulance] = useState(null);
+  const [modelFilter, setModelFilter] = useState('All');
   const [userName] = useState('Jeswanth Kumar');
   const [pickup] = useState('West Mambalam, Chennai L-33');
   const [destination] = useState('Apollo Hospital, Thousand Lights, Chennai');
 
-  // Ambulance data - easily adjustable
   const [ambulanceTypes] = useState([
     {
       id: 1,
@@ -67,16 +67,22 @@ const AmbulanceSelectionScreen = () => {
     setSelectedAmbulance(ambulance);
   };
 
-  const handleBookAmbulance = () => {
-    if (!selectedAmbulance) {
-      Alert.alert('Selection Required', 'Please select an ambulance type');
-      return;
-    }
-    Alert.alert(
-      'Booking Confirmed',
-      `${selectedAmbulance.type} ambulance booked for ₹${selectedAmbulance.price.toLocaleString()}\nEstimated arrival: ${selectedAmbulance.time}`
-    );
-  };
+ const handleBookAmbulance = () => {
+  if (!selectedAmbulance) {
+    Alert.alert('Selection Required', 'Please select an ambulance type');
+    return;
+  }
+
+  Alert.alert(
+    'Booking Confirmed',
+    `${selectedAmbulance.type} ambulance booked for ₹${selectedAmbulance.price.toLocaleString()}\nEstimated arrival: ${selectedAmbulance.time}`
+  );
+
+  navigation.navigate('BookingoverviewScreen', {
+    ambulance: selectedAmbulance,
+  });
+};
+
 
   const handleBack = () => {
     Alert.alert('Go Back', 'Return to previous screen');
@@ -98,15 +104,14 @@ const AmbulanceSelectionScreen = () => {
           </View>
           <View style={styles.ambulanceDetails}>
             <Text style={styles.ambulanceType}>{ambulance.type}</Text>
-            {ambulance.subtitle && (
+            {ambulance.subtitle ? (
               <Text style={styles.ambulanceSubtitle}>{ambulance.subtitle}</Text>
-            )}
+            ) : null}
             <Text style={styles.ambulanceTime}>{ambulance.time}</Text>
           </View>
         </View>
         <Text style={styles.ambulancePrice}>₹ {ambulance.price.toLocaleString()}</Text>
       </View>
-      
       {ambulance.includes && (
         <View style={styles.includesSection}>
           <Text style={styles.includesTitle}>Includes:</Text>
@@ -174,34 +179,30 @@ const AmbulanceSelectionScreen = () => {
         <Icon name="chevron-down" size={20} color="#666" />
       </View>
 
+      {/* Model Type Filter */}
+      <View style={styles.modelFilterContainer}>
+        {['All', 'Small', 'Large', 'Basic life support', 'Advance life support'].map((model) => (
+          <TouchableOpacity
+            key={model}
+            onPress={() => setModelFilter(model)}
+            style={[
+              styles.modelButton,
+              modelFilter === model && styles.modelButtonSelected
+            ]}
+          >
+            <Text style={[styles.modelText, modelFilter === model && styles.modelTextSelected]}>
+              {model}
+            </Text>
+          </TouchableOpacity>
+        ))}
+      </View>
+
       {/* Ambulance List */}
       <ScrollView style={styles.ambulanceList} showsVerticalScrollIndicator={false}>
-        {ambulanceTypes.map(renderAmbulanceCard)}
+        {ambulanceTypes
+          .filter((item) => modelFilter === 'All' || item.type === modelFilter)
+          .map(renderAmbulanceCard)}
       </ScrollView>
-
-      {/* Bottom Navigation */}
-      <View style={styles.bottomNav}>
-        <TouchableOpacity style={styles.navItem}>
-          <Icon name="home" size={24} color="#7C3AED" />
-          <Text style={[styles.navText, { color: '#7C3AED' }]}>Home</Text>
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.navItem}>
-          <Icon name="apps" size={24} color="#666" />
-          <Text style={styles.navText}>Services</Text>
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.navItem}>
-          <Icon name="document-text" size={24} color="#666" />
-          <Text style={styles.navText}>Orders</Text>
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.navItem}>
-          <Icon name="chatbubble" size={24} color="#666" />
-          <Text style={styles.navText}>Chat</Text>
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.navItem}>
-          <Icon name="person" size={24} color="#666" />
-          <Text style={styles.navText}>Profile</Text>
-        </TouchableOpacity>
-      </View>
 
       {/* Book Button */}
       {selectedAmbulance && (
@@ -216,243 +217,90 @@ const AmbulanceSelectionScreen = () => {
 };
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-  },
+  container: { flex: 1, backgroundColor: '#fff' },
   header: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    paddingHorizontal: 20,
-    paddingVertical: 15,
-    backgroundColor: '#fff',
-    elevation: 2,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.1,
-    shadowRadius: 4,
+    flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center',
+    paddingHorizontal: 20, paddingVertical: 15, backgroundColor: '#fff',
+    elevation: 2, shadowColor: '#000', shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.1, shadowRadius: 4,
   },
-  welcomeSection: {
-    flexDirection: 'row',
-    alignItems: 'center',
-  },
-  welcomeText: {
-    marginLeft: 10,
-  },
-  hiText: {
-    fontSize: 14,
-    color: '#666',
-  },
-  nameText: {
-    fontSize: 16,
-    fontWeight: 'bold',
-    color: '#000',
-  },
-  headerIcons: {
-    flexDirection: 'row',
-    alignItems: 'center',
-  },
-  iconButton: {
-    marginRight: 15,
-  },
+  welcomeSection: { flexDirection: 'row', alignItems: 'center' },
+  welcomeText: { marginLeft: 10 },
+  hiText: { fontSize: 14, color: '#666' },
+  nameText: { fontSize: 16, fontWeight: 'bold', color: '#000' },
+  headerIcons: { flexDirection: 'row', alignItems: 'center' },
+  iconButton: { marginRight: 15 },
   profileButton: {
-    width: 36,
-    height: 36,
-    borderRadius: 18,
-    backgroundColor: '#FF4444',
-    justifyContent: 'center',
-    alignItems: 'center',
+    width: 36, height: 36, borderRadius: 18, backgroundColor: '#FF4444',
+    justifyContent: 'center', alignItems: 'center',
   },
-  locationContainer: {
-    paddingHorizontal: 20,
-    paddingVertical: 10,
-  },
-  locationRow: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    marginBottom: 8,
-  },
-  greenDot: {
-    width: 10,
-    height: 10,
-    borderRadius: 5,
-    backgroundColor: '#22C55E',
-    marginRight: 12,
-  },
-  redDot: {
-    width: 10,
-    height: 10,
-    borderRadius: 5,
-    backgroundColor: '#EF4444',
-    marginRight: 12,
-  },
-  locationText: {
-    fontSize: 14,
-    color: '#000',
-    flex: 1,
-  },
-  mapContainer: {
-    height: 120,
-    marginHorizontal: 20,
-    marginBottom: 15,
-    borderRadius: 8,
-    overflow: 'hidden',
-  },
-  mapPlaceholder: {
-    flex: 1,
-    backgroundColor: '#f0f0f0',
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  routeVisualization: {
-    flexDirection: 'row',
-    alignItems: 'center',
-  },
-  routeStart: {
-    width: 12,
-    height: 12,
-    borderRadius: 6,
-    backgroundColor: '#22C55E',
-  },
-  routePath: {
-    width: 60,
-    height: 2,
-    backgroundColor: '#7C3AED',
-    marginHorizontal: 10,
-  },
-  routeEnd: {
-    width: 12,
-    height: 12,
-    borderRadius: 6,
-    backgroundColor: '#EF4444',
-  },
-  backButton: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    paddingHorizontal: 20,
-    paddingVertical: 10,
-  },
-  backButtonText: {
-    fontSize: 16,
-    fontWeight: '600',
-    marginLeft: 5,
-    color: '#000',
-  },
+  locationContainer: { paddingHorizontal: 20, paddingVertical: 10 },
+  locationRow: { flexDirection: 'row', alignItems: 'center', marginBottom: 8 },
+  greenDot: { width: 10, height: 10, borderRadius: 5, backgroundColor: '#22C55E', marginRight: 12 },
+  redDot: { width: 10, height: 10, borderRadius: 5, backgroundColor: '#EF4444', marginRight: 12 },
+  locationText: { fontSize: 14, color: '#000', flex: 1 },
+  mapContainer: { height: 120, marginHorizontal: 20, marginBottom: 15, borderRadius: 8, overflow: 'hidden' },
+  mapPlaceholder: { flex: 1, backgroundColor: '#f0f0f0', justifyContent: 'center', alignItems: 'center' },
+  routeVisualization: { flexDirection: 'row', alignItems: 'center' },
+  routeStart: { width: 12, height: 12, borderRadius: 6, backgroundColor: '#22C55E' },
+  routePath: { width: 60, height: 2, backgroundColor: '#7C3AED', marginHorizontal: 10 },
+  routeEnd: { width: 12, height: 12, borderRadius: 6, backgroundColor: '#EF4444' },
+  backButton: { flexDirection: 'row', alignItems: 'center', paddingHorizontal: 20, paddingVertical: 10 },
+  backButtonText: { fontSize: 16, fontWeight: '600', marginLeft: 5, color: '#000' },
   transferSection: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    paddingHorizontal: 20,
-    paddingVertical: 15,
-    borderBottomWidth: 1,
-    borderBottomColor: '#f0f0f0',
+    flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center',
+    paddingHorizontal: 20, paddingVertical: 15, borderBottomWidth: 1, borderBottomColor: '#f0f0f0',
   },
-  transferTitle: {
-    fontSize: 16,
-    fontWeight: '600',
-    color: '#000',
-  },
-  ambulanceList: {
-    flex: 1,
-    paddingHorizontal: 20,
-  },
-  ambulanceCard: {
-    backgroundColor: '#fff',
-    borderRadius: 12,
-    padding: 15,
-    marginBottom: 15,
-    borderWidth: 1,
-    borderColor: '#f0f0f0',
-    elevation: 2,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.1,
-    shadowRadius: 4,
-  },
-  selectedCard: {
-    borderColor: '#7C3AED',
-    borderWidth: 2,
-  },
-  cardHeader: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-  },
-  ambulanceInfo: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    flex: 1,
-  },
-  ambulanceIcon: {
-    width: 40,
-    height: 40,
-    borderRadius: 8,
-    justifyContent: 'center',
-    alignItems: 'center',
-    marginRight: 12,
-  },
-  ambulanceEmoji: {
-    fontSize: 20,
-  },
-  ambulanceDetails: {
-    flex: 1,
-  },
-  ambulanceType: {
-    fontSize: 16,
-    fontWeight: 'bold',
-    color: '#000',
-    marginBottom: 2,
-  },
-  ambulanceSubtitle: {
-    fontSize: 12,
-    color: '#666',
-    marginBottom: 2,
-  },
-  ambulanceTime: {
-    fontSize: 12,
-    color: '#666',
-  },
-  ambulancePrice: {
-    fontSize: 18,
-    fontWeight: 'bold',
-    color: '#000',
-  },
-  includesSection: {
-    marginTop: 12,
-    paddingTop: 12,
-    borderTopWidth: 1,
-    borderTopColor: '#f0f0f0',
-  },
-  includesTitle: {
-    fontSize: 14,
-    fontWeight: '600',
-    color: '#000',
-    marginBottom: 4,
-  },
-  includesText: {
-    fontSize: 12,
-    color: '#666',
-    lineHeight: 16,
-  },
-  bottomNav: {
+  transferTitle: { fontSize: 16, fontWeight: '600', color: '#000' },
+  modelFilterContainer: {
     flexDirection: 'row',
     justifyContent: 'space-around',
-    alignItems: 'center',
-    paddingVertical: 12,
-    paddingBottom: 20,
-    backgroundColor: '#fff',
-    borderTopWidth: 1,
-    borderTopColor: '#f0f0f0',
+    paddingHorizontal: 10,
+    marginTop: 10,
+    marginBottom: 5,
+    flexWrap: 'wrap',
   },
-  navItem: {
-    alignItems: 'center',
+  modelButton: {
+    paddingHorizontal: 12,
+    paddingVertical: 6,
+    borderRadius: 20,
+    backgroundColor: '#f0f0f0',
+    marginHorizontal: 5,
+    marginBottom: 10,
   },
-  navText: {
-    fontSize: 10,
-    color: '#666',
-    marginTop: 4,
+  modelButtonSelected: {
+    backgroundColor: '#7C3AED',
   },
+  modelText: {
+    fontSize: 12,
+    color: '#000',
+  },
+  modelTextSelected: {
+    color: '#fff',
+  },
+  ambulanceList: { flex: 1, paddingHorizontal: 20 },
+  ambulanceCard: {
+    backgroundColor: '#fff', borderRadius: 12, padding: 15, marginBottom: 15,
+    borderWidth: 1, borderColor: '#f0f0f0', elevation: 2,
+    shadowColor: '#000', shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.1, shadowRadius: 4,
+  },
+  selectedCard: { borderColor: '#7C3AED', borderWidth: 2 },
+  cardHeader: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' },
+  ambulanceInfo: { flexDirection: 'row', alignItems: 'center', flex: 1 },
+  ambulanceIcon: {
+    width: 40, height: 40, borderRadius: 8,
+    justifyContent: 'center', alignItems: 'center', marginRight: 12,
+  },
+  ambulanceEmoji: { fontSize: 20 },
+  ambulanceDetails: { flex: 1 },
+  ambulanceType: { fontSize: 16, fontWeight: 'bold', color: '#000', marginBottom: 2 },
+  ambulanceSubtitle: { fontSize: 12, color: '#666', marginBottom: 2 },
+  ambulanceTime: { fontSize: 12, color: '#666' },
+  ambulancePrice: { fontSize: 18, fontWeight: 'bold', color: '#000' },
+  includesSection: { marginTop: 12, paddingTop: 12, borderTopWidth: 1, borderTopColor: '#f0f0f0' },
+  includesTitle: { fontSize: 14, fontWeight: '600', color: '#000', marginBottom: 4 },
+  includesText: { fontSize: 12, color: '#666', lineHeight: 16 },
   bookButton: {
     position: 'absolute',
     bottom: 80,
@@ -463,11 +311,7 @@ const styles = StyleSheet.create({
     borderRadius: 12,
     alignItems: 'center',
   },
-  bookButtonText: {
-    color: '#fff',
-    fontSize: 16,
-    fontWeight: 'bold',
-  },
+  bookButtonText: { color: '#fff', fontSize: 16, fontWeight: 'bold' },
 });
 
 export default AmbulanceSelectionScreen;

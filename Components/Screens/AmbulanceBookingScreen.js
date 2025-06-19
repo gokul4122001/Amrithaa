@@ -1,5 +1,5 @@
 // AmbulanceBookingScreen.js
-import React, { useState, useEffect } from 'react'; // Import useEffect
+import React, { useState, useEffect } from 'react';
 import {
   View,
   Text,
@@ -8,7 +8,8 @@ import {
   TouchableOpacity,
   SafeAreaView,
   StatusBar,
-  Platform
+  Platform,
+  Alert
 } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import Modal from 'react-native-modal';
@@ -27,7 +28,7 @@ const AmbulanceBookingScreen = ({ navigation }) => {
   const [showTimePicker, setShowTimePicker] = useState(false);
 
   const [after3HoursChecked, setAfter3HoursChecked] = useState(false);
-  const [isScheduleValid, setIsScheduleValid] = useState(true); // New state for validation
+  const [isScheduleValid, setIsScheduleValid] = useState(true);
 
   const categories = [
     { id: 'heart', title: 'Heart attack', icon: '❤️', screen: 'SelectHospitalScreen' },
@@ -61,64 +62,80 @@ const AmbulanceBookingScreen = ({ navigation }) => {
       after3Hours: bookingType === 'Schedule Booking' ? after3HoursChecked : null,
     });
 
-      navigation.navigate('LiveTrakingScreen', {
+    navigation.navigate('LiveTrakingScreen', {
       bookingDetails: {
         bookingFor,
         bookingType,
-        selectedCategory: selectedCategory, // Pass the ID or the full category object if needed
-        scheduledDate: bookingType === 'Schedule Booking' ? selectedDate.toISOString() : null, // ISO string for robust date passing
+        selectedCategory: selectedCategory,
+        scheduledDate: bookingType === 'Schedule Booking' ? selectedDate.toISOString() : null,
         scheduledTime: bookingType === 'Schedule Booking' ? selectedTime.toISOString() : null,
         after3Hours: bookingType === 'Schedule Booking' ? after3HoursChecked : null,
       }
     });
-    // Add logic to proceed to the next screen or confirm booking
   };
 
   // --- Schedule Booking Modal Logic ---
   const toggleScheduleModal = () => {
     setScheduleModalVisible(!isScheduleModalVisible);
-    // Reset date/time to current when opening modal if it's new
     if (!isScheduleModalVisible) {
       setSelectedDate(new Date());
       setSelectedTime(new Date());
-      setAfter3HoursChecked(false); // Reset checkbox on modal open
-      setIsScheduleValid(true); // Reset validation state
+      setAfter3HoursChecked(false);
+      setIsScheduleValid(true);
     }
   };
 
   // Function to calculate the minimum allowed time for today's date (+3 hours)
   const getMinimumTimeForToday = () => {
     const now = new Date();
-    const minAllowedTime = new Date(now.getTime() + 3 * 60 * 60 * 1000); // Current time + 3 hours
+    const minAllowedTime = new Date(now.getTime() + 3 * 60 * 60 * 1000);
     return minAllowedTime;
   };
 
+  // Fixed onDateChange function
   const onDateChange = (event, pickedDate) => {
-    // For Android, close picker immediately. For iOS, it's typically embedded or controlled differently.
-    setShowDatePicker(Platform.OS === 'ios');
-    if (pickedDate) {
+    // Always hide the picker on Android after selection
+    if (Platform.OS === 'android') {
+      setShowDatePicker(false);
+    }
+    
+    // Handle the selected date
+    if (event.type === 'set' && pickedDate) {
       setSelectedDate(pickedDate);
 
       // If the selected date is today, ensure the time is also at least 3 hours from now
       const now = new Date();
-      if (
+      const isToday = (
         pickedDate.getDate() === now.getDate() &&
         pickedDate.getMonth() === now.getMonth() &&
         pickedDate.getFullYear() === now.getFullYear()
-      ) {
+      );
+
+      if (isToday) {
         const minTimeForToday = getMinimumTimeForToday();
         if (selectedTime < minTimeForToday) {
-          setSelectedTime(minTimeForToday); // Adjust time if it's less than 3 hours from now
+          setSelectedTime(minTimeForToday);
         }
       }
+    } else if (event.type === 'dismissed') {
+      // User cancelled the picker
+      setShowDatePicker(false);
     }
   };
 
+  // Fixed onTimeChange function
   const onTimeChange = (event, pickedTime) => {
-    // For Android, close picker immediately.
-    setShowTimePicker(Platform.OS === 'ios');
-    if (pickedTime) {
+    // Always hide the picker on Android after selection
+    if (Platform.OS === 'android') {
+      setShowTimePicker(false);
+    }
+    
+    // Handle the selected time
+    if (event.type === 'set' && pickedTime) {
       setSelectedTime(pickedTime);
+    } else if (event.type === 'dismissed') {
+      // User cancelled the picker
+      setShowTimePicker(false);
     }
   };
 
@@ -139,17 +156,16 @@ const AmbulanceBookingScreen = ({ navigation }) => {
     // Check if the selected date and time is at least 3 hours from now
     if (currentDateTime.getTime() < threeHoursFromNow.getTime()) {
       setAfter3HoursChecked(false);
-      setIsScheduleValid(false); // Mark as invalid if less than 3 hours
+      setIsScheduleValid(false);
     } else {
-      setAfter3HoursChecked(true); // Automatically check if it's 3 hours or more
-      setIsScheduleValid(true); // Mark as valid
+      setAfter3HoursChecked(true);
+      setIsScheduleValid(true);
     }
   }, [selectedDate, selectedTime]);
 
-
   const handleScheduleSubmit = () => {
     if (!isScheduleValid) {
-      alert('Please select a date and time at least 3 hours from now.');
+      Alert.alert('Invalid Time', 'Please select a date and time at least 3 hours from now.');
       return;
     }
 
@@ -158,11 +174,14 @@ const AmbulanceBookingScreen = ({ navigation }) => {
       time: selectedTime.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' }),
       after3Hours: after3HoursChecked,
     });
-    setBookingType('Schedule Booking'); // Ensure this is set
-    toggleScheduleModal(); // Close the modal
+    setBookingType('Schedule Booking');
+    toggleScheduleModal();
   };
 
-  // --- End Schedule Booking Modal Logic ---
+  // Helper function to get minimum date for date picker
+  const getMinimumDate = () => {
+    return new Date(); // Today's date
+  };
 
   return (
     <SafeAreaView style={styles.container}>
@@ -232,7 +251,7 @@ const AmbulanceBookingScreen = ({ navigation }) => {
               style={[styles.radioOption, bookingType === 'Emergency' && styles.radioOptionSelected]}
               onPress={() => {
                 setBookingType('Emergency');
-                setScheduleModalVisible(false); // Close modal if open
+                setScheduleModalVisible(false);
               }}
             >
               <View style={[styles.radio, bookingType === 'Emergency' && styles.radioSelected]}>
@@ -244,8 +263,8 @@ const AmbulanceBookingScreen = ({ navigation }) => {
             <TouchableOpacity
               style={[styles.radioOption, bookingType === 'Schedule Booking' && styles.radioOptionSelected]}
               onPress={() => {
-                setBookingType('Schedule Booking'); // Set booking type first
-                toggleScheduleModal(); // Then open the modal
+                setBookingType('Schedule Booking');
+                toggleScheduleModal();
               }}
             >
               <View style={[styles.radio, bookingType === 'Schedule Booking' && styles.radioSelected]}>
@@ -256,7 +275,7 @@ const AmbulanceBookingScreen = ({ navigation }) => {
           </View>
         </View>
 
-        {/* Hospital Options (These typically would be dynamic based on location/search) */}
+        {/* Hospital Options */}
         <View style={styles.section}>
           <View style={styles.hospitalOption}>
             <View style={styles.hospitalIndicator} />
@@ -319,20 +338,10 @@ const AmbulanceBookingScreen = ({ navigation }) => {
           {/* Select Date Input */}
           <TouchableOpacity onPress={() => setShowDatePicker(true)} style={styles.datePickerInput}>
             <Text style={styles.datePickerText}>
-              {selectedDate.toLocaleDateString('en-GB')} {/* Formatted for DD/MM/YYYY */}
+              {selectedDate.toLocaleDateString('en-GB')}
             </Text>
             <Icon name="calendar-today" size={24} color="#8B5CF6" />
           </TouchableOpacity>
-          {showDatePicker && (
-            <DateTimePicker
-              testID="datePicker"
-              value={selectedDate}
-              mode="date"
-              display={Platform.OS === 'ios' ? 'spinner' : 'default'}
-              onChange={onDateChange}
-              minimumDate={new Date()} // Can't select past dates
-            />
-          )}
 
           {/* Select Time Input */}
           <TouchableOpacity onPress={() => setShowTimePicker(true)} style={styles.timePickerInput}>
@@ -341,23 +350,6 @@ const AmbulanceBookingScreen = ({ navigation }) => {
             </Text>
             <Icon name="schedule" size={24} color="#8B5CF6" />
           </TouchableOpacity>
-          {showTimePicker && (
-            <DateTimePicker
-              testID="timePicker"
-              value={selectedTime}
-              mode="time"
-              display={Platform.OS === 'ios' ? 'spinner' : 'default'}
-              onChange={onTimeChange}
-              // Set minimum time only if the selected date is today
-              minimumDate={
-                selectedDate.getDate() === new Date().getDate() &&
-                selectedDate.getMonth() === new Date().getMonth() &&
-                selectedDate.getFullYear() === new Date().getFullYear()
-                  ? getMinimumTimeForToday()
-                  : undefined // No minimum time for future dates
-              }
-            />
-          )}
 
           {/* Validation Message */}
           {!isScheduleValid && (
@@ -366,38 +358,47 @@ const AmbulanceBookingScreen = ({ navigation }) => {
             </Text>
           )}
 
-          {/* Checkbox - now visually driven by isScheduleValid */}
-          <TouchableOpacity
-            style={styles.checkboxContainer}
-            // Logic for checking/unchecking is handled by useEffect and validation
-            // We keep it as a TouchableOpacity for consistent styling, but it's not directly toggling after3HoursChecked state
-            // setAfter3HoursChecked is now handled by useEffect
-            onPress={() => {
-              // Optionally, if you want manual toggle, you'd add:
-              // setAfter3HoursChecked(!after3HoursChecked);
-              // However, current logic forces it based on date/time.
-              // A user might want to manually uncheck it even if valid,
-              // or it might be disabled if less than 3 hours.
-              // For now, it reflects the calculated state.
-            }}
-          >
+          {/* Checkbox */}
+          <TouchableOpacity style={styles.checkboxContainer}>
             <View style={[styles.checkbox, after3HoursChecked && styles.checkboxChecked]}>
               {after3HoursChecked && <Icon name="check" size={16} color="#fff" />}
             </View>
             <Text style={styles.checkboxText}>After 3 hours only schedule Booking available</Text>
           </TouchableOpacity>
 
-
           {/* Submit Button */}
           <TouchableOpacity
             style={[styles.modalSubmitButton, !isScheduleValid && styles.modalSubmitButtonDisabled]}
             onPress={handleScheduleSubmit}
-            disabled={!isScheduleValid} // Disable if validation fails
+            disabled={!isScheduleValid}
           >
             <Text style={styles.modalSubmitButtonText}>Submit</Text>
           </TouchableOpacity>
         </View>
       </Modal>
+
+      {/* Date Picker - Render outside modal for better compatibility */}
+      {showDatePicker && (
+        <DateTimePicker
+          testID="datePicker"
+          value={selectedDate}
+          mode="date"
+          display={Platform.OS === 'ios' ? 'spinner' : 'default'}
+          onChange={onDateChange}
+          minimumDate={getMinimumDate()}
+        />
+      )}
+
+      {/* Time Picker - Render outside modal for better compatibility */}
+      {showTimePicker && (
+        <DateTimePicker
+          testID="timePicker"
+          value={selectedTime}
+          mode="time"
+          display={Platform.OS === 'ios' ? 'spinner' : 'default'}
+          onChange={onTimeChange}
+        />
+      )}
     </SafeAreaView>
   );
 };
@@ -686,7 +687,7 @@ const styles = StyleSheet.create({
     fontWeight: '600',
   },
   modalSubmitButtonDisabled: {
-    backgroundColor: '#cccccc', // Dimmed color for disabled state
+    backgroundColor: '#cccccc',
   },
   validationMessage: {
     color: 'red',

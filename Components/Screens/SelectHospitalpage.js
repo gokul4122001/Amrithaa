@@ -9,7 +9,7 @@ import {
 } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons'; // Or any other icon library you prefer
 
-const SelectHospitalScreen = () => {
+const SelectHospitalScreen = ({ navigation }) => {
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedHospitals, setSelectedHospitals] = useState([]);
 
@@ -26,10 +26,11 @@ const SelectHospitalScreen = () => {
     setSelectedHospitals(selectedHospitals.filter((h) => h !== hospitalName));
   };
 
-  const handleSubmit = () => {
-    console.log('Selected Hospitals:', selectedHospitals);
-    // Here you would typically navigate to the next screen or perform an API call
-  };
+ const handleSubmit = () => {
+  console.log('Selected Hospitals:', selectedHospitals);
+  navigation.navigate('LiveTrakingScreen'); // Replace with your actual screen name
+};
+
 
   return (
     <View style={styles.container}>

@@ -32,19 +32,19 @@ const HomeScreen = ({ navigation }) => {
     { id: 4, service: 'Pharmacy', amount: 150, type: 'debit', icon: '💊' },
   ];
 
- const handleServicePress = (service) => {
-  if (service.screen) {
-    navigation.navigate(service.screen);
-  } else {
-    console.log(`${service.name} pressed - Coming Soon!`);
-  }
-};
-
+  const handleServicePress = (service) => {
+    if (service.screen) {
+      navigation.navigate(service.screen);
+    } else {
+      console.log(`${service.name} pressed - Coming Soon!`);
+      // You can show an alert or toast here
+    }
+  };
 
   const ServiceCard = ({ service }) => (
     <TouchableOpacity 
       style={styles.serviceCard}
-     onPress={() => handleServicePress(service)}
+      onPress={() => handleServicePress(service)}
     >
       <View style={styles.serviceIconContainer}>
         <Text style={styles.serviceIcon}>{service.icon}</Text>

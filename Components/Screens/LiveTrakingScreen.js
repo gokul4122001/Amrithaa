@@ -11,18 +11,24 @@ import {
 } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
 
-const RideBookingScreen = () => {
+const RideBookingScreen = ({ navigation }) => {
   const [pickup, setPickup] = useState('West Mambalam, Chennai-33');
   const [destination, setDestination] = useState('Apollo Hospital, Thousand Lights, Chennai');
   const [userName] = useState('Jeswanth Kumar');
 
-  const handleConfirmLocation = () => {
-    if (!pickup.trim() || !destination.trim()) {
-      Alert.alert('Error', 'Please enter both pickup and destination locations');
-      return;
-    }
-    Alert.alert('Booking Confirmed', `Ride from ${pickup} to ${destination} has been booked!`);
-  };
+const handleConfirmLocation = () => {
+  if (!pickup.trim() || !destination.trim()) {
+    Alert.alert('Error', 'Please enter both pickup and destination locations');
+    return;
+  }
+
+  // Navigate to the next screen (e.g., BookingSuccessScreen)
+  navigation.navigate('AmbulanceSelectionScreen', {
+    pickup,
+    destination,
+  });
+};
+
 
   const handleNotification = () => {
     Alert.alert('Notifications', 'You have no new notifications');

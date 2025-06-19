@@ -1,13 +1,12 @@
-// navigation/HomeStack.js
-
 import React from 'react';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import HomeScreen from '../Screens/HomeScreen';
 import AmbulanceBookingScreen from '../Screens/AmbulanceBookingScreen';
 import SelectHospitalScreen from '../Screens/SelectHospitalpage';
-import LiveTrakingScreen from '../Screens/LiveTrakingScreen'
+import LiveTrakingScreen from '../Screens/LiveTrakingScreen';
 import AmbulanceSelectionScreen from '../Screens/SelectAmbulanceScreen';
-
+import BookingoverviewScreen from '../Screens/BookingoverviewScreen'
+import LoadingScreen from '../Screens/LoadingPage';
 const HomeStack = createNativeStackNavigator();
 
 const HomeStackScreen = () => {
@@ -29,11 +28,25 @@ const HomeStackScreen = () => {
         options={{ headerShown: false }}
       />
       <HomeStack.Screen
+        name="AmbulanceSelectionScreen"
+        component={AmbulanceSelectionScreen}
+        options={{ headerShown: false }}
+      />
+      <HomeStack.Screen
         name="LiveTrakingScreen"
         component={LiveTrakingScreen}
         options={{ headerShown: false }}
       />
-      
+       <HomeStack.Screen
+        name="BookingoverviewScreen"
+        component={BookingoverviewScreen}
+        options={{ headerShown: false }}
+      />
+       <HomeStack.Screen
+        name="LoadingScreen"
+        component={LoadingScreen}
+        options={{ headerShown: false }}
+      />
     </HomeStack.Navigator>
   );
 };
