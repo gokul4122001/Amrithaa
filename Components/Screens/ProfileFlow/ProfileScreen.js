@@ -12,6 +12,10 @@ import {
   Animated,
 } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
+import {
+  widthPercentageToDP as wp,
+  heightPercentageToDP as hp,
+} from 'react-native-responsive-screen';
 
 const ProfileScreen = ({ navigation }) => {
   const [isEmergencyModalVisible, setIsEmergencyModalVisible] = useState(false);
@@ -129,13 +133,9 @@ const ProfileScreen = ({ navigation }) => {
 
   return (
     <SafeAreaView style={styles.container}>
-      <StatusBar barStyle="light-content" backgroundColor="#8B5CF6" />
+      <StatusBar barStyle="light-content" backgroundColor="#7518AA" />
       
-      {/* Header */}
-      <View style={styles.header}>
-        <Text style={styles.headerTitle}>My Profile</Text>
-      </View>
-
+   
       <View style={styles.content}>
         {/* Profile Card */}
         <View style={styles.profileCard}>
@@ -288,7 +288,7 @@ const ProfileScreen = ({ navigation }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#000000',
+    backgroundColor: '#FFFFFF',
   },
   header: {
     backgroundColor: '#8B5CF6',
@@ -343,12 +343,12 @@ const styles = StyleSheet.create({
     },
     shadowOpacity: 0.1,
     shadowRadius: 4,
-    elevation: 3,
+ marginTop:hp('10%')
   },
   menuItem: {
     paddingHorizontal: 20,
-    paddingVertical: 16,
-    borderBottomWidth: 1,
+    paddingVertical: 20,
+  
     borderBottomColor: '#F3F4F6',
   },
   activeMenuItem: {

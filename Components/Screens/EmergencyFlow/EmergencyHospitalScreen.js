@@ -1,4 +1,4 @@
-
+import React, { useState } from 'react';
 import {
   Image,
   ScrollView,
@@ -7,10 +7,11 @@ import {
   Text,
   TouchableOpacity,
   View,
-  Platform, Alert, Modal,
+  Platform,
+  Alert,
+  Modal,
   TextInput,
 } from 'react-native';
-import React from 'react';
 import LinearGradient from 'react-native-linear-gradient';
 import {
   widthPercentageToDP as wp,
@@ -22,8 +23,14 @@ import FontAwesome6 from 'react-native-vector-icons/FontAwesome6';
 import Entypo from 'react-native-vector-icons/Entypo';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import logo from '../../Assets/logos.png';
-import { useState } from 'react';
+
 const AccidentScreen = ({ navigation }) => {
+  const [location, setLocation] = useState('');
+  const [currentLocation, setCurrentLocation] = useState(
+    'West Mambalam, Chennai - 33'
+  );
+  const [showLocationModal, setShowLocationModal] = useState(false);
+
   const data = [
     {
       id: 1,
@@ -43,45 +50,31 @@ const AccidentScreen = ({ navigation }) => {
       route: 'StrokeScreen',
       rating: '4.3',
     },
-    {
-      id: 3,
-      name: 'Dr. Kamakshi Memorial Hospital',
-      timing: 'Open 24 hours',
-      address: 'No 3/1, 1 street, West Mambalam, Chennai- 33',
-      Image: require('../../Assets/Hospital.png'),
-      route: 'AccidentScreen',
-      rating: '4.3',
-    },
-    {
-      id: 4,
-      name: 'Dr. Kamakshi Memorial Hospital',
-      timing: 'Open 24 hours',
-      address: 'No 3/1, 1 street, West Mambalam, Chennai- 33',
-      Image: require('../../Assets/Hospital.png'),
-      route: 'AccidentScreen',
-      rating: '4.3',
-    },
-    {
-      id: 5,
-      name: 'Dr. Kamakshi Memorial Hospital',
-      timing: 'Open 24 hours',
-      address: 'No 3/1, 1 street, West Mambalam, Chennai- 33',
-      Image: require('../../Assets/Hospital.png'),
-      route: 'AccidentScreen',
-      rating: '4.3',
-    },
   ];
 
-  const Hospitalcard = ({ hospital, navigation }) => (
+  const handleLocationPress = () => {
+    setLocation(currentLocation); // Prefill the modal input
+    setShowLocationModal(true);
+  };
+
+  const handleLocationSubmit = () => {
+    if (!location.trim()) {
+      Alert.alert('Error', 'Please enter a location');
+      return;
+    }
+    setCurrentLocation(location.trim());
+    setShowLocationModal(false);
+    Alert.alert('Success', 'Location updated successfully');
+  };
+
+  const HospitalCard = ({ hospital }) => (
     <TouchableOpacity
       style={styles.serviceCard}
       onPress={() => navigation.navigate(hospital.route)}
     >
       <View style={{ flexDirection: 'row' }}>
         <Image style={styles.serviceIcon} source={hospital.Image} />
-        <View
-          style={[styles.serviceNameContainer, { marginLeft: 10, flex: 1 }]}
-        >
+        <View style={[styles.serviceNameContainer, { marginLeft: 10, flex: 1 }]}>
           <Text style={styles.serviceName}>
             {hospital.name}
             {hospital.name.length <= 10 && '  ' + hospital.timing}
@@ -90,27 +83,13 @@ const AccidentScreen = ({ navigation }) => {
             <Text style={styles.timing}>({hospital.timing})</Text>
           )}
           <Text style={styles.address}>
-            {' '}
             <Entypo name="location-pin" size={20} color="red" />
             {hospital.address}
           </Text>
-          <View
-            style={{
-              flexDirection: 'row',
-              top: 10,
-              justifyContent: 'space-between',
-            }}
-          >
+          <View style={{ flexDirection: 'row', top: 10, justifyContent: 'space-between' }}>
             <View style={{ flexDirection: 'row' }}>
               <AntDesign name="star" size={16} color="gold" />
-              <Text
-                style={{
-                  fontSize: 16,
-                  fontWeight: 'bold',
-                  color: '#333',
-                  left: 6,
-                }}
-              >
+              <Text style={{ fontSize: 16, fontWeight: 'bold', color: '#333', left: 6 }}>
                 {hospital.rating}
               </Text>
             </View>
@@ -120,35 +99,6 @@ const AccidentScreen = ({ navigation }) => {
       </View>
     </TouchableOpacity>
   );
-
-    const [showLocationModal, setShowLocationModal] = useState(false);
-    const [currentLocation, setCurrentLocation] = useState('West Mambalam, Chennai - 33');
-    const [newLocation, setNewLocation] = useState('');
-  
-    const handleLocationPress = () => {
-      setShowLocationModal(true);
-      setNewLocation(''); // Clear the input when modal opens
-    };
-  
-    const handleLocationSubmit = () => {
-      if (!newLocation.trim()) {
-        Alert.alert('Error', 'Please enter a location');
-        return;
-      }
-  
-      // Update the current location
-      setCurrentLocation(newLocation.trim());
-      setShowLocationModal(false);
-      setNewLocation('');
-      
-      // You can add additional logic here like API calls to update location
-      Alert.alert('Success', 'Location updated successfully');
-    };
-  
-    const handleLocationCancel = () => {
-      setShowLocationModal(false);
-      setNewLocation('');
-    };
 
   return (
     <>
@@ -160,103 +110,85 @@ const AccidentScreen = ({ navigation }) => {
           end={{ x: 1, y: 0 }}
           style={styles.topBackground}
         >
+          {/* Header */}
           <View style={styles.header}>
             <Image source={logo} style={styles.logo} />
             <View style={styles.greetingContainer}>
               <Text style={styles.greeting}>Hi, Welcome</Text>
               <Text style={styles.userName}>Janmani Kumar</Text>
             </View>
-            <TouchableOpacity
-              style={[styles.notificationButton, { right: hp('2%') }]}
-            >
+            <TouchableOpacity style={[styles.notificationButton, { right: hp('2%') }]}>
               <Icon name="notifications-on" size={24} color="black" />
             </TouchableOpacity>
-            <TouchableOpacity
-              style={[styles.notificationButton, { backgroundColor: 'red' }]}
-            >
-              <MaterialCommunityIcons
-                name="alarm-light-outline"
-                size={24}
-                color="white"
-              />
+            <TouchableOpacity style={[styles.notificationButton, { backgroundColor: 'red' }]}>
+              <MaterialCommunityIcons name="alarm-light-outline" size={24} color="white" />
             </TouchableOpacity>
           </View>
 
-          <View
-            style={{
-              flexDirection: 'row',
-              padding: 5,
-              top: 10,
-              alignItems: 'center',
-            }}
-          >
+          {/* Title */}
+          <View style={{ flexDirection: 'row', padding: 5, top: 10, alignItems: 'center' }}>
             <FontAwesome6 name="angle-left" size={16} color="black" />
             <Text style={styles.type}>Accident / Trauma</Text>
           </View>
 
+          {/* Location */}
           <View style={styles.locationContainer}>
-        <Text style={styles.locationPin}>📍</Text>
-        <Text style={styles.locationLabel}>Your Location : </Text>
-        <TouchableOpacity onPress={handleLocationPress}>
-          <Text style={styles.locationText}>{currentLocation}</Text>
-        </TouchableOpacity>
-      </View>
-
-           <Modal
-        visible={showLocationModal}
-        transparent={true}
-        animationType="slide"
-        onRequestClose={() => setShowLocationModal(false)}
-      >
-        <View style={styles.modalOverlay}>
-          <View style={styles.modalContainer}>
-            {/* Modal Header */}
-            <View style={styles.modalHeader}>
-              <TouchableOpacity 
-                style={styles.backButton}
-                onPress={handleLocationCancel}
-              >
-                <Text style={styles.backButtonText}>←</Text>
-              </TouchableOpacity>
-              <Text style={styles.modalTitle}>Change your Location</Text>
-              <View style={styles.placeholder} />
-            </View>
-
-            {/* Modal Content */}
-            <View style={styles.modalContent}>
-              <Text style={styles.modalSubtitle}>
-                Do you want change your Current location
-              </Text>
-
-              <View style={styles.inputContainer}>
-                <Text style={styles.inputIcon}>📍</Text>
-                <TextInput
-                  style={styles.locationInput}
-                  placeholder="Enter your Location"
-                  value={newLocation}
-                  onChangeText={setNewLocation}
-                  placeholderTextColor="#9CA3AF"
-                />
-              </View>
-
-              <TouchableOpacity 
-                style={styles.submitButton}
-                onPress={handleLocationSubmit}
-              >
-                <Text style={styles.submitButtonText}>Submit</Text>
-              </TouchableOpacity>
-            </View>
+            <Text style={styles.locationPin}>📍</Text>
+            <Text style={styles.locationLabel}>Your Location: </Text>
+            <TouchableOpacity onPress={handleLocationPress}>
+              <Text style={styles.locationText}>{currentLocation}</Text>
+            </TouchableOpacity>
           </View>
-        </View>
-      </Modal>
 
+          {/* Modal for Changing Location */}
+          <Modal
+            visible={showLocationModal}
+            transparent
+            animationType="slide"
+            onRequestClose={() => setShowLocationModal(false)}
+          >
+            <View style={styles.modalOverlay}>
+              <View style={styles.modalContainer}>
+                {/* Modal Header */}
+                <View style={styles.modalHeader}>
+                  <TouchableOpacity
+                    style={styles.backButton}
+                    onPress={() => setShowLocationModal(false)}
+                  >
+                    <Text style={styles.backButtonText}>←</Text>
+                  </TouchableOpacity>
+                  <Text style={styles.modalTitle}>Change your Location</Text>
+                  <View style={styles.placeholder} />
+                </View>
+
+                {/* Modal Content */}
+                <View style={styles.modalContent}>
+                  <Text style={styles.modalSubtitle}>
+                    Do you want to change your current location?
+                  </Text>
+
+                  <View style={styles.inputContainer}>
+                    <Text style={styles.inputIcon}>📍</Text>
+                    <TextInput
+                      placeholder="Enter your new location"
+                      style={styles.locationInput}
+                      value={location}
+                      onChangeText={setLocation}
+                    />
+                  </View>
+
+                  <TouchableOpacity style={styles.submitButton} onPress={handleLocationSubmit}>
+                    <Text style={styles.submitButtonText}>Submit</Text>
+                  </TouchableOpacity>
+                </View>
+              </View>
+            </View>
+          </Modal>
+
+          {/* Hospital Cards */}
           <View style={styles.servicesGrid}>
             {data.map(hospital => (
-              <Hospitalcard
-                key={hospital.id}
-                hospital={hospital}
-                navigation={navigation}
-              />
+              <HospitalCard key={hospital.id} hospital={hospital} />
             ))}
           </View>
         </LinearGradient>
@@ -266,6 +198,9 @@ const AccidentScreen = ({ navigation }) => {
 };
 
 export default AccidentScreen;
+
+// ✅ Keep using your existing StyleSheet from your code
+
 
 const styles = StyleSheet.create({
   statusBarBackground: {
@@ -375,6 +310,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     marginBottom: 16,
     paddingHorizontal: 4,
+    top:10
   },
   locationPin: {
     fontSize: 16,
@@ -434,34 +370,29 @@ const styles = StyleSheet.create({
     fontSize: 12,
     color: '#6B7280',
   },
-  // Modal Styles
   modalOverlay: {
     flex: 1,
     backgroundColor: 'rgba(0, 0, 0, 0.5)',
-    justifyContent:'center', 
-    padding:20
+    justifyContent: 'center',
+    alignItems: 'center',
+    padding: 20,
   },
   modalContainer: {
     backgroundColor: '#FFFFFF',
-    borderTopLeftRadius: 16,
-    borderTopRightRadius: 16,
-    maxHeight: '40%', 
-    minHeight: '40%',
-     maxWidth: '100%', 
-    minWidth: '80%',
-     borderBottomLeftRadius: 16,
-    borderBottomRightRadius: 16,
-
+    borderRadius: 16,
+    width: '90%',
+    paddingVertical: 20,
+    overflow: 'hidden',
+    elevation: 5,
   },
   modalHeader: {
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
     paddingHorizontal: 16,
-    paddingVertical: 16,
+    paddingBottom: 12,
     borderBottomWidth: 1,
     borderBottomColor: '#E5E7EB',
-    // Removed problematic height and width constraints
   },
   backButton: {
     padding: 8,
@@ -475,20 +406,19 @@ const styles = StyleSheet.create({
     fontSize: 18,
     fontWeight: 'bold',
     color: '#374151',
-    flex: 1, // This centers the title
+    flex: 1,
     textAlign: 'center',
   },
   placeholder: {
-    width: 36, // Balances the back button for centering
+    width: 36,
   },
   modalContent: {
     padding: 16,
-    flex: 1,
   },
   modalSubtitle: {
     fontSize: 14,
     color: '#6B7280',
-    marginBottom: 24,
+    marginBottom: 20,
     lineHeight: 20,
   },
   inputContainer: {
@@ -500,7 +430,6 @@ const styles = StyleSheet.create({
     paddingHorizontal: 12,
     marginBottom: 24,
     backgroundColor: '#FFFFFF',
-    // Added shadow for better visual hierarchy
     elevation: 2,
     shadowColor: '#000',
     shadowOffset: {
