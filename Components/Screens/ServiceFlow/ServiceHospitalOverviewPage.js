@@ -7,8 +7,8 @@ import {
   Text,
   TouchableOpacity,
   View,
-  Platform, Alert, Modal,
-  TextInput,
+  Platform,
+  TextInput
 } from 'react-native';
 import React from 'react';
 import LinearGradient from 'react-native-linear-gradient';
@@ -22,7 +22,7 @@ import FontAwesome6 from 'react-native-vector-icons/FontAwesome6';
 import Entypo from 'react-native-vector-icons/Entypo';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import logo from '../../Assets/logos.png';
-import { useState } from 'react';
+import Ionicons from 'react-native-vector-icons/Ionicons';
 const AccidentScreen = ({ navigation }) => {
   const data = [
     {
@@ -31,7 +31,7 @@ const AccidentScreen = ({ navigation }) => {
       timing: 'Open 24 hours',
       address: 'No 3/1, 1 street, West Mambalam, Chennai- 33',
       Image: require('../../Assets/Hospital.png'),
-      route: 'EmergencyHospitalDetailScreen',
+      route: 'ServiceHospitalDetailScreen',
       rating: '4.3',
     },
     {
@@ -121,35 +121,6 @@ const AccidentScreen = ({ navigation }) => {
     </TouchableOpacity>
   );
 
-    const [showLocationModal, setShowLocationModal] = useState(false);
-    const [currentLocation, setCurrentLocation] = useState('West Mambalam, Chennai - 33');
-    const [newLocation, setNewLocation] = useState('');
-  
-    const handleLocationPress = () => {
-      setShowLocationModal(true);
-      setNewLocation(''); // Clear the input when modal opens
-    };
-  
-    const handleLocationSubmit = () => {
-      if (!newLocation.trim()) {
-        Alert.alert('Error', 'Please enter a location');
-        return;
-      }
-  
-      // Update the current location
-      setCurrentLocation(newLocation.trim());
-      setShowLocationModal(false);
-      setNewLocation('');
-      
-      // You can add additional logic here like API calls to update location
-      Alert.alert('Success', 'Location updated successfully');
-    };
-  
-    const handleLocationCancel = () => {
-      setShowLocationModal(false);
-      setNewLocation('');
-    };
-
   return (
     <>
       <View style={styles.statusBarBackground} />
@@ -191,64 +162,40 @@ const AccidentScreen = ({ navigation }) => {
             }}
           >
             <FontAwesome6 name="angle-left" size={16} color="black" />
-            <Text style={styles.type}>Accident / Trauma</Text>
+            <Text style={styles.type}>Hospital</Text>
           </View>
-
-          <View style={styles.locationContainer}>
-        <Text style={styles.locationPin}>📍</Text>
-        <Text style={styles.locationLabel}>Your Location : </Text>
-        <TouchableOpacity onPress={handleLocationPress}>
-          <Text style={styles.locationText}>{currentLocation}</Text>
-        </TouchableOpacity>
-      </View>
-
-           <Modal
-        visible={showLocationModal}
-        transparent={true}
-        animationType="slide"
-        onRequestClose={() => setShowLocationModal(false)}
-      >
-        <View style={styles.modalOverlay}>
-          <View style={styles.modalContainer}>
-            {/* Modal Header */}
-            <View style={styles.modalHeader}>
-              <TouchableOpacity 
-                style={styles.backButton}
-                onPress={handleLocationCancel}
-              >
-                <Text style={styles.backButtonText}>←</Text>
-              </TouchableOpacity>
-              <Text style={styles.modalTitle}>Change your Location</Text>
-              <View style={styles.placeholder} />
-            </View>
-
-            {/* Modal Content */}
-            <View style={styles.modalContent}>
-              <Text style={styles.modalSubtitle}>
-                Do you want change your Current location
-              </Text>
-
-              <View style={styles.inputContainer}>
-                <Text style={styles.inputIcon}>📍</Text>
-                <TextInput
-                  style={styles.locationInput}
-                  placeholder="Enter your Location"
-                  value={newLocation}
-                  onChangeText={setNewLocation}
-                  placeholderTextColor="#9CA3AF"
-                />
-              </View>
-
-              <TouchableOpacity 
-                style={styles.submitButton}
-                onPress={handleLocationSubmit}
-              >
-                <Text style={styles.submitButtonText}>Submit</Text>
-              </TouchableOpacity>
-            </View>
+  <View style={styles.searchContainer}>
+          <View style={styles.searchBar}>
+            <Ionicons name="search" size={20} color="#999" />
+            <TextInput
+              style={styles.searchInput}
+              placeholder="By doctor, hospital, city, pincode..."
+              placeholderTextColor="#999"
+            />
           </View>
         </View>
-      </Modal>
+          <View style={{ flexDirection: 'row', margin: 10 }}>
+            <Entypo name="location-pin" size={20} color="red" />
+            <Text
+              style={{
+                fontSize: 16,
+                fontWeight: '500',
+                color: '#rgba(83, 90, 91, 1)',
+              }}
+            >
+              Your Location :{' '}
+            </Text>
+            <Text
+              style={{
+                fontSize: 16,
+                fontWeight: '500',
+                color: '#000000',
+                textDecorationLine: 'underline',
+              }}
+            >
+              West Mambalam, Chennai - 33
+            </Text>
+          </View>
 
           <View style={styles.servicesGrid}>
             {data.map(hospital => (
@@ -369,176 +316,28 @@ const styles = StyleSheet.create({
     backgroundColor: 'rgb(96, 15, 143)',
     color: 'white',
   },
-
-  locationContainer: {
+    searchContainer: {
+    paddingHorizontal: 20,
+    paddingVertical: 20,
+  },
+  searchBar: {
     flexDirection: 'row',
     alignItems: 'center',
-    marginBottom: 16,
-    paddingHorizontal: 4,
-  },
-  locationPin: {
-    fontSize: 16,
-    color: 'red',
-    marginRight: 8,
-  },
-  locationLabel: {
-    fontSize: 16,
-    fontWeight: '500',
-    color: 'rgba(83, 90, 91, 1)',
-    marginLeft: 8,
-  },
-  locationText: {
-    fontSize: 16,
-    fontWeight: '500',
-    color: '#000000',
-    textDecorationLine: 'underline',
-  },
-  hospitalCard: {
-    backgroundColor: '#FFFFFF',
-    borderRadius: 12,
-    padding: 16,
-    flexDirection: 'row',
-    alignItems: 'center',
-    elevation: 2,
-    shadowColor: '#000',
-    shadowOffset: {
-      width: 0,
-      height: 1,
-    },
-    shadowOpacity: 0.22,
-    shadowRadius: 2.22,
-    marginBottom: 16,
-  },
-  hospitalIcon: {
-    width: 48,
-    height: 48,
-    backgroundColor: '#E0E7FF',
-    borderRadius: 8,
-    alignItems: 'center',
-    justifyContent: 'center',
-    marginRight: 12,
-  },
-  hospitalIconText: {
-    fontSize: 24,
-  },
-  hospitalInfo: {
-    flex: 1,
-  },
-  hospitalName: {
-    fontSize: 16,
-    fontWeight: 'bold',
-    color: '#374151',
-    marginBottom: 4,
-  },
-  hospitalHours: {
-    fontSize: 12,
-    color: '#6B7280',
-  },
-  // Modal Styles
-  modalOverlay: {
-    flex: 1,
-    backgroundColor: 'rgba(0, 0, 0, 0.5)',
-    justifyContent:'center', 
-    padding:20
-  },
-  modalContainer: {
-    backgroundColor: '#FFFFFF',
-    borderTopLeftRadius: 16,
-    borderTopRightRadius: 16,
-    maxHeight: '40%', 
-    minHeight: '40%',
-     maxWidth: '100%', 
-    minWidth: '80%',
-     borderBottomLeftRadius: 16,
-    borderBottomRightRadius: 16,
-
-  },
-  modalHeader: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-    paddingHorizontal: 16,
-    paddingVertical: 16,
-    borderBottomWidth: 1,
-    borderBottomColor: '#E5E7EB',
-    // Removed problematic height and width constraints
-  },
-  backButton: {
-    padding: 8,
-  },
-  backButtonText: {
-    fontSize: 20,
-    fontWeight: 'bold',
-    color: '#374151',
-  },
-  modalTitle: {
-    fontSize: 18,
-    fontWeight: 'bold',
-    color: '#374151',
-    flex: 1, // This centers the title
-    textAlign: 'center',
-  },
-  placeholder: {
-    width: 36, // Balances the back button for centering
-  },
-  modalContent: {
-    padding: 16,
-    flex: 1,
-  },
-  modalSubtitle: {
-    fontSize: 14,
-    color: '#6B7280',
-    marginBottom: 24,
-    lineHeight: 20,
-  },
-  inputContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    borderWidth: 1,
-    borderColor: '#D1D5DB',
-    borderRadius: 8,
-    paddingHorizontal: 12,
-    marginBottom: 24,
-    backgroundColor: '#FFFFFF',
-    // Added shadow for better visual hierarchy
-    elevation: 2,
-    shadowColor: '#000',
-    shadowOffset: {
-      width: 0,
-      height: 1,
-    },
-    shadowOpacity: 0.1,
-    shadowRadius: 2,
-  },
-  inputIcon: {
-    fontSize: 16,
-    color: '#6B7280',
-    marginRight: 12,
-  },
-  locationInput: {
-    flex: 1,
+    backgroundColor: 'white',
+    borderRadius: 25,
+    paddingHorizontal: 20,
     paddingVertical: 12,
-    fontSize: 16,
-    color: '#374151',
-  },
-  submitButton: {
-    backgroundColor: '#8B5CF6',
-    borderRadius: 8,
-    paddingVertical: 16,
-    alignItems: 'center',
-    elevation: 3,
     shadowColor: '#000',
-    shadowOffset: {
-      width: 0,
-      height: 2,
-    },
-    shadowOpacity: 0.25,
-    shadowRadius: 3.84,
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.1,
+    shadowRadius: 4,
+    elevation: 3,
   },
-  submitButtonText: {
-    color: '#FFFFFF',
+  searchInput: {
+    flex: 1,
+    marginLeft: 10,
     fontSize: 16,
-    fontWeight: 'bold',
+    color: '#333',
   },
 });
 

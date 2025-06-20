@@ -6,6 +6,9 @@ import ProfileTwo from '../Screens/ProfileFlow/ProfileTwo'
 import ChangePassword from '../Screens/ProfileFlow/ChangePasswordScreen'
 import EmergencyContactScreen from '../Screens/ProfileFlow/ProfileEmergencyContactPage';
 import MyReport from '../Screens/ProfileFlow/MyReport';
+import ListofHospitals from '../Screens/ProfileFlow/ReportListOfEnquiryPage';
+import TermsAndConditionsScreen from '../Screens/ProfileFlow/Terms&ConditionPage';
+
 const ProfileStack = createNativeStackNavigator();
 
 const ProfileStackScreen = () => {
@@ -39,6 +42,16 @@ const ProfileStackScreen = () => {
         <ProfileStack.Screen
         name="MyReport"
         component={MyReport}
+        options={{ headerShown: false }}
+      />
+        <ProfileStack.Screen
+        name="ListofHospitals"
+        component={ListofHospitals}
+        options={{ headerShown: false }}
+      />
+       <ProfileStack.Screen
+        name="TermsAndConditionsScreen"
+        component={TermsAndConditionsScreen}
         options={{ headerShown: false }}
       />
 

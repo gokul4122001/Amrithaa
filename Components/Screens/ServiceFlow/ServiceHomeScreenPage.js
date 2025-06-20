@@ -20,6 +20,15 @@ import logo from '../../Assets/logos.png';
 import LinearGradient from 'react-native-linear-gradient';
 
 const EmergencyHomeScreen = ({ navigation }) => {
+
+  const chunkServices = (services, size) => {
+  const chunks = [];
+  for (let i = 0; i < services.length; i += size) {
+    chunks.push(services.slice(i, i + size));
+  }
+  return chunks;
+};
+
  
 
   const services = [
@@ -27,7 +36,7 @@ const EmergencyHomeScreen = ({ navigation }) => {
       id: 1, 
       name: 'Accident/Trauma', 
       Image: require('../../Assets/Trauma.png'),
-      route: 'EmergencyHospitalScreen',
+      route: 'ServiceHospitalScreen',
       params: { serviceType: 'Accident/Trauma' }
     },
     { 
@@ -58,20 +67,7 @@ const EmergencyHomeScreen = ({ navigation }) => {
       route: 'EmergencyHospitalScreen',
       params: { serviceType: 'Bites/Poisoning' }
     },
-    { 
-      id: 6, 
-      name: '24/7 Pharmacy', 
-      Image: require('../../Assets/24.png'),
-      route: 'EmergencyHospitalScreen',
-      params: { serviceType: '24/7 Pharmacy' }
-    },
-    { 
-      id: 7, 
-      name: 'Maternity', 
-      Image: require('../../Assets/Maternity.png'),
-      route: 'EmergencyHospitalScreen',
-      params: { serviceType: 'Maternity' }
-    },
+ 
   ];
 
   const ServiceCard = ({ service }) => (
@@ -126,13 +122,37 @@ const EmergencyHomeScreen = ({ navigation }) => {
             }}
           >
             <FontAwesome6 name="angle-left" size={16} color="black" />
-            <Text style={styles.type}>Emergency list</Text>
+            <Text style={styles.type}>Services</Text>
           </View>
-          <View style={styles.servicesGrid}>
-            {services.map(service => (
-              <ServiceCard key={service.id} service={service} />
-            ))}
+
+             <View
+            style={{
+              flexDirection: 'row',
+              padding: 5,
+              top: 5,
+              alignItems: 'center',
+            }}
+          >
+        
+            <Text style={styles.type}>Best Listing Services</Text>
           </View>
+      <View style={styles.servicesGrid}>
+  {/* First Row: 3 cards */}
+  <View style={styles.row}>
+    {services.slice(0, 3).map(service => (
+      <ServiceCard key={service.id} service={service} />
+    ))}
+  </View>
+
+  {/* Second Row: 2 cards under 1st and 2nd of top row */}
+  <View style={styles.row}>
+    {services.slice(3, 5).map(service => (
+      <ServiceCard key={service.id} service={service} />
+    ))}
+  </View>
+</View>
+
+
         </LinearGradient>
       </ScrollView>
     </>
@@ -197,12 +217,29 @@ const styles = StyleSheet.create({
     color: 'black',
     left: 10,
   },
-  servicesGrid: {
-    flexDirection: 'row',
-    flexWrap: 'wrap',
-    justifyContent: 'space-between',
-    marginBottom: 30,
-  },
+servicesGrid: {
+  marginTop: 10,
+},
+row: {
+  flexDirection: 'row',
+  justifyContent: 'flex-start',
+  gap: 15, // Optional: Add horizontal gap between cards
+  marginBottom: 20,
+},
+serviceCard: {
+  width: '30%', // Ensures 3 cards fit in one row
+  backgroundColor: '#fff',
+  borderRadius: 10,
+  alignItems: 'center',
+  padding: 10,
+  shadowColor: '#000',
+  shadowOffset: { width: 0, height: 2 },
+  shadowOpacity: 0.1,
+  shadowRadius: 3,
+  elevation: 4,
+},
+
+
   serviceCard: {
     width: wp('28%'),
     height: hp('15%'),

@@ -9,11 +9,13 @@ import {
   SafeAreaView,
   Modal,
   TextInput,
+  Animated,
 } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 
 const ProfileScreen = ({ navigation }) => {
   const [isEmergencyModalVisible, setIsEmergencyModalVisible] = useState(false);
+  const [isLogoutPopupVisible, setIsLogoutPopupVisible] = useState(false);
   const [emergencyContact, setEmergencyContact] = useState({
     name: '',
     contactNumber: '',
@@ -75,30 +77,39 @@ const ProfileScreen = ({ navigation }) => {
         navigation.navigate('MyReport');
         break;
       case 'Terms and Conditions':
-        navigation.navigate('Terms');
+        navigation.navigate('TermsAndConditionsScreen');
         break;
       case 'Logout':
-        // You might want to add logout logic here
+        setIsLogoutPopupVisible(true);
         break;
-      default:
+      default: 
         break;
     }
   };
 
- const handleSaveEmergencyContact = () => {
-  console.log('Emergency Contact Saved:', emergencyContact);
-  setIsEmergencyModalVisible(false);
+  const handleSaveEmergencyContact = () => {
+    console.log('Emergency Contact Saved:', emergencyContact);
+    setIsEmergencyModalVisible(false);
 
-  setTimeout(() => {
-    navigation.navigate('EmergencyContactScreen'); // or any other target screen
-  }, 300); // delay helps avoid UI glitches
-};
-
+    setTimeout(() => {
+      navigation.navigate('EmergencyContactScreen');
+    }, 300);
+  };
 
   const handleCancelEmergencyContact = () => {
     setIsEmergencyModalVisible(false);
-    // Reset form if needed
     setEmergencyContact({ name: '', contactNumber: '' });
+  };
+
+  const handleLogout = () => {
+    setIsLogoutPopupVisible(false);
+    // Add your logout logic here
+    console.log('User logged out');
+    // Example: navigation.reset({ index: 0, routes: [{ name: 'Login' }] });
+  };
+
+  const handleCancelLogout = () => {
+    setIsLogoutPopupVisible(false);
   };
 
   const renderBottomTab = (iconName, label, isActive = false) => (
@@ -159,15 +170,6 @@ const ProfileScreen = ({ navigation }) => {
             </TouchableOpacity>
           ))}
         </View>
-      </View>
-
-      {/* Bottom Navigation */}
-      <View style={styles.bottomNav}>
-        {renderBottomTab('home', null)}
-        {renderBottomTab('more-horiz', null)}
-        {renderBottomTab('apps', null)}
-        {renderBottomTab('folder', null)}
-        {renderBottomTab('person', 'Profile', true)}
       </View>
 
       {/* Emergency Contact Modal */}
@@ -236,6 +238,45 @@ const ProfileScreen = ({ navigation }) => {
               >
                 <Text style={styles.saveButtonText}>Save</Text>
               </TouchableOpacity>
+            </View>
+          </View>
+        </View>
+      </Modal>
+
+      {/* Logout Popup */}
+      <Modal
+        visible={isLogoutPopupVisible}
+        transparent={true}
+        animationType="fade"
+        onRequestClose={() => setIsLogoutPopupVisible(false)}
+      >
+        <View style={styles.logoutOverlay}>
+          <View style={styles.logoutPopup}>
+            <View style={styles.logoutContent}>
+              <View style={styles.logoutIconContainer}>
+                <Icon name="logout" size={24} color="#EF4444" />
+              </View>
+              <Text style={styles.logoutTitle}>Note</Text>
+              <Text style={styles.logoutMessage}>
+                Selected Vehicle is unavailable{'\n'}
+                try another Vehicle
+              </Text>
+              
+              <View style={styles.logoutButtons}>
+                <TouchableOpacity
+                  style={styles.logoutCancelButton}
+                  onPress={handleCancelLogout}
+                >
+                  <Text style={styles.logoutCancelText}>Cancel</Text>
+                </TouchableOpacity>
+                
+                <TouchableOpacity
+                  style={styles.logoutConfirmButton}
+                  onPress={handleLogout}
+                >
+                  <Text style={styles.logoutConfirmText}>OK</Text>
+                </TouchableOpacity>
+              </View>
             </View>
           </View>
         </View>
@@ -439,6 +480,88 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   saveButtonText: {
+    fontSize: 16,
+    fontWeight: '500',
+    color: '#FFFFFF',
+  },
+  // Logout Popup Styles
+  logoutOverlay: {
+    flex: 1,
+    backgroundColor: 'rgba(0, 0, 0, 0.5)',
+    justifyContent: 'flex-start',
+    alignItems: 'center',
+    paddingTop: 100, // Position at top of screen
+    paddingHorizontal: 20,
+  },
+  logoutPopup: {
+    backgroundColor: '#FFFFFF',
+    borderRadius: 12,
+    width: '90%',
+    maxWidth: 320,
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 4,
+    },
+    shadowOpacity: 0.15,
+    shadowRadius: 8,
+    elevation: 8,
+  },
+  logoutContent: {
+    padding: 24,
+    alignItems: 'center',
+  },
+  logoutIconContainer: {
+    width: 48,
+    height: 48,
+    borderRadius: 24,
+    backgroundColor: '#FEF2F2',
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginBottom: 16,
+  },
+  logoutTitle: {
+    fontSize: 18,
+    fontWeight: '600',
+    color: '#1F2937',
+    marginBottom: 12,
+  },
+  logoutMessage: {
+    fontSize: 14,
+    color: '#6B7280',
+    textAlign: 'center',
+    lineHeight: 20,
+    marginBottom: 24,
+  },
+  logoutButtons: {
+    flexDirection: 'row',
+    width: '100%',
+    gap: 12,
+  },
+  logoutCancelButton: {
+    flex: 1,
+    paddingVertical: 12,
+    paddingHorizontal: 20,
+    borderRadius: 8,
+    borderWidth: 1,
+    borderColor: '#D1D5DB',
+    alignItems: 'center',
+    backgroundColor: '#FFFFFF',
+  },
+  logoutCancelText: {
+    fontSize: 16,
+    fontWeight: '500',
+    color: '#6B7280',
+  },
+  logoutConfirmButton: {
+    flex: 1,
+    paddingVertical: 12,
+    paddingHorizontal: 20,
+    borderRadius: 8,
+    backgroundColor: '#8B5CF6',
+    alignItems: 'center',
+  },
+  logoutConfirmText: {
     fontSize: 16,
     fontWeight: '500',
     color: '#FFFFFF',

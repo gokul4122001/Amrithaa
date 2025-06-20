@@ -1,3 +1,4 @@
+// screens/MyReportsScreen.js
 import React from 'react';
 import {
   View,
@@ -10,39 +11,54 @@ import {
 } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
 
+
+
+const MyReportsScreen = ({ navigation }) => {
+
+
 const services = [
   {
     id: '1',
     name: 'Hospital',
-    image: require('../../Assets/report1.png'),
+    image: require('../../Assets/Hospital.png'),
+    screen: 'ListofHospitals',
   },
   {
     id: '2',
     name: 'Clinics',
-    image: require('../../Assets/report2.png'),
+    image: require('../../Assets/Hospital.png'),
+    screen: 'ClinicsScreen',
   },
   {
     id: '3',
     name: 'Blood Bank',
-    image: require('../../Assets/report3.png'),
+    image: require('../../Assets/Hospital.png'),
+    screen: 'BloodBankScreen',
   },
   {
     id: '4',
     name: 'Pharmacy',
-    image: require('../../Assets/report4.png'),
+    image: require('../../Assets/Hospital.png'),
+    screen: 'PharmacyScreen',
   },
   {
     id: '5',
     name: 'Medical Equipment',
-    image: require('../../Assets/report5.png'),
+    image: require('../../Assets/Hospital.png'),
+    screen: 'MedicalEquipmentScreen',
   },
 ];
 
-const MyReportsScreen = ({ navigation }) => {
+
+
   const renderItem = ({ item }) => (
     <TouchableOpacity
       style={styles.card}
-      onPress={() => navigation.navigate(item.name + 'Screen')}
+      onPress={() => {
+        if (item.screen) {
+          navigation.navigate(item.screen);
+        }
+      }}
     >
       <Image source={item.image} style={styles.cardImage} />
       <Text style={styles.cardText}>{item.name}</Text>
@@ -51,7 +67,6 @@ const MyReportsScreen = ({ navigation }) => {
 
   return (
     <SafeAreaView style={styles.container}>
-      {/* Header */}
       <View style={styles.header}>
         <View>
           <Text style={styles.welcomeText}>Hi, Welcome</Text>
@@ -67,7 +82,6 @@ const MyReportsScreen = ({ navigation }) => {
         </View>
       </View>
 
-      {/* My Reports Title */}
       <View style={styles.sectionHeader}>
         <TouchableOpacity onPress={() => navigation.goBack()}>
           <Icon name="chevron-back" size={24} />
@@ -75,7 +89,6 @@ const MyReportsScreen = ({ navigation }) => {
         <Text style={styles.sectionTitle}>My Reports</Text>
       </View>
 
-      {/* Services */}
       <Text style={styles.serviceLabel}>Service</Text>
       <FlatList
         data={services}
@@ -88,7 +101,6 @@ const MyReportsScreen = ({ navigation }) => {
   );
 };
 
-export default MyReportsScreen;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -162,3 +174,5 @@ const styles = StyleSheet.create({
     textAlign: 'center',
   },
 });
+
+export default MyReportsScreen;

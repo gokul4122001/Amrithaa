@@ -3,10 +3,13 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import CustomTabButton from '../Navigations/CustomTabButton';
 import HomeStackScreen from './HomeStackNavigationScreen'; 
-import MenuScreen from '../Screens/MenuScreen';
+import EmergencyStackScreen from './EmergencyStackNavigationScreen';
+import MenuScreen from '../Screens/ServiceFlow/ServiceHomeScreenPage';
 import BookmarkScreen from '../Screens/HomeScreenFlow/BookmarkScreen';
 import AlertScreen from '../Screens/EmergencyFlow/EmergencyHomeScreen';
 import ProfileStackScreen from '../Navigations/ProfileStackNavigationScreen';
+import ServiceStackScreen from '../Navigations/ServiceStackNavigationScreen';
+
 
 const Tab = createBottomTabNavigator();
 
@@ -59,7 +62,7 @@ const BottomTabs = () => {
       />
       <Tab.Screen
         name="Menu"
-        component={MenuScreen}
+        component={ServiceStackScreen}
         options={{
           tabBarButton: (props) => (
             <CustomTabButton {...props} label="Menu" />
@@ -77,7 +80,7 @@ const BottomTabs = () => {
       />
       <Tab.Screen
         name="Alert"
-        component={AlertScreen}
+        component={EmergencyStackScreen}
         options={{
           tabBarButton: (props) => (
             <CustomTabButton {...props} label="Alert" />

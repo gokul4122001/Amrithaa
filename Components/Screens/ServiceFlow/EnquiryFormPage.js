@@ -1,0 +1,249 @@
+    import React, { useState } from 'react';
+    import {
+    View,
+    Text,
+    TextInput,
+    TouchableOpacity,
+    StyleSheet,
+    SafeAreaView,
+    StatusBar,
+    Alert,
+    } from 'react-native';
+
+    const HospitalForm = ({ navigation }) => {
+    const [formData, setFormData] = useState({
+        name: '',
+        mobileNumber: '',
+        emailId: '',
+        location: '',
+        reason: '',
+    });
+
+    const handleInputChange = (field, value) => {
+        setFormData(prevState => ({
+        ...prevState,
+        [field]: value,
+        }));
+    };
+
+    const handleSubmit = () => {
+    if (!formData.name || !formData.mobileNumber || !formData.emailId) {
+        Alert.alert('Error', 'Please fill in all required fields');
+        return;
+    }
+
+    // Navigate to booking success screen
+    navigation.navigate('BookingSuccessScreen');
+    };
+
+
+    return (
+        <SafeAreaView style={styles.container}>
+        <StatusBar backgroundColor="#8B5CF6" barStyle="light-content" />
+        
+        {/* Header */}
+        <View style={styles.header}>
+            <TouchableOpacity style={styles.backButton}>
+            <Text style={styles.backButtonText}>←</Text>
+            </TouchableOpacity>
+            <Text style={styles.headerTitle}>Hospital</Text>
+            <View style={styles.headerIcons}>
+            <TouchableOpacity style={styles.iconButton}>
+                <Text style={styles.iconText}>🔔</Text>
+            </TouchableOpacity>
+            <TouchableOpacity style={styles.iconButton}>
+                <Text style={styles.iconText}>👤</Text>
+            </TouchableOpacity>
+            </View>
+        </View>
+
+        {/* Welcome Message */}
+        <View style={styles.welcomeContainer}>
+            <Text style={styles.welcomeText}>Hi, Welcome</Text>
+            <Text style={styles.userName}>Jeswanth Kumar</Text>
+        </View>
+
+        {/* Form */}
+        <View style={styles.formContainer}>
+            {/* Name Field */}
+            <View style={styles.inputGroup}>
+            <Text style={styles.label}>Name</Text>
+            <TextInput
+                style={styles.input}
+                placeholder="Enter your Name"
+                value={formData.name}
+                onChangeText={(text) => handleInputChange('name', text)}
+            />
+            </View>
+
+            {/* Mobile Number Field */}
+            <View style={styles.inputGroup}>
+            <Text style={styles.label}>Mobile Number</Text>
+            <TextInput
+                style={styles.input}
+                placeholder="Enter mobile number"
+                value={formData.mobileNumber}
+                onChangeText={(text) => handleInputChange('mobileNumber', text)}
+                keyboardType="phone-pad"
+            />
+            </View>
+
+            {/* Email ID Field */}
+            <View style={styles.inputGroup}>
+            <Text style={styles.label}>Email ID</Text>
+            <TextInput
+                style={styles.input}
+                placeholder="Enter Email Id"
+                value={formData.emailId}
+                onChangeText={(text) => handleInputChange('emailId', text)}
+                keyboardType="email-address"
+                autoCapitalize="none"
+            />
+            </View>
+
+            {/* Location Field */}
+            <View style={styles.inputGroup}>
+            <Text style={styles.label}>Location</Text>
+            <TextInput
+                style={styles.input}
+                placeholder="Enter location"
+                value={formData.location}
+                onChangeText={(text) => handleInputChange('location', text)}
+            />
+            </View>
+
+            {/* Reason Field */}
+            <View style={styles.inputGroup}>
+            <Text style={styles.label}>Enter your reason</Text>
+            <TextInput
+                style={[styles.input, styles.textArea]}
+                placeholder="Enter your reason"
+                value={formData.reason}
+                onChangeText={(text) => handleInputChange('reason', text)}
+                multiline={true}
+                numberOfLines={4}
+                textAlignVertical="top"
+            />
+            </View>
+
+            {/* Submit Button */}
+            <TouchableOpacity style={styles.submitButton} onPress={handleSubmit}>
+            <Text style={styles.submitButtonText}>Submit</Text>
+            </TouchableOpacity>
+        </View>
+        </SafeAreaView>
+    );
+    };
+
+    const styles = StyleSheet.create({
+    container: {
+        flex: 1,
+        backgroundColor: '#F8F9FA',
+    },
+    header: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'space-between',
+        backgroundColor: '#8B5CF6',
+        paddingHorizontal: 16,
+        paddingVertical: 12,
+        elevation: 4,
+        shadowColor: '#000',
+        shadowOffset: {
+        width: 0,
+        height: 2,
+        },
+        shadowOpacity: 0.25,
+        shadowRadius: 3.84,
+    },
+    backButton: {
+        padding: 8,
+    },
+    backButtonText: {
+        color: '#FFFFFF',
+        fontSize: 20,
+        fontWeight: 'bold',
+    },
+    headerTitle: {
+        color: '#FFFFFF',
+        fontSize: 18,
+        fontWeight: 'bold',
+    },
+    headerIcons: {
+        flexDirection: 'row',
+    },
+    iconButton: {
+        marginLeft: 12,
+        padding: 4,
+    },
+    iconText: {
+        fontSize: 16,
+    },
+    welcomeContainer: {
+        backgroundColor: '#8B5CF6',
+        paddingHorizontal: 16,
+        paddingBottom: 16,
+    },
+    welcomeText: {
+        color: '#FFFFFF',
+        fontSize: 14,
+        opacity: 0.9,
+    },
+    userName: {
+        color: '#FFFFFF',
+        fontSize: 16,
+        fontWeight: 'bold',
+        marginTop: 2,
+    },
+    formContainer: {
+        flex: 1,
+        paddingHorizontal: 16,
+        paddingTop: 24,
+    },
+    inputGroup: {
+        marginBottom: 20,
+    },
+    label: {
+        fontSize: 16,
+        fontWeight: '500',
+        color: '#374151',
+        marginBottom: 8,
+    },
+    input: {
+        borderWidth: 1,
+        borderColor: '#D1D5DB',
+        borderRadius: 8,
+        paddingHorizontal: 16,
+        paddingVertical: 12,
+        fontSize: 16,
+        backgroundColor: '#FFFFFF',
+        color: '#374151',
+    },
+    textArea: {
+        height: 100,
+        paddingTop: 12,
+    },
+    submitButton: {
+        backgroundColor: '#8B5CF6',
+        borderRadius: 8,
+        paddingVertical: 16,
+        alignItems: 'center',
+        marginTop: 20,
+        marginBottom: 40,
+        elevation: 2,
+        shadowColor: '#000',
+        shadowOffset: {
+        width: 0,
+        height: 1,
+        },
+        shadowOpacity: 0.22,
+        shadowRadius: 2.22,
+    },
+    submitButtonText: {
+        color: '#FFFFFF',
+        fontSize: 16,
+        fontWeight: 'bold',
+    },
+    });
+
+    export default HospitalForm;
