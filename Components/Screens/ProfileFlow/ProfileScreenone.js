@@ -13,6 +13,14 @@ import {
 } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import {launchImageLibrary} from 'react-native-image-picker';
+import LinearGradient from 'react-native-linear-gradient';
+import logo from '../../Assets/logos.png';
+import {
+  widthPercentageToDP as wp,
+  heightPercentageToDP as hp,
+} from 'react-native-responsive-screen';
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+
 
 const ProfileFormScreen = ({ navigation }) => {
   const [profileData, setProfileData] = useState({
@@ -174,19 +182,40 @@ const handleSave = () => {
   return (
     <SafeAreaView style={styles.container}>
       <StatusBar barStyle="dark-content" backgroundColor="#FFFFFF" />
-
+ <LinearGradient
+          colors={['#ffffff', '#C3DFFF']}
+          start={{ x: 0.1, y: 0 }}
+          end={{ x: 1, y: 0 }}
+          style={styles.topBackground}
+        >
+           <View style={styles.header}>
+                      <Image source={logo} style={styles.logo} />
+                      <View style={styles.greetingContainer}>
+                        <Text style={styles.greeting}>Hi, Welcome</Text>
+                        <Text style={styles.userName}>Janmani Kumar</Text>
+                      </View>
+                      <TouchableOpacity
+                        style={[styles.notificationButton, { right: hp('2%') }]}
+                      >
+                        <Icon name="notifications-on" size={24} color="black" />
+                      </TouchableOpacity>
+                      <TouchableOpacity
+                        style={[styles.notificationButton, { backgroundColor: 'red' }]}
+                      >
+                        <MaterialCommunityIcons
+                          name="alarm-light-outline"
+                          size={24}
+                          color="white"
+                        />
+                      </TouchableOpacity>
+                    </View>
       {/* Header */}
-      <View style={styles.header}>
+      <View style={styles.headered}>
         <TouchableOpacity style={styles.backButton}>
           <Icon name="arrow-back" size={24} color="#000000" />
         </TouchableOpacity>
         <Text style={styles.headerTitle}>My Profile</Text>
-        <TouchableOpacity style={styles.refreshButton}>
-          <Icon name="refresh" size={24} color="#000000" />
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.closeButton}>
-          <Icon name="close" size={24} color="#FF4444" />
-        </TouchableOpacity>
+       
       </View>
 
       <ScrollView style={styles.content} showsVerticalScrollIndicator={false}>
@@ -252,7 +281,7 @@ const handleSave = () => {
                 />
               ) : (
                 <>
-                  <Icon name="cloud-upload" size={40} color="#8B5CF6" />
+                  <Icon name="cloud-upload" size={40} color="#7518AA" />
                   <Text style={styles.uploadText}>Upload image</Text>
                 </>
               )}
@@ -344,7 +373,11 @@ const handleSave = () => {
         <TouchableOpacity style={styles.saveButton} onPress={handleSave}>
           <Text style={styles.saveButtonText}>Save</Text>
         </TouchableOpacity>
+
+
+
       </ScrollView>
+    </LinearGradient>
     </SafeAreaView>
   );
 };
@@ -354,21 +387,21 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#F9FAFB',
   },
-  header: {
-    backgroundColor: '#FFFFFF',
+  headered: {
+ 
     flexDirection: 'row',
     alignItems: 'center',
-    paddingHorizontal: 16,
-    paddingVertical: 12,
-    borderBottomWidth: 1,
-    borderBottomColor: '#E5E7EB',
+    marginTop:10,
+  marginLeft:-10
+  
+    
   },
   backButton: {
     padding: 8,
   },
   headerTitle: {
     flex: 1,
-    fontSize: 18,
+    fontSize: 20,
     fontWeight: '600',
     color: '#1F2937',
     marginLeft: 8,
@@ -380,24 +413,7 @@ const styles = StyleSheet.create({
   closeButton: {
     padding: 8,
   },
-  content: {
-    flex: 1,
-    paddingHorizontal: 16,
-  },
-  section: {
-    backgroundColor: '#FFFFFF',
-    borderRadius: 12,
-    padding: 16,
-    marginVertical: 8,
-    shadowColor: '#000',
-    shadowOffset: {
-      width: 0,
-      height: 1,
-    },
-    shadowOpacity: 0.05,
-    shadowRadius: 2,
-    elevation: 2,
-  },
+ 
   sectionTitle: {
     fontSize: 16,
     fontWeight: '600',
@@ -506,18 +522,59 @@ const styles = StyleSheet.create({
     fontWeight: '500',
   },
   saveButton: {
-    backgroundColor: '#8B5CF6',
+    backgroundColor: '#7518AA',
     borderRadius: 8,
     paddingVertical: 16,
     alignItems: 'center',
     marginVertical: 24,
     marginHorizontal: 16,
+  marginBottom:100
   },
   saveButtonText: {
     color: '#FFFFFF',
     fontSize: 16,
     fontWeight: '600',
   },
+   topBackground: {
+      paddingTop: hp('2%'),
+      paddingBottom: hp('2%'),
+      paddingHorizontal: wp('4%'),
+      height: hp('100%'),
+    },
+    header: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  logo: {
+    width: wp('10%'),
+    height: hp('5%'),
+    resizeMode: 'contain',
+  },
+  greetingContainer: {
+    flex: 1,
+    marginLeft: wp('3%'),
+  },
+  greeting: {
+    fontSize: hp('2%'),
+    color: 'black',
+    opacity: 0.9,
+  },
+  userName: {
+    fontSize: hp('2%'),
+    fontWeight: 'bold',
+    color: 'black',
+  },
+  notificationButton: {
+    width: wp('10%'),
+    height: wp('10%'),
+    borderRadius: wp('5%'),
+    backgroundColor: 'white',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  content:{
+    marginTop:20
+  }
 });
 
 export default ProfileFormScreen;
