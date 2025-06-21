@@ -9,7 +9,8 @@ import {
   SafeAreaView,
   Modal,
   TextInput,
-  Animated,
+  Animated,ImageBackground,
+  ScrollView
 } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import {
@@ -20,6 +21,8 @@ import {
 const ProfileScreen = ({ navigation }) => {
   const [isEmergencyModalVisible, setIsEmergencyModalVisible] = useState(false);
   const [isLogoutPopupVisible, setIsLogoutPopupVisible] = useState(false);
+  const [selectedItem, setSelectedItem] = useState(null);
+
   const [emergencyContact, setEmergencyContact] = useState({
     name: '',
     contactNumber: '',
@@ -64,32 +67,34 @@ const ProfileScreen = ({ navigation }) => {
     },
   ];
 
-  const handleMenuPress = (item) => {
-    console.log(`Pressed: ${item.title}`);
-    
-    switch (item.title) {
-      case 'My Profile':
-        navigation.navigate('Profileone');
-        break;
-      case 'Change Password':
-        navigation.navigate('ChangePassword');
-        break;
-      case 'Emergency Contact':
-        setIsEmergencyModalVisible(true);
-        break;
-      case 'My Reports':
-        navigation.navigate('MyReport');
-        break;
-      case 'Terms and Conditions':
-        navigation.navigate('TermsAndConditionsScreen');
-        break;
-      case 'Logout':
-        setIsLogoutPopupVisible(true);
-        break;
-      default: 
-        break;
-    }
-  };
+ const handleMenuPress = (item) => {
+  setSelectedItem(item.id);  // mark the clicked item as active
+  console.log(`Pressed: ${item.title}`);
+
+  switch (item.title) {
+    case 'My Profile':
+      navigation.navigate('Profileone');
+      break;
+    case 'Change Password':
+      navigation.navigate('ChangePassword');
+      break;
+    case 'Emergency Contact':
+      setIsEmergencyModalVisible(true);
+      break;
+    case 'My Reports':
+      navigation.navigate('MyReport');
+      break;
+    case 'Terms and Conditions':
+      navigation.navigate('TermsAndConditionsScreen');
+      break;
+    case 'Logout':
+      setIsLogoutPopupVisible(true);
+      break;
+    default:
+      break;
+  }
+};
+
 
   const handleSaveEmergencyContact = () => {
     console.log('Emergency Contact Saved:', emergencyContact);
@@ -135,41 +140,56 @@ const ProfileScreen = ({ navigation }) => {
     <SafeAreaView style={styles.container}>
       <StatusBar barStyle="light-content" backgroundColor="#7518AA" />
       
-   
+   <ScrollView>
       <View style={styles.content}>
-        {/* Profile Card */}
-        <View style={styles.profileCard}>
-          <Image
-            source={{
-              uri: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=150&h=150&fit=crop&crop=face&auto=format',
-            }}
-            style={styles.avatar}
-          />
-          <Text style={styles.userName}>Jeswanth Kumar</Text>
-        </View>
+     <ImageBackground
+  source={require('../../Assets/profileframe.png')}
+  style={styles.profileCardBackground}
+  imageStyle={{ borderRadius: 12 }}
+>
+  <View style={styles.profileCard}>
+    <Image
+      source={{
+        uri: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=150&h=150&fit=crop&crop=face&auto=format',
+      }}
+      style={styles.avatar}
+    />
+    <Text style={styles.userName}>Jeswanth Kumar</Text>
+  </View>
+</ImageBackground>
 
-        {/* Menu Items */}
-        <View style={styles.menuContainer}>
-          {menuItems.map((item) => (
-            <TouchableOpacity
-              key={item.id}
-              style={[styles.menuItem, item.isActive && styles.activeMenuItem]}
-              onPress={() => handleMenuPress(item)}
-            >
-              <View style={styles.menuItemContent}>
-                <Icon
-                  name={item.icon}
-                  size={20}
-                  color={item.isActive ? '#8B5CF6' : '#6B7280'}
-                  style={styles.menuIcon}
-                />
-                <Text style={[styles.menuText, item.isActive && styles.activeMenuText]}>
-                  {item.title}
-                </Text>
-              </View>
-            </TouchableOpacity>
-          ))}
-        </View>
+
+      <View style={{top:'15%',left:'4%'}}>
+          {menuItems.map((item, index) => (
+  <TouchableOpacity
+    key={item.id}
+    style={[
+      styles.menuItem,
+      selectedItem === item.id && styles.activeMenuItem,
+      index === 0 && { marginTop: 20 }  
+    ]}
+    onPress={() => handleMenuPress(item)}
+  >
+    <View style={styles.menuItemContent}>
+      <Icon
+        name={item.icon}
+        size={25}
+        color={selectedItem === item.id ? '#7518AA' : '#6B7280'}
+        style={styles.menuIcon}
+      />
+      <Text
+        style={[
+          styles.menuText,
+          selectedItem === item.id && styles.activeMenuText,
+        ]}
+      >
+        {item.title}
+      </Text>
+    </View>
+  </TouchableOpacity>
+))}
+</View>
+
       </View>
 
       {/* Emergency Contact Modal */}
@@ -281,6 +301,8 @@ const ProfileScreen = ({ navigation }) => {
           </View>
         </View>
       </Modal>
+</ScrollView>
+
     </SafeAreaView>
   );
 };
@@ -302,35 +324,38 @@ const styles = StyleSheet.create({
     fontWeight: '600',
   },
   content: {
-    flex: 1,
-    paddingHorizontal: 20,
-    paddingTop: 24,
+  top:-10
+  
   },
-  profileCard: {
-    backgroundColor: '#FFFFFF',
-    borderRadius: 12,
-    padding: 24,
-    alignItems: 'center',
-    marginBottom: 24,
-    shadowColor: '#000',
-    shadowOffset: {
-      width: 0,
-      height: 2,
-    },
-    shadowOpacity: 0.1,
-    shadowRadius: 4,
-    elevation: 3,
+profileCard: {
+  backgroundColor: '#ffff', // light/transparent background
+  borderRadius: 12,
+  padding: 24,
+  alignItems: 'center',
+  shadowColor: '#000',
+  shadowOffset: {
+    width: 0,
+    height: 2,
   },
+  shadowOpacity: 0.1,
+  shadowRadius: 4,
+  elevation: 3,
+  width: '50%', 
+  marginTop: 10, 
+  alignSelf: 'center',
+  position:'absolute',
+  top:'60%'
+},
   avatar: {
-    width: 80,
-    height: 80,
-    borderRadius: 40,
+    width: 100,
+    height: 100,
+    borderRadius: 60,
     marginBottom: 12,
   },
   userName: {
-    fontSize: 18,
-    fontWeight: '600',
-    color: '#1F2937',
+    fontSize: 25,
+    fontWeight:'800',
+    color: '#4a4a4a',
   },
   menuContainer: {
     backgroundColor: '#FFFFFF',
@@ -343,33 +368,37 @@ const styles = StyleSheet.create({
     },
     shadowOpacity: 0.1,
     shadowRadius: 4,
- marginTop:hp('10%')
+    
+
   },
-  menuItem: {
-    paddingHorizontal: 20,
-    paddingVertical: 20,
-  
-    borderBottomColor: '#F3F4F6',
-  },
+menuItem: {
+  marginTop: 5,
+  paddingHorizontal: 20,
+  paddingVertical: 20,
+  borderBottomColor: '#F3F4F6',
+},
+
   activeMenuItem: {
-    backgroundColor: '#F3F4F6',
-    borderLeftWidth: 4,
-    borderLeftColor: '#8B5CF6',
+    borderLeftWidth: 7,
+    borderLeftColor: '#7518AA',
+    borderRadius:10
   },
   menuItemContent: {
     flexDirection: 'row',
     alignItems: 'center',
+    
   },
   menuIcon: {
     marginRight: 16,
   },
   menuText: {
-    fontSize: 16,
+    fontSize: 20,
     color: '#6B7280',
-    fontWeight: '500',
+    fontWeight: '800',
+    fontFamily:'Roboto'
   },
   activeMenuText: {
-    color: '#8B5CF6',
+    color: '#7518AA',
     fontWeight: '600',
   },
   bottomNav: {
@@ -566,6 +595,14 @@ const styles = StyleSheet.create({
     fontWeight: '500',
     color: '#FFFFFF',
   },
+profileCardBackground: {
+  width: '100%',
+  height: 230, 
+  justifyContent: 'flex-start', 
+  paddingTop: 20, 
+},
+
+
 });
 
 export default ProfileScreen;
