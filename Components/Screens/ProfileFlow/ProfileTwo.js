@@ -287,6 +287,7 @@ const styles = StyleSheet.create({
   },
   infoContainer: {
     padding: 16,
+    
   },
   familyMemberHeader: {
     marginBottom: 12,
