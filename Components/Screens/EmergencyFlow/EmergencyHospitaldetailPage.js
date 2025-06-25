@@ -492,7 +492,7 @@ const styles = StyleSheet.create({
   content: {
     flex: 1,
     marginTop:20,
-    marginBottom:30
+    marginBottom:20
   },
   hospitalImageContainer: {
     position: 'relative',
