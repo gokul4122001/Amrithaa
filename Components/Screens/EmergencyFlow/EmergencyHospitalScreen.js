@@ -11,6 +11,7 @@ import {
   Alert,
   Modal,
   TextInput,
+  SafeAreaView,
 } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 import {
@@ -101,9 +102,10 @@ const AccidentScreen = ({ navigation }) => {
   );
 
   return (
-    <>
-      <View style={styles.statusBarBackground} />
-      <ScrollView>
+   <SafeAreaView style={styles.container}>
+          <StatusBar barStyle="light-content" backgroundColor="#8B5CF6" />
+  
+     
         <LinearGradient
           colors={['#ffffff', '#C3DFFF']}
           start={{ x: 0.1, y: 0 }}
@@ -192,8 +194,8 @@ const AccidentScreen = ({ navigation }) => {
             ))}
           </View>
         </LinearGradient>
-      </ScrollView>
-    </>
+   </SafeAreaView>
+   
   );
 };
 
