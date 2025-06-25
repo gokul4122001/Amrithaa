@@ -505,7 +505,7 @@ menuItem: {
     paddingVertical: 12,
     paddingHorizontal: 24,
     borderRadius: 8,
-    backgroundColor: '#8B5CF6',
+    backgroundColor: '#7518AA',
     alignItems: 'center',
   },
   saveButtonText: {
@@ -519,7 +519,7 @@ menuItem: {
     backgroundColor: 'rgba(0, 0, 0, 0.5)',
     justifyContent: 'flex-start',
     alignItems: 'center',
-    paddingTop: 100, // Position at top of screen
+    paddingTop: 100, 
     paddingHorizontal: 20,
   },
   logoutPopup: {
@@ -587,7 +587,7 @@ menuItem: {
     paddingVertical: 12,
     paddingHorizontal: 20,
     borderRadius: 8,
-    backgroundColor: '#8B5CF6',
+    backgroundColor: '#7416B2',
     alignItems: 'center',
   },
   logoutConfirmText: {

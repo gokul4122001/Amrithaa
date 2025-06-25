@@ -7,7 +7,7 @@ import {
   StyleSheet,
   StatusBar,
   Platform,
-  Image,
+  Image,SafeAreaView
 } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 import {
@@ -18,7 +18,8 @@ import Icon from 'react-native-vector-icons/MaterialIcons';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import Entypo from 'react-native-vector-icons/Entypo';
 import AntDesign from 'react-native-vector-icons/AntDesign';
-
+import logo from '../../Assets/logos.png';
+import Icons from 'react-native-vector-icons/Feather';
 const HospitalListingScreen = ({ navigation }) => {
   const hospitalData = [
     {
@@ -69,6 +70,7 @@ const HospitalListingScreen = ({ navigation }) => {
   ];
 
   const HospitalCard = ({ hospital }) => (
+    <TouchableOpacity >
     <View style={styles.cardContainer}>
       <View style={styles.hospitalInfoSection}>
         <Image source={hospital.image} style={styles.hospitalImage} />
@@ -124,48 +126,51 @@ const HospitalListingScreen = ({ navigation }) => {
         </View>
       </View>
     </View>
+    </TouchableOpacity>
   );
 
   return (
-    <View style={styles.container}>
-      <StatusBar 
-        backgroundColor="#6A1B9A" 
-        barStyle="light-content" 
-        translucent={false}
-      />
+        <SafeAreaView style={styles.container}>
+    <StatusBar barStyle="light-content" backgroundColor="#8B5CF6" />
+         <LinearGradient
+                   colors={['#ffffff', '#C3DFFF']}
+                   start={{ x: 0.1, y: 0 }}
+                   end={{ x: 1, y: 0 }}
+                   style={styles.topBackground}
+                 >
+            <View style={styles.header}>
+                                   <Image source={logo} style={styles.logo} />
+                                   <View style={styles.greetingContainer}>
+                                     <Text style={styles.greeting}>Hi, Welcome</Text>
+                                     <Text style={styles.userName}>Janmani Kumar</Text>
+                                   </View>
+                                   <TouchableOpacity
+                                     style={[styles.notificationButton, { right: hp('2%') }]}
+                                   >
+                                     <Icon name="notifications-on" size={24} color="black" />
+                                   </TouchableOpacity>
+                                   <TouchableOpacity
+                                     style={[styles.notificationButton, { backgroundColor: 'red' }]}
+                                   >
+                                     <MaterialCommunityIcons
+                                       name="alarm-light-outline"
+                                       size={24}
+                                       color="white"
+                                     />
+                                   </TouchableOpacity>
+                                 </View>
       
-      {/* Header */}
-      <LinearGradient
-        colors={['#8E24AA', '#7B1FA2']}
-        style={styles.header}
-      >
-        <View style={styles.headerContent}>
-          <View style={styles.headerLeft}>
-            <View style={styles.avatarContainer}>
-              <Text style={styles.avatarText}>J</Text>
-            </View>
-            <View style={styles.userInfo}>
-              <Text style={styles.welcomeText}>Hi, Welcome</Text>
-              <Text style={styles.userName}>Jesvanth Kumar</Text>
-            </View>
-          </View>
-          <View style={styles.headerRight}>
-            <TouchableOpacity style={styles.notificationButton}>
-              <Icon name="notifications" size={24} color="#FFF" />
-            </TouchableOpacity>
-            <TouchableOpacity style={styles.alarmButton}>
-              <MaterialCommunityIcons name="alarm-light" size={24} color="#FFF" />
-            </TouchableOpacity>
-          </View>
-        </View>
-      </LinearGradient>
+    
 
       {/* Title Section */}
-      <View style={styles.titleSection}>
-        <Text style={styles.titleText}>List of enquiry</Text>
-        <Text style={styles.subtitleText}>Hospital</Text>
-      </View>
-
+     
+<View style={styles.titleSection}>
+  <TouchableOpacity onPress={() => navigation.goBack()}>
+    <Icon name="chevron-left" size={24} color="#000" style={{ marginRight: 8 }} />
+  </TouchableOpacity>
+  <Text style={styles.titleText}>List of enquiry</Text>
+</View>
+<Text style={styles.subtitleText}>Hospital</Text>
       {/* Hospital List */}
       <ScrollView 
         style={styles.scrollContainer}
@@ -176,7 +181,8 @@ const HospitalListingScreen = ({ navigation }) => {
           <HospitalCard key={hospital.id} hospital={hospital} />
         ))}
       </ScrollView>
-    </View>
+     </LinearGradient>
+         </SafeAreaView>
   );
 };
 
@@ -190,87 +196,31 @@ const styles = StyleSheet.create({
     paddingBottom: 20,
     paddingHorizontal: 20,
   },
-  headerContent: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-  },
-  headerLeft: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    flex: 1,
-  },
-  avatarContainer: {
-    width: 40,
-    height: 40,
-    borderRadius: 20,
-    backgroundColor: '#FFF',
-    justifyContent: 'center',
-    alignItems: 'center',
-    marginRight: 12,
-  },
-  avatarText: {
-    fontSize: 18,
-    fontWeight: 'bold',
-    color: '#8E24AA',
-  },
-  userInfo: {
-    flex: 1,
-  },
-  welcomeText: {
-    fontSize: 14,
-    color: '#FFF',
-    opacity: 0.9,
-  },
-  userName: {
-    fontSize: 16,
-    fontWeight: 'bold',
-    color: '#FFF',
-  },
-  headerRight: {
-    flexDirection: 'row',
-    alignItems: 'center',
-  },
-  notificationButton: {
-    width: 40,
-    height: 40,
-    borderRadius: 20,
-    backgroundColor: 'rgba(255, 255, 255, 0.2)',
-    justifyContent: 'center',
-    alignItems: 'center',
-    marginRight: 10,
-  },
-  alarmButton: {
-    width: 40,
-    height: 40,
-    borderRadius: 20,
-    backgroundColor: '#FF5722',
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  titleSection: {
-    backgroundColor: '#FFF',
-    paddingHorizontal: 20,
-    paddingVertical: 15,
-    borderBottomWidth: 1,
-    borderBottomColor: '#E0E0E0',
-  },
+ 
+ titleSection: {
+  flexDirection: 'row',
+  alignItems: 'center',
+  paddingBottom:20,
+  paddingTop: 20,
+},
   titleText: {
-    fontSize: 18,
+    fontSize: 20,
     fontWeight: 'bold',
     color: '#333',
     marginBottom: 4,
   },
   subtitleText: {
-    fontSize: 16,
-    color: '#666',
-    fontWeight: '500',
+    fontSize: 25,
+    color: '#7416B2',
+    fontWeight: '800',
+   textAlign:'center'
   },
-  scrollContainer: {
-    flex: 1,
-  },
+  // scrollContainer: {
+  // top:'5%'
+  // },
   scrollContent: {
     padding: 16,
+    
   },
   cardContainer: {
     backgroundColor: '#FFF',
@@ -284,7 +234,9 @@ const styles = StyleSheet.create({
     },
     shadowOpacity: 0.1,
     shadowRadius: 3.84,
-    elevation: 5,
+    width:'105%',
+    paddingBottom:30
+    
   },
   hospitalInfoSection: {
     flexDirection: 'row',
@@ -381,6 +333,43 @@ const styles = StyleSheet.create({
     color: '#666',
     lineHeight: 16,
     marginTop: 4,
+  },
+  topBackground: {
+      paddingTop: hp('2%'),
+      paddingBottom: hp('2%'),
+      paddingHorizontal: wp('4%'),
+      height: hp('100%'),
+    },
+      header: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  logo: {
+    width: wp('10%'),
+    height: hp('5%'),
+    resizeMode: 'contain',
+  },
+  greetingContainer: {
+    flex: 1,
+    marginLeft: wp('3%'),
+  },
+  greeting: {
+    fontSize: hp('2%'),
+    color: 'black',
+    opacity: 0.9,
+  },
+  userName: {
+    fontSize: hp('2%'),
+    fontWeight: 'bold',
+    color: 'black',
+  },
+  notificationButton: {
+    width: wp('10%'),
+    height: wp('10%'),
+    borderRadius: wp('5%'),
+    backgroundColor: 'white',
+    justifyContent: 'center',
+    alignItems: 'center',
   },
 });
 

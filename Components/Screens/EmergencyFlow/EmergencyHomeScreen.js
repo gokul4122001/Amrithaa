@@ -7,7 +7,7 @@ import {
   Platform,
   Image,
   TouchableOpacity,
-  ScrollView,
+  ScrollView,SafeAreaView
 } from 'react-native';
 import {
   widthPercentageToDP as wp,
@@ -75,21 +75,19 @@ const EmergencyHomeScreen = ({ navigation }) => {
   ];
 
   const ServiceCard = ({ service }) => (
-    <View style={{ alignContent: 'space-evenly' }}>
-      <TouchableOpacity 
-        style={styles.serviceCard} 
-        onPress={() => navigation.navigate(service.route, service.params)}
-      >
-        <Image style={styles.serviceIcon} source={service.Image} />
-      </TouchableOpacity>
-      <Text style={styles.serviceName}>{service.name}</Text>
-    </View>
+  <View style={{ alignItems: 'center', margin: 10}}>
+  <TouchableOpacity onPress={() => navigation.navigate(service.route, service.params)}>
+    <Image style={styles.serviceIcon} source={service.Image} />
+  </TouchableOpacity>
+  <Text style={styles.serviceName}>{service.name}</Text>
+</View>
+
   );
 
   return (
-    <>
-      <View style={styles.statusBarBackground} />
-      <ScrollView>
+      <SafeAreaView style={styles.container}>
+          <StatusBar barStyle="light-content" backgroundColor="#8B5CF6" />
+  
         <LinearGradient
           colors={['#ffffff', '#C3DFFF']}
           start={{ x: 0.1, y: 0 }}
@@ -121,11 +119,12 @@ const EmergencyHomeScreen = ({ navigation }) => {
             style={{
               flexDirection: 'row',
               padding: 5,
-              top: 5,
+              top: 10,
               alignItems: 'center',
+              
             }}
           >
-            <FontAwesome6 name="angle-left" size={16} color="black" />
+            <FontAwesome6 name="angle-left" size={18} color="black" />
             <Text style={styles.type}>Emergency list</Text>
           </View>
           <View style={styles.servicesGrid}>
@@ -134,8 +133,7 @@ const EmergencyHomeScreen = ({ navigation }) => {
             ))}
           </View>
         </LinearGradient>
-      </ScrollView>
-    </>
+    </SafeAreaView>
   );
 };
 
@@ -192,7 +190,7 @@ const styles = StyleSheet.create({
     paddingTop: hp('2%'),
   },
   type: {
-    fontSize: hp('2.1%'),
+    fontSize: 20,
     fontWeight: 'bold',
     color: 'black',
     left: 10,
@@ -202,6 +200,7 @@ const styles = StyleSheet.create({
     flexWrap: 'wrap',
     justifyContent: 'space-between',
     marginBottom: 30,
+    paddingTop:30
   },
   serviceCard: {
     width: wp('28%'),
@@ -223,17 +222,19 @@ const styles = StyleSheet.create({
     shadowRadius: 3.84,
     elevation: 5,
   },
-  serviceIcon: {
-    width: wp('22%'),
-    height: hp('12%'),
-    resizeMode: 'contain',
-  },
-  serviceName: {
-    fontSize: 16,
-    fontWeight: '600',
-    color: '#333',
-    textAlign: 'center',
-  },
+ serviceIcon: {
+  width: 80,
+  height: 80,
+  resizeMode: 'contain',
+  marginBottom: 5,
+},
+
+serviceName: {
+  fontSize: 14,
+  color: '#000',
+  textAlign: 'center',
+},
+
 });
 
 export default EmergencyHomeScreen;

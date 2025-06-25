@@ -6,7 +6,7 @@ import {
   Text,
   TouchableOpacity,
   View,
-  Platform,
+  Platform,SafeAreaView
 } from 'react-native';
 import React from 'react';
 import LinearGradient from 'react-native-linear-gradient';
@@ -25,37 +25,37 @@ const TermsAndConditionsScreen = ({ navigation }) => {
 It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more or less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable English. Many desktop publishing packages and web page editors now use Lorem Ipsum as their default model text, and a search for 'lorem ipsum' will uncover many web sites still in their infancy.`;
 
   return (
-    <>
-      <View style={styles.statusBarBackground} />
-      <ScrollView style={styles.container}>
-        <LinearGradient
-          colors={['#8B5CF6', '#7C3AED']}
-          start={{ x: 0, y: 0 }}
-          end={{ x: 1, y: 0 }}
-          style={styles.headerGradient}
-        >
+   
+         <SafeAreaView style={styles.container}>
+  <StatusBar barStyle="light-content" backgroundColor="#8B5CF6" />
+       <LinearGradient
+                 colors={['#ffffff', '#C3DFFF']}
+                 start={{ x: 0.1, y: 0 }}
+                 end={{ x: 1, y: 0 }}
+                 style={styles.topBackground}
+               >
           <View style={styles.header}>
-            <View style={styles.logoContainer}>
-              <Image source={logo} style={styles.logo} />
-            </View>
-            <View style={styles.greetingContainer}>
-              <Text style={styles.greeting}>Hi, Welcome</Text>
-              <Text style={styles.userName}>Jesvanth Kumar</Text>
-            </View>
-            <View style={styles.headerButtons}>
-              <TouchableOpacity style={styles.notificationButton}>
-                <Icon name="notifications-on" size={20} color="white" />
-              </TouchableOpacity>
-              <TouchableOpacity style={styles.alarmButton}>
-                <MaterialCommunityIcons
-                  name="alarm-light-outline"
-                  size={20}
-                  color="white"
-                />
-              </TouchableOpacity>
-            </View>
-          </View>
-        </LinearGradient>
+                                 <Image source={logo} style={styles.logo} />
+                                 <View style={styles.greetingContainer}>
+                                   <Text style={styles.greeting}>Hi, Welcome</Text>
+                                   <Text style={styles.userName}>Janmani Kumar</Text>
+                                 </View>
+                                 <TouchableOpacity
+                                   style={[styles.notificationButton, { right: hp('2%') }]}
+                                 >
+                                   <Icon name="notifications-on" size={24} color="black" />
+                                 </TouchableOpacity>
+                                 <TouchableOpacity
+                                   style={[styles.notificationButton, { backgroundColor: 'red' }]}
+                                 >
+                                   <MaterialCommunityIcons
+                                     name="alarm-light-outline"
+                                     size={24}
+                                     color="white"
+                                   />
+                                 </TouchableOpacity>
+                               </View>
+      
 
         <View style={styles.contentContainer}>
           <View style={styles.titleContainer}>
@@ -72,8 +72,10 @@ It is a long established fact that a reader will be distracted by the readable c
             <Text style={styles.contentText}>{termsContent}</Text>
           </View>
         </View>
-      </ScrollView>
-    </>
+     
+        </LinearGradient>
+           </SafeAreaView>
+   
   );
 };
 
@@ -147,19 +149,11 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
   },
-  contentContainer: {
-    flex: 1,
-    backgroundColor: 'white',
-    marginTop: -hp('1%'),
-    borderTopLeftRadius: 20,
-    borderTopRightRadius: 20,
-    paddingTop: hp('2%'),
-  },
+ 
   titleContainer: {
     flexDirection: 'row',
     alignItems: 'center',
-    paddingHorizontal: wp('4%'),
-    paddingBottom: hp('2%'),
+   top:10
   },
   backButton: {
     marginRight: wp('3%'),
@@ -172,13 +166,52 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   contentBody: {
-    paddingHorizontal: wp('4%'),
-    paddingBottom: hp('4%'),
+  top:20,
+  
+  
   },
   contentText: {
-    fontSize: hp('2%'),
-    lineHeight: hp('3%'),
-    color: '#374151',
+    fontSize: 16,
+    lineHeight: hp('3.5%'),
+    color: '#4a4a4a',
     textAlign: 'justify',
+    fontWeight:'600'
+  },
+    topBackground: {
+      paddingTop: hp('2%'),
+      paddingBottom: hp('2%'),
+      paddingHorizontal: wp('4%'),
+      height: hp('100%'),
+    },
+      header: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  logo: {
+    width: wp('10%'),
+    height: hp('5%'),
+    resizeMode: 'contain',
+  },
+  greetingContainer: {
+    flex: 1,
+    marginLeft: wp('3%'),
+  },
+  greeting: {
+    fontSize: hp('2%'),
+    color: 'black',
+    opacity: 0.9,
+  },
+  userName: {
+    fontSize: hp('2%'),
+    fontWeight: 'bold',
+    color: 'black',
+  },
+  notificationButton: {
+    width: wp('10%'),
+    height: wp('10%'),
+    borderRadius: wp('5%'),
+    backgroundColor: 'white',
+    justifyContent: 'center',
+    alignItems: 'center',
   },
 });

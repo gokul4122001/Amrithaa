@@ -7,10 +7,16 @@ import {
   StatusBar,
   SafeAreaView,
   ScrollView,
-  Alert,
+  Alert, Image,
 } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import LinearGradient from 'react-native-linear-gradient';
+import logo from '../../Assets/logos.png';
+import {
+  widthPercentageToDP as wp,
+  heightPercentageToDP as hp,
+} from 'react-native-responsive-screen';
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 
 const EmergencyContactScreen = () => {
   const [contacts, setContacts] = useState([
@@ -112,6 +118,7 @@ const EmergencyContactScreen = () => {
   };
 
   const renderContactItem = (contact) => (
+<TouchableOpacity>
     <View key={contact.id} style={styles.contactItem}>
       <View style={styles.contactContent}>
         <View style={[styles.avatarContainer, {backgroundColor: contact.color}]}>
@@ -129,10 +136,11 @@ const EmergencyContactScreen = () => {
       <TouchableOpacity
         style={styles.editButton}
         onPress={() => handleEditContact(contact)}>
-        <Icon name="edit" size={16} color="#6B7280" />
+        <Icon name="edit" size={16} color="#7518AA" />
         <Text style={styles.editText}>Edit</Text>
       </TouchableOpacity>
     </View>
+</TouchableOpacity>
   );
 
   return (
@@ -140,36 +148,33 @@ const EmergencyContactScreen = () => {
       <StatusBar barStyle="light-content" backgroundColor="#8B5CF6" />
 
       {/* Header with Gradient */}
-      <LinearGradient
-        colors={['#8B5CF6', '#A78BFA']}
-        style={styles.headerGradient}>
-        <View style={styles.header}>
-          <TouchableOpacity style={styles.backButton} onPress={handleBack}>
-            <Icon name="arrow-back" size={24} color="#FFFFFF" />
-          </TouchableOpacity>
-
-          <View style={styles.headerContent}>
-            <View style={styles.welcomeSection}>
-              <View style={styles.welcomeIcon}>
-                <Icon name="person" size={20} color="#8B5CF6" />
-              </View>
-              <View>
-                <Text style={styles.welcomeText}>Hi, Welcome</Text>
-                <Text style={styles.welcomeName}>Jeswanth Kumar</Text>
-              </View>
-            </View>
-
-            <View style={styles.headerActions}>
-              <TouchableOpacity style={styles.actionButton}>
-                <Icon name="refresh" size={20} color="#FFFFFF" />
-              </TouchableOpacity>
-              <TouchableOpacity style={styles.actionButton}>
-                <Icon name="star" size={20} color="#FFFFFF" />
-              </TouchableOpacity>
-            </View>
-          </View>
-        </View>
-
+  <LinearGradient
+              colors={['#ffffff', '#C3DFFF']}
+              start={{ x: 0.1, y: 0 }}
+              end={{ x: 1, y: 0 }}
+              style={styles.topBackground}
+            >
+      <View style={styles.header}>
+                              <Image source={logo} style={styles.logo} />
+                              <View style={styles.greetingContainer}>
+                                <Text style={styles.greeting}>Hi, Welcome</Text>
+                                <Text style={styles.userName}>Janmani Kumar</Text>
+                              </View>
+                              <TouchableOpacity
+                                style={[styles.notificationButton, { right: hp('2%') }]}
+                              >
+                                <Icon name="notifications-on" size={24} color="black" />
+                              </TouchableOpacity>
+                              <TouchableOpacity
+                                style={[styles.notificationButton, { backgroundColor: 'red' }]}
+                              >
+                                <MaterialCommunityIcons
+                                  name="alarm-light-outline"
+                                  size={24}
+                                  color="white"
+                                />
+                              </TouchableOpacity>
+                            </View>
         <View style={styles.titleSection}>
           <View style={styles.titleRow}>
             <Text style={styles.pageTitle}>Emergency Contact</Text>
@@ -181,7 +186,7 @@ const EmergencyContactScreen = () => {
             </TouchableOpacity>
           </View>
         </View>
-      </LinearGradient>
+    
 
       {/* Content */}
       <ScrollView style={styles.content} showsVerticalScrollIndicator={false}>
@@ -205,6 +210,7 @@ const EmergencyContactScreen = () => {
           </View>
         )}
       </ScrollView>
+          </LinearGradient>
     </SafeAreaView>
   );
 };
@@ -273,19 +279,19 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
   },
   pageTitle: {
-    fontSize: 16,
-    color: '#FFFFFF',
-    fontWeight: '500',
+    fontSize: 20,
+    color: '#4a4a4a',
+    fontWeight: '700',
   },
   addContactButton: {
     flexDirection: 'row',
     alignItems: 'center',
-    backgroundColor: 'rgba(255, 255, 255, 0.2)',
+    backgroundColor: '#7518AA',
     paddingHorizontal: 12,
     paddingVertical: 6,
     borderRadius: 6,
     borderWidth: 1,
-    borderColor: 'rgba(255, 255, 255, 0.3)',
+    borderColor:'#7518AA',
   },
   addContactText: {
     color: '#FFFFFF',
@@ -316,7 +322,7 @@ const styles = StyleSheet.create({
     },
     shadowOpacity: 0.05,
     shadowRadius: 2,
-    elevation: 2,
+   width:'105%'
   },
   contactContent: {
     flexDirection: 'row',
@@ -356,7 +362,7 @@ const styles = StyleSheet.create({
     paddingVertical: 4,
   },
   editText: {
-    color: '#6B7280',
+    color: '#7518AA',
     fontSize: 14,
     marginLeft: 4,
   },
@@ -390,6 +396,43 @@ const styles = StyleSheet.create({
     color: '#FFFFFF',
     fontSize: 14,
     fontWeight: '500',
+  },
+  topBackground: {
+      paddingTop: hp('2%'),
+      paddingBottom: hp('2%'),
+      paddingHorizontal: wp('4%'),
+      height: hp('100%'),
+    },
+      header: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  logo: {
+    width: wp('10%'),
+    height: hp('5%'),
+    resizeMode: 'contain',
+  },
+  greetingContainer: {
+    flex: 1,
+    marginLeft: wp('3%'),
+  },
+  greeting: {
+    fontSize: hp('2%'),
+    color: 'black',
+    opacity: 0.9,
+  },
+  userName: {
+    fontSize: hp('2%'),
+    fontWeight: 'bold',
+    color: 'black',
+  },
+  notificationButton: {
+    width: wp('10%'),
+    height: wp('10%'),
+    borderRadius: wp('5%'),
+    backgroundColor: 'white',
+    justifyContent: 'center',
+    alignItems: 'center',
   },
 });
 
