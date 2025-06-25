@@ -26,49 +26,49 @@ const EmergencyHomeScreen = ({ navigation }) => {
     { 
       id: 1, 
       name: 'Accident/Trauma', 
-      Image: require('../../Assets/Trauma.png'),
+      Image: require('../../Assets/em1.png'),
       route: 'EmergencyHospitalScreen',
       params: { serviceType: 'Accident/Trauma' }
     },
     { 
       id: 2, 
       name: 'Stroke', 
-      Image: require('../../Assets/Stroke.png'),
+      Image: require('../../Assets/em2.png'),
       route: 'EmergencyHospitalScreen',
       params: { serviceType: 'Stroke' }
     },
     { 
       id: 3, 
       name: 'Burns', 
-      Image: require('../../Assets/Burns.png'),
+      Image: require('../../Assets/em3.png'),
       route: 'EmergencyHospitalScreen',
       params: { serviceType: 'Burns' }
     },
     { 
       id: 4, 
       name: 'Cardiac', 
-      Image: require('../../Assets/heat.png'),
+      Image: require('../../Assets/em4.png'),
       route: 'EmergencyHospitalScreen',
       params: { serviceType: 'Cardiac' }
     },
     { 
       id: 5, 
       name: 'Bites/Poisoning', 
-      Image: require('../../Assets/bits.png'),
+      Image: require('../../Assets/em5.png'),
       route: 'EmergencyHospitalScreen',
       params: { serviceType: 'Bites/Poisoning' }
     },
     { 
       id: 6, 
       name: '24/7 Pharmacy', 
-      Image: require('../../Assets/24.png'),
+      Image: require('../../Assets/em6.png'),
       route: 'EmergencyHospitalScreen',
       params: { serviceType: '24/7 Pharmacy' }
     },
     { 
       id: 7, 
       name: 'Maternity', 
-      Image: require('../../Assets/Maternity.png'),
+      Image: require('../../Assets/em7.png'),
       route: 'EmergencyHospitalScreen',
       params: { serviceType: 'Maternity' }
     },
@@ -202,37 +202,19 @@ const styles = StyleSheet.create({
     marginBottom: 30,
     paddingTop:30
   },
-  serviceCard: {
-    width: wp('28%'),
-    height: hp('15%'),
-    backgroundColor: '#fff',
-    borderRadius: 12,
-    padding: 18,
-    alignItems: 'center',
-    marginBottom: 15,
-    marginTop: 15,
-    justifyContent: 'space-evenly',
-    alignItems: 'space-evenly',
-    shadowColor: '#000',
-    shadowOffset: {
-      width: 0,
-      height: 2,
-    },
-    shadowOpacity: 0.1,
-    shadowRadius: 3.84,
-    elevation: 5,
-  },
+
  serviceIcon: {
-  width: 80,
-  height: 80,
+  width: 100,
+  height: 100,
   resizeMode: 'contain',
   marginBottom: 5,
 },
 
 serviceName: {
-  fontSize: 14,
-  color: '#000',
+  fontSize: 16,
+  color: '#4a4a4a',
   textAlign: 'center',
+  fontWeight:'700'
 },
 
 });
