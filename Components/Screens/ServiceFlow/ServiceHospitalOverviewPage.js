@@ -1,14 +1,14 @@
-
 import {
   Image,
-  ScrollView,
   StatusBar,
   StyleSheet,
   Text,
   TouchableOpacity,
   View,
   Platform,
-  TextInput
+  TextInput,
+  SafeAreaView,
+  FlatList,
 } from 'react-native';
 import React from 'react';
 import LinearGradient from 'react-native-linear-gradient';
@@ -21,10 +21,12 @@ import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityI
 import FontAwesome6 from 'react-native-vector-icons/FontAwesome6';
 import Entypo from 'react-native-vector-icons/Entypo';
 import AntDesign from 'react-native-vector-icons/AntDesign';
-import logo from '../../Assets/logos.png';
 import Ionicons from 'react-native-vector-icons/Ionicons';
+
+import logo from '../../Assets/logos.png';
+
 const AccidentScreen = ({ navigation }) => {
-  const data = [
+  const hospitals = [
     {
       id: 1,
       name: 'Dr. Kamakshi Memorial Hospital',
@@ -72,16 +74,14 @@ const AccidentScreen = ({ navigation }) => {
     },
   ];
 
-  const Hospitalcard = ({ hospital, navigation }) => (
+  const HospitalCard = ({ hospital }) => (
     <TouchableOpacity
       style={styles.serviceCard}
       onPress={() => navigation.navigate(hospital.route)}
     >
       <View style={{ flexDirection: 'row' }}>
         <Image style={styles.serviceIcon} source={hospital.Image} />
-        <View
-          style={[styles.serviceNameContainer, { marginLeft: 10, flex: 1 }]}
-        >
+        <View style={[styles.serviceNameContainer, { marginLeft: 10, flex: 1 }]}>
           <Text style={styles.serviceName}>
             {hospital.name}
             {hospital.name.length <= 10 && '  ' + hospital.timing}
@@ -90,27 +90,12 @@ const AccidentScreen = ({ navigation }) => {
             <Text style={styles.timing}>({hospital.timing})</Text>
           )}
           <Text style={styles.address}>
-            {' '}
-            <Entypo name="location-pin" size={20} color="red" />
-            {hospital.address}
+            <Entypo name="location-pin" size={20} color="red" /> {hospital.address}
           </Text>
-          <View
-            style={{
-              flexDirection: 'row',
-              top: 10,
-              justifyContent: 'space-between',
-            }}
-          >
+          <View style={{ flexDirection: 'row', top: 10, justifyContent: 'space-between' }}>
             <View style={{ flexDirection: 'row' }}>
               <AntDesign name="star" size={16} color="gold" />
-              <Text
-                style={{
-                  fontSize: 16,
-                  fontWeight: 'bold',
-                  color: '#333',
-                  left: 6,
-                }}
-              >
+              <Text style={{ fontSize: 16, fontWeight: 'bold', color: '#333', left: 6 }}>
                 {hospital.rating}
               </Text>
             </View>
@@ -122,49 +107,34 @@ const AccidentScreen = ({ navigation }) => {
   );
 
   return (
-    <>
-      <View style={styles.statusBarBackground} />
-      <ScrollView>
-        <LinearGradient
-          colors={['#ffffff', '#C3DFFF']}
-          start={{ x: 0.1, y: 0 }}
-          end={{ x: 1, y: 0 }}
-          style={styles.topBackground}
-        >
-          <View style={styles.header}>
-            <Image source={logo} style={styles.logo} />
-            <View style={styles.greetingContainer}>
-              <Text style={styles.greeting}>Hi, Welcome</Text>
-              <Text style={styles.userName}>Janmani Kumar</Text>
-            </View>
-            <TouchableOpacity
-              style={[styles.notificationButton, { right: hp('2%') }]}
-            >
-              <Icon name="notifications-on" size={24} color="black" />
-            </TouchableOpacity>
-            <TouchableOpacity
-              style={[styles.notificationButton, { backgroundColor: 'red' }]}
-            >
-              <MaterialCommunityIcons
-                name="alarm-light-outline"
-                size={24}
-                color="white"
-              />
-            </TouchableOpacity>
+    <SafeAreaView style={styles.container}>
+      <StatusBar barStyle="light-content" backgroundColor="#8B5CF6" />
+      <LinearGradient
+        colors={['#ffffff', '#C3DFFF']}
+        start={{ x: 0.1, y: 0 }}
+        end={{ x: 1, y: 0 }}
+        style={styles.topBackground}
+      >
+        <View style={styles.header}>
+          <Image source={logo} style={styles.logo} />
+          <View style={styles.greetingContainer}>
+            <Text style={styles.greeting}>Hi, Welcome</Text>
+            <Text style={styles.userName}>Janmani Kumar</Text>
           </View>
+          <TouchableOpacity style={[styles.notificationButton, { right: hp('2%') }]}>
+            <Icon name="notifications-on" size={24} color="black" />
+          </TouchableOpacity>
+          <TouchableOpacity style={[styles.notificationButton, { backgroundColor: 'red' }]}>
+            <MaterialCommunityIcons name="alarm-light-outline" size={24} color="white" />
+          </TouchableOpacity>
+        </View>
 
-          <View
-            style={{
-              flexDirection: 'row',
-              padding: 5,
-              top: 10,
-              alignItems: 'center',
-            }}
-          >
-            <FontAwesome6 name="angle-left" size={16} color="black" />
-            <Text style={styles.type}>Hospital</Text>
-          </View>
-  <View style={styles.searchContainer}>
+        <View style={{ flexDirection: 'row', padding: 5, top: 10, alignItems: 'center' }}>
+          <FontAwesome6 name="angle-left" size={16} color="black" />
+          <Text style={styles.type}>Hospital</Text>
+        </View>
+
+        <View style={styles.searchContainer}>
           <View style={styles.searchBar}>
             <Ionicons name="search" size={20} color="#999" />
             <TextInput
@@ -174,56 +144,49 @@ const AccidentScreen = ({ navigation }) => {
             />
           </View>
         </View>
-          <View style={{ flexDirection: 'row', margin: 10 }}>
-            <Entypo name="location-pin" size={20} color="red" />
-            <Text
-              style={{
-                fontSize: 16,
-                fontWeight: '500',
-                color: '#rgba(83, 90, 91, 1)',
-              }}
-            >
-              Your Location :{' '}
-            </Text>
-            <Text
-              style={{
-                fontSize: 16,
-                fontWeight: '500',
-                color: '#000000',
-                textDecorationLine: 'underline',
-              }}
-            >
-              West Mambalam, Chennai - 33
-            </Text>
-          </View>
 
-          <View style={styles.servicesGrid}>
-            {data.map(hospital => (
-              <Hospitalcard
-                key={hospital.id}
-                hospital={hospital}
-                navigation={navigation}
-              />
-            ))}
-          </View>
+        <View style={{ flexDirection: 'row', margin: 10 }}>
+          <Entypo name="location-pin" size={20} color="red" />
+          <Text style={{ fontSize: 16, fontWeight: '500', color: '#535a5b' }}>
+            Your Location:{' '}
+          </Text>
+          <Text
+            style={{
+              fontSize: 16,
+              fontWeight: '500',
+              color: '#000000',
+              textDecorationLine: 'underline',
+            }}
+          >
+            West Mambalam, Chennai - 33
+          </Text>
+        </View>
+    
+
+      <FlatList
+        data={hospitals}
+        keyExtractor={(item, index) => index.toString()}
+        renderItem={({ item }) => <HospitalCard hospital={item} />}
+        contentContainerStyle={{ paddingBottom: 20, paddingHorizontal: wp('4%') }}
+      
+      />
         </LinearGradient>
-      </ScrollView>
-    </>
+    </SafeAreaView>
+
   );
 };
 
 export default AccidentScreen;
 
 const styles = StyleSheet.create({
-  statusBarBackground: {
-    height: Platform.OS === 'android' ? StatusBar.currentHeight : 0,
-    backgroundColor: 'rgba(117, 24, 170, 1)',
+  container: {
+    flex: 1,
+    backgroundColor: '#fff',
   },
   topBackground: {
     paddingTop: hp('2%'),
     paddingBottom: hp('2%'),
     paddingHorizontal: wp('4%'),
-    minHeight: hp('100%'),
   },
   header: {
     flexDirection: 'row',
@@ -263,12 +226,8 @@ const styles = StyleSheet.create({
     color: 'black',
     left: 10,
   },
-  servicesGrid: {
-    justifyContent: 'space-between',
-    marginBottom: 30,
-  },
   serviceCard: {
-    width: wp('92%'),
+    width: '100%',
     height: hp('20%'),
     backgroundColor: '#fff',
     borderRadius: 12,
@@ -302,7 +261,6 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
   },
   address: {
-    flexDirection: 'row',
     fontSize: 13,
     color: '#555',
     marginTop: 4,
@@ -312,11 +270,12 @@ const styles = StyleSheet.create({
     height: hp('2.3%'),
     borderRadius: 5,
     textAlign: 'center',
-    alignItems: 'center',
     backgroundColor: 'rgb(96, 15, 143)',
     color: 'white',
+    fontSize: 13,
+    fontWeight: 'bold',
   },
-    searchContainer: {
+  searchContainer: {
     paddingHorizontal: 20,
     paddingVertical: 20,
   },
@@ -340,4 +299,3 @@ const styles = StyleSheet.create({
     color: '#333',
   },
 });
-

@@ -160,7 +160,7 @@ const styles = StyleSheet.create({
     maxWidth: 400,
   },
   modalTitle: {
-    fontSize: 20,
+    fontSize: 25,
     fontWeight: 'bold',
     color: '#374151',
     textAlign: 'center',
@@ -170,8 +170,8 @@ const styles = StyleSheet.create({
     marginBottom: 20,
   },
   ratingLabel: {
-    fontSize: 16,
-    fontWeight: '500',
+    fontSize: 20,
+    fontWeight: '700',
     color: '#374151',
     marginBottom: 12,
   },
@@ -196,8 +196,8 @@ const styles = StyleSheet.create({
     marginBottom: 24,
   },
   feedbackLabel: {
-    fontSize: 16,
-    fontWeight: '500',
+    fontSize: 20,
+    fontWeight: '700',
     color: '#374151',
     marginBottom: 12,
   },
@@ -230,7 +230,7 @@ const styles = StyleSheet.create({
   },
   submitButton: {
     flex: 1,
-    backgroundColor: '#8B5CF6',
+    backgroundColor: '#7518AA',
     borderRadius: 8,
     paddingVertical: 12,
     alignItems: 'center',

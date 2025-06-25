@@ -4,377 +4,312 @@ import {
   Text,
   StyleSheet,
   ScrollView,
-  TouchableOpacity,
-  SafeAreaView,
-  StatusBar,
+  TextInput,
+  Image,
+  TouchableOpacity,SafeAreaView,StatusBar
 } from 'react-native';
+import LinearGradient from 'react-native-linear-gradient';
 import Icon from 'react-native-vector-icons/MaterialIcons';
+import logo from '../../Assets/logos.png';
+import {
+  widthPercentageToDP as wp,
+  heightPercentageToDP as hp,
+} from 'react-native-responsive-screen';
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 
-const HomeScreen = ({ navigation }) => {
-  const services = [
-    { id: 1, name: 'Ambulance', icon: '🚑', screen: 'AmbulanceBookingScreen' },
-    { id: 2, name: 'Home care Nursing', icon: '👩‍⚕️', screen: null },
-    { id: 3, name: 'Physiotherapy', icon: '🏃‍♂️', screen: null },
-    { id: 4, name: 'Lab', icon: '🧪', screen: null },
-    { id: 5, name: 'Tractor & Machinery Service', icon: '🚜', screen: null },
-    { id: 6, name: 'Listing', icon: '📋', screen: null },
-    { id: 7, name: 'Hospital', icon: '🏥', screen: null },
-    { id: 8, name: 'Clinic', icon: '🏥', screen: null },
-    { id: 9, name: 'Blood Bank', icon: '🩸', screen: null },
-    { id: 10, name: 'Pharmacy', icon: '💊', screen: null },
-    { id: 11, name: 'Medical Equipment', icon: '🩺', screen: null },
-  ];
+const services = [
+  { title: 'Ambulance', image: require('../../Assets/HomeAmbulance.png') ,screen: 'AmbulanceBookingScreen'},
+  { title: 'Home care Nursing', image: require('../../Assets/Homecarenursing.png') },
+  { title: 'Physiotherapy', image: require('../../Assets/phisiotherapy.png') },
+  { title: 'Lab', image: require('../../Assets/lap.png') },
+  { title: 'Funeral & Mortuary Service', image: require('../../Assets/murchary.png') },
+  { title: 'Emergency', image: require('../../Assets/emergency.png') },
+];
 
-  const transactions = [
-    { id: 1, service: 'Pharmacy', amount: 150, type: 'debit', icon: '💊' },
-    { id: 2, service: 'Physiotherapy', amount: 1500, type: 'debit', icon: '🏃‍♂️' },
-    { id: 3, service: 'Home care Nursing', amount: 550, type: 'debit', icon: '👩‍⚕️' },
-    { id: 4, service: 'Pharmacy', amount: 150, type: 'debit', icon: '💊' },
-  ];
+const listings = [
+  { title: 'Hospital', image: require('../../Assets/report1.png') },
+  { title: 'Clinics', image: require('../../Assets/report2.png') },
+  { title: 'Blood Bank', image: require('../../Assets/report3.png') },
+  { title: 'Pharmacy', image: require('../../Assets/report4.png') },
+  { title: 'Medical Equipment', image: require('../../Assets/report5.png') },
+];
 
-  const handleServicePress = (service) => {
-    if (service.screen) {
-      navigation.navigate(service.screen);
-    } else {
-      console.log(`${service.name} pressed - Coming Soon!`);
-      // You can show an alert or toast here
-    }
-  };
+const transactions = [
+  { service: 'Pharmacy', date: 'April 2, 2025', amount: '- ₹150' },
+  { service: 'Physiotherapy', date: 'April 6, 2025', amount: '- ₹1,550' },
+  { service: 'Home care Nursing', date: 'April 20, 2025', amount: '- ₹550' },
+  { service: 'Pharmacy', date: 'April 2, 2025', amount: '- ₹150' },
+];
 
-  const ServiceCard = ({ service }) => (
-    <TouchableOpacity 
-      style={styles.serviceCard}
-      onPress={() => handleServicePress(service)}
-    >
-      <View style={styles.serviceIconContainer}>
-        <Text style={styles.serviceIcon}>{service.icon}</Text>
-      </View>
-      <Text style={styles.serviceName}>{service.name}</Text>
-    </TouchableOpacity>
-  );
-
-  const TransactionItem = ({ transaction }) => (
-    <View style={styles.transactionItem}>
-      <View style={styles.transactionLeft}>
-        <Text style={styles.transactionIcon}>{transaction.icon}</Text>
-        <Text style={styles.transactionService}>{transaction.service}</Text>
-      </View>
-      <Text style={styles.transactionAmount}>₹ {transaction.amount}</Text>
-    </View>
-  );
-
+export default function App({ navigation }) {
   return (
     <SafeAreaView style={styles.container}>
-      <StatusBar backgroundColor="#6C63FF" barStyle="light-content" />
-      
-      {/* Header */}
+      <StatusBar barStyle="light-content" backgroundColor="#8B5CF6" />
+           <LinearGradient
+                     colors={['#ffffff', '#C3DFFF']}
+                     start={{ x: 0.1, y: 0 }}
+                     end={{ x: 1, y: 0 }}
+                     style={styles.topBackground}
+                   >
       <View style={styles.header}>
-        <View style={styles.headerLeft}>
-          <Text style={styles.greeting}>Hi, Welcome</Text>
-          <Text style={styles.userName}>Janmani Kumar</Text>
+                                          <Image source={logo} style={styles.logo} />
+                                          <View style={styles.greetingContainer}>
+                                            <Text style={styles.greeting}>Hi, Welcome</Text>
+                                            <Text style={styles.userName}>Janmani Kumar</Text>
+                                          </View>
+                                          <TouchableOpacity
+                                            style={[styles.notificationButton, { right: hp('2%') }]}
+                                          >
+                                            <Icon name="notifications-on" size={24} color="black" />
+                                          </TouchableOpacity>
+                                          <TouchableOpacity
+                                            style={[styles.notificationButton, { backgroundColor: 'red' }]}
+                                          >
+                                            <MaterialCommunityIcons
+                                              name="alarm-light-outline"
+                                              size={24}
+                                              color="white"
+                                            />
+                                          </TouchableOpacity>
+                                        </View>
+
+      {/* Search */}
+     <View style={styles.searchContainer}>
+  <MaterialCommunityIcons
+    name="magnify"
+    size={20}
+    color="#888"
+    style={styles.searchIcon}
+  />
+  <TextInput
+    style={styles.searchBox}
+    placeholder="Search for your service"
+    placeholderTextColor="#888"
+  />
+</View>
+
+<ScrollView>
+      {/* Services */}
+      <Text style={styles.sectionTitle}>Book Your Services</Text>
+      <View style={styles.grid}>
+      {services.map((item, index) => (
+        <TouchableOpacity
+          key={index}
+          style={styles.card}
+          onPress={() => {
+            if (item.screen) {
+              navigation.navigate(item.screen);
+            }
+          }}
+        >
+          <Image source={item.image} style={styles.cardImage} />
+          <Text style={styles.cardTitle}>{item.title}</Text>
+        </TouchableOpacity>
+      ))}
+        {services.length % 3 === 2 && <View style={styles.card} />}
+    </View>
+
+      {/* Listings */}
+      <Text style={styles.sectionTitle}>Listing</Text>
+     <View style={styles.grid}>
+  {listings.map((item, index) => (
+    <View key={index} style={styles.card}>
+      <Image source={item.image} style={styles.cardImage} />
+      <Text style={styles.cardTitle}>{item.title}</Text>
+    </View>
+  ))}
+
+  {/* Add empty View if listings count is not a multiple of 3 */}
+  {listings.length % 3 === 2 && <View style={styles.card} />}
+</View>
+
+
+      {/* Schedule */}
+      <Text style={styles.sectionTitle}>Upcoming Schedule</Text>
+      <View style={styles.scheduleCard}>
+        <View style={styles.scheduleHeader}>
+          <Image source={require('../../Assets/report2.png')} style={styles.scheduleAvatar} />
+          <View style={{ flex: 1, marginLeft: 10 }}>
+            <Text style={styles.doctorName}>Dr. Dhanush Kumar</Text>
+            <Text style={styles.specialty}>Physiotherapy</Text>
+          </View>
+          <Image source={require('../../Assets/report2.png')} style={styles.phoneIcon} />
         </View>
-        <View style={styles.headerRight}>
-          <TouchableOpacity style={styles.notificationButton}>
-            <Icon name="notifications" size={24} color="#fff" />
-          </TouchableOpacity>
+        <View style={styles.scheduleDetails}>
+          <Text style={styles.scheduleDate}>Monday, 17 March</Text>
+          <Text style={styles.scheduleTime}>09:00 to 10:30</Text>
         </View>
       </View>
 
-      <ScrollView style={styles.content} showsVerticalScrollIndicator={false}>
-        {/* Search Bar */}
-        <View style={styles.searchContainer}>
-          <Icon name="search" size={20} color="#999" style={styles.searchIcon} />
-          <Text style={styles.searchPlaceholder}>Search for your service</Text>
-        </View>
-
-        {/* Book Your Services Section */}
-        <Text style={styles.sectionTitle}>Book Your Services</Text>
-        
-        <View style={styles.servicesGrid}>
-          {services.map((service) => (
-            <ServiceCard key={service.id} service={service} />
-          ))}
-        </View>
-
-        {/* Upcoming Schedule */}
-        <View style={styles.scheduleContainer}>
-          <Text style={styles.scheduleTitle}>Upcoming Schedule</Text>
-          <View style={styles.doctorCard}>
-            <View style={styles.doctorInfo}>
-              <View style={styles.doctorAvatar}>
-                <Text style={styles.doctorInitial}>D</Text>
-              </View>
-              <View style={styles.doctorDetails}>
-                <Text style={styles.doctorName}>Dr. Dhiresh Kumar</Text>
-                <Text style={styles.doctorSpecialty}>Physiotherapist</Text>
-              </View>
-            </View>
-            <View style={styles.callButtons}>
-              <TouchableOpacity style={styles.callButton}>
-                <Icon name="phone" size={20} color="#6C63FF" />
-              </TouchableOpacity>
-              <TouchableOpacity style={styles.callButton}>
-                <Icon name="videocam" size={20} color="#6C63FF" />
-              </TouchableOpacity>
-            </View>
+      {/* Transactions */}
+      <Text style={styles.sectionTitle}>Transactions</Text>
+      {transactions.map((item, index) => (
+        <View key={index} style={styles.transactionCard}>
+          <Image source={require('../../Assets/report2.png')} style={styles.transactionIcon} />
+          <View style={{ flex: 1, marginLeft: 10 }}>
+            <Text style={styles.transactionTitle}>{item.service}</Text>
+            <Text style={styles.transactionDate}>{item.date}</Text>
           </View>
+          <Text style={styles.transactionAmount}>{item.amount}</Text>
         </View>
+      ))}
 
-        {/* Transactions */}
-        <View style={styles.transactionsContainer}>
-          <View style={styles.transactionsHeader}>
-            <Text style={styles.transactionsTitle}>Transactions</Text>
-            <TouchableOpacity>
-              <Text style={styles.seeAll}>See All</Text>
-            </TouchableOpacity>
-          </View>
-          
-          {transactions.map((transaction) => (
-            <TransactionItem key={transaction.id} transaction={transaction} />
-          ))}
-        </View>
-      </ScrollView>
-    </SafeAreaView>
+</ScrollView>
+       </LinearGradient>
+       </SafeAreaView>
   );
-};
+}
 
 const styles = StyleSheet.create({
-  container: {
+   container: {
     flex: 1,
-    backgroundColor: '#f8f9fa',
-  },
-  header: {
-    backgroundColor: '#6C63FF',
-    paddingHorizontal: 20,
-    paddingVertical: 20,
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-  },
-  headerLeft: {
-    flex: 1,
-  },
-  greeting: {
-    color: '#fff',
-    fontSize: 14,
-    opacity: 0.8,
-  },
-  userName: {
-    color: '#fff',
-    fontSize: 18,
-    fontWeight: 'bold',
-    marginTop: 2,
-  },
-  headerRight: {
-    flexDirection: 'row',
-  },
-  notificationButton: {
-    width: 40,
-    height: 40,
-    borderRadius: 20,
-    backgroundColor: 'rgba(255,255,255,0.2)',
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  content: {
-    flex: 1,
-    paddingHorizontal: 20,
-  },
-  searchContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
     backgroundColor: '#fff',
-    borderRadius: 12,
-    paddingHorizontal: 15,
-    paddingVertical: 12,
-    marginTop: 20,
-    marginBottom: 25,
-    shadowColor: '#000',
-    shadowOffset: {
-      width: 0,
-      height: 2,
-    },
-    shadowOpacity: 0.1,
-    shadowRadius: 3.84,
-    elevation: 5,
   },
-  searchIcon: {
-    marginRight: 10,
-  },
-  searchPlaceholder: {
-    color: '#999',
-    fontSize: 16,
-  },
+ searchContainer: {
+  flexDirection: 'row',
+  alignItems: 'center',
+  backgroundColor: '#fff',
+  borderRadius: 8,
+  paddingHorizontal: 10,
+  marginBottom: 20,
+  height: 60,
+  marginTop:20
+},
+
+searchIcon: {
+  marginRight: 8,
+},
+
+searchBox: {
+  flex: 1,
+  fontSize: 14,
+  color: '#000',
+},
   sectionTitle: {
-    fontSize: 18,
     fontWeight: 'bold',
-    color: '#333',
-    marginBottom: 15,
+    fontSize: 20,
+    marginTop: 10,
+    marginBottom: 20,
   },
-  servicesGrid: {
+  grid: {
     flexDirection: 'row',
     flexWrap: 'wrap',
     justifyContent: 'space-between',
-    marginBottom: 30,
   },
-  serviceCard: {
+  card: {
     width: '30%',
-    backgroundColor: '#fff',
-    borderRadius: 12,
-    padding: 15,
+    marginBottom: 16,
     alignItems: 'center',
-    marginBottom: 15,
-    shadowColor: '#000',
-    shadowOffset: {
-      width: 0,
-      height: 2,
-    },
-    shadowOpacity: 0.1,
-    shadowRadius: 3.84,
-    elevation: 5,
   },
-  serviceIconContainer: {
-    width: 50,
-    height: 50,
-    borderRadius: 25,
-    backgroundColor: '#f0f0ff',
-    justifyContent: 'center',
-    alignItems: 'center',
-    marginBottom: 8,
+  cardImage: {
+    width: 110,
+    height: 110,
+    resizeMode: 'contain',
   },
-  serviceIcon: {
-    fontSize: 24,
-  },
-  serviceName: {
-    fontSize: 12,
-    fontWeight: '500',
-    color: '#333',
-    textAlign: 'center',
-  },
-  scheduleContainer: {
-    marginBottom: 30,
-  },
-  scheduleTitle: {
-    fontSize: 18,
-    fontWeight: 'bold',
-    color: '#333',
-    marginBottom: 15,
-  },
-  doctorCard: {
-    backgroundColor: '#fff',
-    borderRadius: 12,
-    padding: 15,
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    shadowColor: '#000',
-    shadowOffset: {
-      width: 0,
-      height: 2,
-    },
-    shadowOpacity: 0.1,
-    shadowRadius: 3.84,
-    elevation: 5,
-  },
-  doctorInfo: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    flex: 1,
-  },
-  doctorAvatar: {
-    width: 50,
-    height: 50,
-    borderRadius: 25,
-    backgroundColor: '#6C63FF',
-    justifyContent: 'center',
-    alignItems: 'center',
-    marginRight: 12,
-  },
-  doctorInitial: {
-    color: '#fff',
-    fontSize: 18,
-    fontWeight: 'bold',
-  },
-  doctorDetails: {
-    flex: 1,
-  },
-  doctorName: {
+  cardTitle: {
+    marginTop: 5,
     fontSize: 16,
-    fontWeight: 'bold',
-    color: '#333',
+    textAlign: 'center',
+    fontFamily:'Roboto',
+    fontWeight:'700',
+    color:'#000000'
   },
-  doctorSpecialty: {
-    fontSize: 14,
-    color: '#666',
-    marginTop: 2,
+  scheduleCard: {
+    backgroundColor: '#6A1B9A',
+    borderRadius: 12,
+    padding: 15,
+    marginVertical: 10,
   },
-  callButtons: {
+  scheduleHeader: {
     flexDirection: 'row',
+    alignItems: 'center',
   },
-  callButton: {
+  scheduleAvatar: {
     width: 40,
     height: 40,
     borderRadius: 20,
-    backgroundColor: '#f0f0ff',
-    justifyContent: 'center',
-    alignItems: 'center',
-    marginLeft: 10,
   },
-  transactionsContainer: {
-    marginBottom: 30,
-  },
-  transactionsHeader: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    marginBottom: 15,
-  },
-  transactionsTitle: {
-    fontSize: 18,
+  doctorName: {
+    color: '#fff',
     fontWeight: 'bold',
-    color: '#333',
   },
-  seeAll: {
-    fontSize: 14,
-    color: '#6C63FF',
-    fontWeight: '500',
+  specialty: {
+    color: '#ddd',
   },
-  transactionItem: {
+  phoneIcon: {
+    width: 24,
+    height: 24,
+  },
+  scheduleDetails: {
+    marginTop: 10,
     backgroundColor: '#fff',
-    borderRadius: 12,
-    padding: 15,
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    marginBottom: 10,
-    shadowColor: '#000',
-    shadowOffset: {
-      width: 0,
-      height: 2,
-    },
-    shadowOpacity: 0.1,
-    shadowRadius: 3.84,
-    elevation: 5,
+    borderRadius: 8,
+    padding: 10,
   },
-  transactionLeft: {
+  scheduleDate: {
+    fontWeight: 'bold',
+  },
+  scheduleTime: {
+    color: '#888',
+  },
+  transactionCard: {
     flexDirection: 'row',
+    padding: 12,
+    backgroundColor: '#fff',
+    borderRadius: 10,
+    marginVertical: 5,
     alignItems: 'center',
-    flex: 1,
   },
   transactionIcon: {
-    fontSize: 20,
-    marginRight: 12,
+    width: 30,
+    height: 30,
   },
-  transactionService: {
-    fontSize: 16,
-    fontWeight: '500',
-    color: '#333',
+  transactionTitle: {
+    fontWeight: 'bold',
+  },
+  transactionDate: {
+    color: '#666',
+    fontSize: 12,
   },
   transactionAmount: {
-    fontSize: 16,
     fontWeight: 'bold',
-    color: '#333',
+    color: '#D32F2F',
+  },
+    topBackground: {
+      paddingTop: hp('2%'),
+      paddingBottom: hp('2%'),
+      paddingHorizontal: wp('4%'),
+      height: hp('100%'),
+    },
+      header: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  logo: {
+    width: wp('10%'),
+    height: hp('5%'),
+    resizeMode: 'contain',
+  },
+  greetingContainer: {
+    flex: 1,
+    marginLeft: wp('3%'),
+  },
+  greeting: {
+    fontSize: hp('2%'),
+    color: 'black',
+    opacity: 0.9,
+  },
+  userName: {
+    fontSize: hp('2%'),
+    fontWeight: 'bold',
+    color: 'black',
+  },
+  notificationButton: {
+    width: wp('10%'),
+    height: wp('10%'),
+    borderRadius: wp('5%'),
+    backgroundColor: 'white',
+    justifyContent: 'center',
+    alignItems: 'center',
   },
 });
-
-export default HomeScreen;

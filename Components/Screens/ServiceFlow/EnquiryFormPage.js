@@ -7,9 +7,18 @@
     StyleSheet,
     SafeAreaView,
     StatusBar,
-    Alert,
+    Alert,Image,
+    ScrollView
     } from 'react-native';
-
+import logo from '../../Assets/logos.png';
+import {
+  widthPercentageToDP as wp,
+  heightPercentageToDP as hp,
+} from 'react-native-responsive-screen';
+import Icons from 'react-native-vector-icons/Ionicons';
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+import LinearGradient from 'react-native-linear-gradient';
+import Icon from 'react-native-vector-icons/MaterialIcons';
     const HospitalForm = ({ navigation }) => {
     const [formData, setFormData] = useState({
         name: '',
@@ -39,31 +48,46 @@
 
     return (
         <SafeAreaView style={styles.container}>
-        <StatusBar backgroundColor="#8B5CF6" barStyle="light-content" />
-        
+                    <StatusBar barStyle="light-content" backgroundColor="#8B5CF6" />
+            
+                  <LinearGradient
+                    colors={['#ffffff', '#C3DFFF']}
+                    start={{ x: 0.1, y: 0 }}
+                    end={{ x: 1, y: 0 }}
+                    style={styles.topBackground}
+                  >
         {/* Header */}
-        <View style={styles.header}>
-            <TouchableOpacity style={styles.backButton}>
-            <Text style={styles.backButtonText}>←</Text>
-            </TouchableOpacity>
-            <Text style={styles.headerTitle}>Hospital</Text>
-            <View style={styles.headerIcons}>
-            <TouchableOpacity style={styles.iconButton}>
-                <Text style={styles.iconText}>🔔</Text>
-            </TouchableOpacity>
-            <TouchableOpacity style={styles.iconButton}>
-                <Text style={styles.iconText}>👤</Text>
-            </TouchableOpacity>
-            </View>
-        </View>
+      <View style={styles.header}>
+                  <Image source={logo} style={styles.logo} />
+                  <View style={styles.greetingContainer}>
+                    <Text style={styles.greeting}>Hi, Welcome</Text>
+                    <Text style={styles.userName1}>Janmani Kumar</Text>
+                  </View>
+                  <TouchableOpacity
+                    style={[styles.notificationButton, { right: hp('2%') }]}
+                  >
+                    <Icon name="notifications-on" size={24} color="black" />
+                  </TouchableOpacity>
+                  <TouchableOpacity
+                    style={[styles.notificationButton, { backgroundColor: 'red' }]}
+                  >
+                    <MaterialCommunityIcons
+                      name="alarm-light-outline"
+                      size={24}
+                      color="white"
+                    />
+                  </TouchableOpacity>
+                </View>
 
-        {/* Welcome Message */}
-        <View style={styles.welcomeContainer}>
-            <Text style={styles.welcomeText}>Hi, Welcome</Text>
-            <Text style={styles.userName}>Jeswanth Kumar</Text>
-        </View>
+         <View style={styles.sectionHeader}>
+                <TouchableOpacity onPress={() => navigation.goBack()}>
+                  <Icons name="chevron-back" size={24} />
+                </TouchableOpacity>
+                <Text style={styles.sectionTitle}>Hospital</Text>
+              </View>
 
         {/* Form */}
+        <ScrollView>
         <View style={styles.formContainer}>
             {/* Name Field */}
             <View style={styles.inputGroup}>
@@ -131,7 +155,9 @@
             <Text style={styles.submitButtonText}>Submit</Text>
             </TouchableOpacity>
         </View>
-        </SafeAreaView>
+        </ScrollView>
+   </LinearGradient>
+     </SafeAreaView>
     );
     };
 
@@ -140,45 +166,43 @@
         flex: 1,
         backgroundColor: '#F8F9FA',
     },
-    header: {
-        flexDirection: 'row',
-        alignItems: 'center',
-        justifyContent: 'space-between',
-        backgroundColor: '#8B5CF6',
-        paddingHorizontal: 16,
-        paddingVertical: 12,
-        elevation: 4,
-        shadowColor: '#000',
-        shadowOffset: {
-        width: 0,
-        height: 2,
-        },
-        shadowOpacity: 0.25,
-        shadowRadius: 3.84,
+    topBackground: {
+      paddingTop: hp('2%'),
+      paddingBottom: hp('2%'),
+      paddingHorizontal: wp('4%'),
+      height: hp('100%'),
     },
-    backButton: {
-        padding: 8,
-    },
-    backButtonText: {
-        color: '#FFFFFF',
-        fontSize: 20,
-        fontWeight: 'bold',
-    },
-    headerTitle: {
-        color: '#FFFFFF',
-        fontSize: 18,
-        fontWeight: 'bold',
-    },
-    headerIcons: {
-        flexDirection: 'row',
-    },
-    iconButton: {
-        marginLeft: 12,
-        padding: 4,
-    },
-    iconText: {
-        fontSize: 16,
-    },
+      header: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  logo: {
+    width: wp('10%'),
+    height: hp('5%'),
+    resizeMode: 'contain',
+  },
+  greetingContainer: {
+    flex: 1,
+    marginLeft: wp('3%'),
+  },
+  greeting: {
+    fontSize: hp('2%'),
+    color: 'black',
+    opacity: 0.9,
+  },
+  userName1: {
+    fontSize: hp('2%'),
+    fontWeight: 'bold',
+    color: 'black',
+  },
+  notificationButton: {
+    width: wp('10%'),
+    height: wp('10%'),
+    borderRadius: wp('5%'),
+    backgroundColor: 'white',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
     welcomeContainer: {
         backgroundColor: '#8B5CF6',
         paddingHorizontal: 16,
@@ -204,27 +228,28 @@
         marginBottom: 20,
     },
     label: {
-        fontSize: 16,
-        fontWeight: '500',
+        fontSize: 20,
+        fontWeight: '700',
         color: '#374151',
-        marginBottom: 8,
+        marginBottom: 10,
     },
     input: {
         borderWidth: 1,
         borderColor: '#D1D5DB',
         borderRadius: 8,
         paddingHorizontal: 16,
-        paddingVertical: 12,
+        paddingVertical: 17,
         fontSize: 16,
         backgroundColor: '#FFFFFF',
         color: '#374151',
+        width:'105%',
     },
     textArea: {
         height: 100,
         paddingTop: 12,
     },
     submitButton: {
-        backgroundColor: '#8B5CF6',
+        backgroundColor: '#7518AA',
         borderRadius: 8,
         paddingVertical: 16,
         alignItems: 'center',
@@ -244,6 +269,18 @@
         fontSize: 16,
         fontWeight: 'bold',
     },
+     sectionHeader: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginBottom: 12,
+    marginTop:20
+  },
+  sectionTitle: {
+    fontSize: 25,
+    fontWeight: 'bold',
+marginLeft:'35%',
+color:'#7416B2',top:-5
+  },
     });
 
     export default HospitalForm;
