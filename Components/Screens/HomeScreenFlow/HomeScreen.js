@@ -16,7 +16,8 @@ import {
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
-
+import Iconed from 'react-native-vector-icons/MaterialCommunityIcons';
+import  { useState } from 'react';
 const services = [
   { title: 'Ambulance', image: require('../../Assets/HomeAmbulance.png') ,screen: 'AmbulanceBookingScreen'},
   { title: 'Home care Nursing', image: require('../../Assets/Homecarenursing.png') },
@@ -35,13 +36,19 @@ const listings = [
 ];
 
 const transactions = [
-  { service: 'Pharmacy', date: 'April 2, 2025', amount: '- ₹150' },
-  { service: 'Physiotherapy', date: 'April 6, 2025', amount: '- ₹1,550' },
-  { service: 'Home care Nursing', date: 'April 20, 2025', amount: '- ₹550' },
-  { service: 'Pharmacy', date: 'April 2, 2025', amount: '- ₹150' },
+  { service: 'Pharmacy', date: 'April 2, 2025', amount: '- ₹150', icon: require('../../Assets/tr1.png'), bgColor: '#DFFFEF' },
+  { service: 'Physiotherapy', date: 'April 5, 2025', amount: '- ₹1,550', icon: require('../../Assets/tr2.png'), bgColor: '#D6FFFC' },
+  { service: 'Home care Nursing', date: 'April 20, 2025', amount: '- ₹550', icon: require('../../Assets/tr3.png'), bgColor: '#E8E6FF' },
+  { service: 'Pharmacy', date: 'April 2, 2025', amount: '- ₹150', icon: require('../../Assets/tr1.png'), bgColor: '#DFFFEF' },
 ];
 
+
 export default function App({ navigation }) {
+ const [showAll, setShowAll] = useState(false);
+
+  const displayedTransactions = showAll ? transactions : transactions.slice(0, 2);
+
+
   return (
     <SafeAreaView style={styles.container}>
       <StatusBar barStyle="light-content" backgroundColor="#8B5CF6" />
@@ -88,7 +95,10 @@ export default function App({ navigation }) {
   />
 </View>
 
-<ScrollView>
+<ScrollView
+  showsVerticalScrollIndicator={false}
+  showsHorizontalScrollIndicator={false}
+>
       {/* Services */}
       <Text style={styles.sectionTitle}>Book Your Services</Text>
       <View style={styles.grid}>
@@ -124,28 +134,46 @@ export default function App({ navigation }) {
 </View>
 
 
-      {/* Schedule */}
+     
       <Text style={styles.sectionTitle}>Upcoming Schedule</Text>
       <View style={styles.scheduleCard}>
         <View style={styles.scheduleHeader}>
-          <Image source={require('../../Assets/report2.png')} style={styles.scheduleAvatar} />
+          <Image source={require('../../Assets/profile.png')} style={styles.scheduleAvatar} />
           <View style={{ flex: 1, marginLeft: 10 }}>
             <Text style={styles.doctorName}>Dr. Dhanush Kumar</Text>
             <Text style={styles.specialty}>Physiotherapy</Text>
           </View>
-          <Image source={require('../../Assets/report2.png')} style={styles.phoneIcon} />
+          <Image source={require('../../Assets/calling.png')} style={styles.phoneIcon} />
         </View>
-        <View style={styles.scheduleDetails}>
-          <Text style={styles.scheduleDate}>Monday, 17 March</Text>
-          <Text style={styles.scheduleTime}>09:00 to 10:30</Text>
+
+         <View style={styles.scheduleContainer}>
+      <View style={styles.scheduleDetailsRow}>
+        <View style={styles.dateBox}>
+          <Iconed name="calendar-month-outline" size={20} color="#555" />
+          <Text style={styles.scheduleText}>Monday, 17 March</Text>
+        </View>
+
+        <View style={styles.timeBox}>
+          <Iconed name="clock-outline" size={20} color="#555" />
+          <Text style={styles.scheduleText}>09:00 to 10:30</Text>
         </View>
       </View>
+    </View>
+      </View>
 
-      {/* Transactions */}
-      <Text style={styles.sectionTitle}>Transactions</Text>
-      {transactions.map((item, index) => (
+       <View style={styles.containers}>
+      <View style={styles.headers}>
+        <Text style={styles.sectionTitle}>Transactions</Text>
+        <TouchableOpacity onPress={() => setShowAll(!showAll)}>
+          <Text style={styles.seeAll}>{showAll ? 'See less' : 'See all'}</Text>
+        </TouchableOpacity>
+      </View>
+
+      {displayedTransactions.map((item, index) => (
         <View key={index} style={styles.transactionCard}>
-          <Image source={require('../../Assets/report2.png')} style={styles.transactionIcon} />
+          <View style={[styles.iconContainer, { backgroundColor: item.bgColor }]}>
+            <Image source={item.icon} style={styles.transactionIcon} />
+          </View>
           <View style={{ flex: 1, marginLeft: 10 }}>
             <Text style={styles.transactionTitle}>{item.service}</Text>
             <Text style={styles.transactionDate}>{item.date}</Text>
@@ -153,7 +181,7 @@ export default function App({ navigation }) {
           <Text style={styles.transactionAmount}>{item.amount}</Text>
         </View>
       ))}
-
+    </View>
 </ScrollView>
        </LinearGradient>
        </SafeAreaView>
@@ -185,12 +213,7 @@ searchBox: {
   fontSize: 14,
   color: '#000',
 },
-  sectionTitle: {
-    fontWeight: 'bold',
-    fontSize: 20,
-    marginTop: 10,
-    marginBottom: 20,
-  },
+ 
   grid: {
     flexDirection: 'row',
     flexWrap: 'wrap',
@@ -219,10 +242,12 @@ searchBox: {
     borderRadius: 12,
     padding: 15,
     marginVertical: 10,
+  
   },
   scheduleHeader: {
     flexDirection: 'row',
     alignItems: 'center',
+    paddingBottom:10
   },
   scheduleAvatar: {
     width: 40,
@@ -237,44 +262,51 @@ searchBox: {
     color: '#ddd',
   },
   phoneIcon: {
-    width: 24,
-    height: 24,
+    width: 34,
+    height: 34,
   },
-  scheduleDetails: {
-    marginTop: 10,
-    backgroundColor: '#fff',
-    borderRadius: 8,
-    padding: 10,
+  scheduleContainer: {
+   paddingTop:20,
+    margin: 10,
+    borderTopWidth:2,
+    borderStyle:'dashed',
+    borderColor:'#ffff'
   },
-  scheduleDate: {
-    fontWeight: 'bold',
-  },
-  scheduleTime: {
-    color: '#888',
-  },
-  transactionCard: {
+  scheduleDetailsRow: {
     flexDirection: 'row',
-    padding: 12,
-    backgroundColor: '#fff',
-    borderRadius: 10,
-    marginVertical: 5,
+    justifyContent: 'space-between',
     alignItems: 'center',
   },
-  transactionIcon: {
-    width: 30,
-    height: 30,
+  dateBox: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    borderWidth: 1,
+    borderColor: '#ffff',
+    backgroundColor: '#ffff',
+    borderRadius: 10,
+    paddingVertical: 8,
+    paddingHorizontal: 12,
+    marginRight: 8,
+    flex: 1,
   },
-  transactionTitle: {
-    fontWeight: 'bold',
+  timeBox: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    borderWidth: 1,
+    borderColor: '#ffff',
+    backgroundColor: '#ffff',
+    borderRadius: 10,
+    paddingVertical: 8,
+    paddingHorizontal: 12,
+     marginRight: 8,
+    flex: 1,
   },
-  transactionDate: {
-    color: '#666',
-    fontSize: 12,
+  scheduleText: {
+    marginLeft: 6,
+    fontSize: 16,
+    color: '#333',
   },
-  transactionAmount: {
-    fontWeight: 'bold',
-    color: '#D32F2F',
-  },
+  
     topBackground: {
       paddingTop: hp('2%'),
       paddingBottom: hp('2%'),
@@ -311,5 +343,64 @@ searchBox: {
     backgroundColor: 'white',
     justifyContent: 'center',
     alignItems: 'center',
+  },
+    containers: {
+    padding: 10,
+  paddingBottom:50
+  },
+  headers: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    marginBottom: 10,
+  },
+  sectionTitle: {
+    fontSize: 18,
+    fontWeight: 'bold',
+    marginBottom:15
+  },
+  seeAll: {
+    fontSize: 14,
+    color: '#007bff',
+    fontWeight: '500',
+  },
+  transactionCard: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    padding: 12,
+    backgroundColor: '#fff',
+    borderRadius: 12,
+    marginBottom: 10,
+    shadowColor: '#00000015',
+    shadowOffset: { width: 0, height: 1 },
+    shadowOpacity: 0.1,
+    shadowRadius: 2,
+    elevation: 1,
+  },
+  iconContainer: {
+    width: 40,
+    height: 40,
+    borderRadius: 10,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  transactionIcon: {
+    width: 24,
+    height: 24,
+    resizeMode: 'contain',
+  },
+  transactionTitle: {
+    fontSize: 16,
+    fontWeight: '600',
+  },
+  transactionDate: {
+    fontSize: 13,
+    color: '#888',
+    marginTop: 2,
+  },
+  transactionAmount: {
+    fontSize: 16,
+    fontWeight: '600',
+    color: '#000',
   },
 });

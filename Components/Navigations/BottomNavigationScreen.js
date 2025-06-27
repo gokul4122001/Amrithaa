@@ -2,14 +2,11 @@ import React from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import CustomTabButton from '../Navigations/CustomTabButton';
-import HomeStackScreen from './HomeStackNavigationScreen'; 
+import HomeStackScreen from './HomeStackNavigationScreen';
 import EmergencyStackScreen from './EmergencyStackNavigationScreen';
-import MenuScreen from '../Screens/ServiceFlow/ServiceHomeScreenPage';
 import BookmarkScreen from '../Screens/HomeScreenFlow/BookmarkScreen';
-import AlertScreen from '../Screens/EmergencyFlow/EmergencyHomeScreen';
 import ProfileStackScreen from '../Navigations/ProfileStackNavigationScreen';
 import ServiceStackScreen from '../Navigations/ServiceStackNavigationScreen';
-
 
 const Tab = createBottomTabNavigator();
 
@@ -23,9 +20,14 @@ const BottomTabs = () => {
         tabBarStyle: {
           backgroundColor: '#f5f5f5',
           height: 70,
+          borderTopLeftRadius: 20,
+          borderTopRightRadius: 20,
+          position: 'absolute', 
         },
+        tabBarHideOnKeyboard: true, 
         tabBarIcon: ({ color, size }) => {
           let iconName;
+
           switch (route.name) {
             case 'Home':
               iconName = 'home-outline';

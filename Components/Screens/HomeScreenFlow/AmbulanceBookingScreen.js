@@ -1,4 +1,3 @@
-// AmbulanceBookingScreen.js
 import React, { useState, useEffect } from 'react';
 import {
   View,
@@ -9,27 +8,36 @@ import {
   SafeAreaView,
   StatusBar,
   Platform,
-  Alert
+  Alert,
+  Image,
 } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import Modal from 'react-native-modal';
 import DateTimePicker from '@react-native-community/datetimepicker';
+import LinearGradient from 'react-native-linear-gradient';
+import {
+  widthPercentageToDP as wp,
+  heightPercentageToDP as hp,
+} from 'react-native-responsive-screen';
+import logo from '../../Assets/logos.png';
 
 const AmbulanceBookingScreen = ({ navigation }) => {
+  // Main booking states
   const [bookingFor, setBookingFor] = useState('Others');
   const [bookingType, setBookingType] = useState('Emergency');
   const [selectedCategory, setSelectedCategory] = useState(null);
 
-  // State for the Schedule Booking Modal
+  // Schedule booking modal states
   const [isScheduleModalVisible, setScheduleModalVisible] = useState(false);
   const [selectedDate, setSelectedDate] = useState(new Date());
   const [selectedTime, setSelectedTime] = useState(new Date());
   const [showDatePicker, setShowDatePicker] = useState(false);
   const [showTimePicker, setShowTimePicker] = useState(false);
-
   const [after3HoursChecked, setAfter3HoursChecked] = useState(false);
   const [isScheduleValid, setIsScheduleValid] = useState(true);
 
+  // Emergency categories configuration
   const categories = [
     { id: 'heart', title: 'Heart attack', icon: '❤️', screen: 'SelectHospitalScreen' },
     { id: 'poisoning', title: 'Poisoning', icon: '🧪' },
@@ -42,9 +50,9 @@ const AmbulanceBookingScreen = ({ navigation }) => {
     { id: 'others', title: 'Others Emergencies', icon: '🏥' },
   ];
 
+  // Event handlers
   const handleCategorySelect = (category) => {
     setSelectedCategory(category.id);
-
     if (category.screen) {
       navigation.navigate(category.screen);
     } else {
@@ -53,115 +61,81 @@ const AmbulanceBookingScreen = ({ navigation }) => {
   };
 
   const handleNext = () => {
-    console.log('Next pressed with:', {
+    const bookingDetails = {
       bookingFor,
       bookingType,
       selectedCategory,
-      scheduledDate: bookingType === 'Schedule Booking' ? selectedDate.toLocaleDateString() : null,
-      scheduledTime: bookingType === 'Schedule Booking' ? selectedTime.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) : null,
+      scheduledDate: bookingType === 'Schedule Booking' ? selectedDate.toISOString() : null,
+      scheduledTime: bookingType === 'Schedule Booking' ? selectedTime.toISOString() : null,
       after3Hours: bookingType === 'Schedule Booking' ? after3HoursChecked : null,
-    });
+    };
 
-    navigation.navigate('LiveTrakingScreen', {
-      bookingDetails: {
-        bookingFor,
-        bookingType,
-        selectedCategory: selectedCategory,
-        scheduledDate: bookingType === 'Schedule Booking' ? selectedDate.toISOString() : null,
-        scheduledTime: bookingType === 'Schedule Booking' ? selectedTime.toISOString() : null,
-        after3Hours: bookingType === 'Schedule Booking' ? after3HoursChecked : null,
-      }
-    });
+    console.log('Next pressed with:', bookingDetails);
+    navigation.navigate('LiveTrakingScreen', { bookingDetails });
   };
 
-  // --- Schedule Booking Modal Logic ---
+  // Schedule modal functions
   const toggleScheduleModal = () => {
     setScheduleModalVisible(!isScheduleModalVisible);
     if (!isScheduleModalVisible) {
-      setSelectedDate(new Date());
-      setSelectedTime(new Date());
-      setAfter3HoursChecked(false);
-      setIsScheduleValid(true);
+      resetScheduleModal();
     }
   };
 
-  // Function to calculate the minimum allowed time for today's date (+3 hours)
+  const resetScheduleModal = () => {
+    setSelectedDate(new Date());
+    setSelectedTime(new Date());
+    setAfter3HoursChecked(false);
+    setIsScheduleValid(true);
+  };
+
   const getMinimumTimeForToday = () => {
     const now = new Date();
-    const minAllowedTime = new Date(now.getTime() + 3 * 60 * 60 * 1000);
-    return minAllowedTime;
+    return new Date(now.getTime() + 3 * 60 * 60 * 1000);
   };
 
-  // Fixed onDateChange function
+  const getMinimumDate = () => new Date();
+
+  // Date picker handlers
   const onDateChange = (event, pickedDate) => {
-    // Always hide the picker on Android after selection
     if (Platform.OS === 'android') {
       setShowDatePicker(false);
     }
-    
-    // Handle the selected date
+
     if (event.type === 'set' && pickedDate) {
       setSelectedDate(pickedDate);
-
-      // If the selected date is today, ensure the time is also at least 3 hours from now
-      const now = new Date();
-      const isToday = (
-        pickedDate.getDate() === now.getDate() &&
-        pickedDate.getMonth() === now.getMonth() &&
-        pickedDate.getFullYear() === now.getFullYear()
-      );
-
-      if (isToday) {
-        const minTimeForToday = getMinimumTimeForToday();
-        if (selectedTime < minTimeForToday) {
-          setSelectedTime(minTimeForToday);
-        }
-      }
-    } else if (event.type === 'dismissed') {
-      // User cancelled the picker
-      setShowDatePicker(false);
+      validateScheduleTime(pickedDate, selectedTime);
     }
   };
 
-  // Fixed onTimeChange function
   const onTimeChange = (event, pickedTime) => {
-    // Always hide the picker on Android after selection
     if (Platform.OS === 'android') {
       setShowTimePicker(false);
     }
-    
-    // Handle the selected time
+
     if (event.type === 'set' && pickedTime) {
       setSelectedTime(pickedTime);
-    } else if (event.type === 'dismissed') {
-      // User cancelled the picker
-      setShowTimePicker(false);
+      validateScheduleTime(selectedDate, pickedTime);
     }
   };
 
-  // Effect to handle the "After 3 hours" checkbox and general validation
-  useEffect(() => {
+  const validateScheduleTime = (date, time) => {
     const now = new Date();
     const threeHoursFromNow = new Date(now.getTime() + 3 * 60 * 60 * 1000);
-
-    let currentDateTime = new Date(
-      selectedDate.getFullYear(),
-      selectedDate.getMonth(),
-      selectedDate.getDate(),
-      selectedTime.getHours(),
-      selectedTime.getMinutes(),
-      selectedTime.getSeconds()
-    );
     
-    // Check if the selected date and time is at least 3 hours from now
-    if (currentDateTime.getTime() < threeHoursFromNow.getTime()) {
-      setAfter3HoursChecked(false);
-      setIsScheduleValid(false);
-    } else {
-      setAfter3HoursChecked(true);
-      setIsScheduleValid(true);
-    }
-  }, [selectedDate, selectedTime]);
+    const selectedDateTime = new Date(
+      date.getFullYear(),
+      date.getMonth(),
+      date.getDate(),
+      time.getHours(),
+      time.getMinutes(),
+      time.getSeconds()
+    );
+
+    const isValid = selectedDateTime.getTime() >= threeHoursFromNow.getTime();
+    setAfter3HoursChecked(isValid);
+    setIsScheduleValid(isValid);
+  };
 
   const handleScheduleSubmit = () => {
     if (!isScheduleValid) {
@@ -170,235 +144,238 @@ const AmbulanceBookingScreen = ({ navigation }) => {
     }
 
     console.log('Schedule Submitted:', {
-      date: selectedDate.toLocaleDateString('en-US', { day: '2-digit', month: '2-digit', year: 'numeric' }),
-      time: selectedTime.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' }),
+      date: selectedDate.toLocaleDateString('en-US', { 
+        day: '2-digit', 
+        month: '2-digit', 
+        year: 'numeric' 
+      }),
+      time: selectedTime.toLocaleTimeString('en-US', { 
+        hour: '2-digit', 
+        minute: '2-digit' 
+      }),
       after3Hours: after3HoursChecked,
     });
+
     setBookingType('Schedule Booking');
     toggleScheduleModal();
   };
 
-  // Helper function to get minimum date for date picker
-  const getMinimumDate = () => {
-    return new Date(); // Today's date
-  };
+  // Validation effect
+  useEffect(() => {
+    validateScheduleTime(selectedDate, selectedTime);
+  }, [selectedDate, selectedTime]);
 
   return (
     <SafeAreaView style={styles.container}>
-      <StatusBar barStyle="dark-content" backgroundColor="#fff" />
-
-      {/* Header */}
-      <View style={styles.header}>
-        <TouchableOpacity style={styles.backButton} onPress={() => navigation.goBack()}>
-          <Icon name="arrow-back" size={24} color="#000" />
-        </TouchableOpacity>
-        <View style={styles.headerContent}>
-          <View style={styles.profileSection}>
-            <View style={styles.avatar}>
-              <Text style={styles.avatarText}>JK</Text>
-            </View>
-            <View>
-              <Text style={styles.greeting}>Hi, Welcome</Text>
-              <Text style={styles.userName}>Jesvanth Kumar</Text>
-            </View>
-          </View>
-          <View style={styles.headerIcons}>
-            <TouchableOpacity style={styles.iconButton}>
-              <Icon name="notifications" size={24} color="#000" />
-            </TouchableOpacity>
-            <TouchableOpacity style={styles.iconButton}>
-              <Icon name="close" size={24} color="#fff" style={{ backgroundColor: '#ff4444', borderRadius: 12 }} />
-            </TouchableOpacity>
-          </View>
-        </View>
-      </View>
-
-      <ScrollView style={styles.content}>
-        {/* Question */}
-        <Text style={styles.question}>Which ambulance variant do you choose?</Text>
-
-        {/* Ambulance Booking For */}
-        <View style={styles.section}>
-          <Text style={styles.sectionTitle}>Ambulance Booking For</Text>
-          <View style={styles.radioGroup}>
-            <TouchableOpacity
-              style={[styles.radioOption, bookingFor === 'Yourself' && styles.radioOptionSelected]}
-              onPress={() => setBookingFor('Yourself')}
-            >
-              <View style={[styles.radio, bookingFor === 'Yourself' && styles.radioSelected]}>
-                {bookingFor === 'Yourself' && <View style={styles.radioInner} />}
-              </View>
-              <Text style={styles.radioText}>Yourself</Text>
-            </TouchableOpacity>
-
-            <TouchableOpacity
-              style={[styles.radioOption, bookingFor === 'Others' && styles.radioOptionSelected]}
-              onPress={() => setBookingFor('Others')}
-            >
-              <View style={[styles.radio, bookingFor === 'Others' && styles.radioSelected]}>
-                {bookingFor === 'Others' && <View style={styles.radioInner} />}
-              </View>
-              <Text style={styles.radioText}>Others</Text>
-            </TouchableOpacity>
-          </View>
-        </View>
-
-        {/* Select the Option */}
-        <View style={styles.section}>
-          <Text style={styles.sectionTitle}>Select the Option</Text>
-          <View style={styles.radioGroup}>
-            <TouchableOpacity
-              style={[styles.radioOption, bookingType === 'Emergency' && styles.radioOptionSelected]}
-              onPress={() => {
-                setBookingType('Emergency');
-                setScheduleModalVisible(false);
-              }}
-            >
-              <View style={[styles.radio, bookingType === 'Emergency' && styles.radioSelected]}>
-                {bookingType === 'Emergency' && <View style={styles.radioInner} />}
-              </View>
-              <Text style={styles.radioText}>Emergency</Text>
-            </TouchableOpacity>
-
-            <TouchableOpacity
-              style={[styles.radioOption, bookingType === 'Schedule Booking' && styles.radioOptionSelected]}
-              onPress={() => {
-                setBookingType('Schedule Booking');
-                toggleScheduleModal();
-              }}
-            >
-              <View style={[styles.radio, bookingType === 'Schedule Booking' && styles.radioSelected]}>
-                {bookingType === 'Schedule Booking' && <View style={styles.radioInner} />}
-              </View>
-              <Text style={styles.radioText}>Schedule Booking</Text>
-            </TouchableOpacity>
-          </View>
-        </View>
-
-        {/* Hospital Options */}
-        <View style={styles.section}>
-          <View style={styles.hospitalOption}>
-            <View style={styles.hospitalIndicator} />
-            <Text style={styles.hospitalText}>West Mambalam, Chennai-1: 33</Text>
-          </View>
-          <View style={styles.hospitalOption}>
-            <View style={[styles.hospitalIndicator, { backgroundColor: '#ff4444' }]} />
-            <Text style={styles.hospitalText}>Apollo Hospital, Thousand Lights, Chennai</Text>
-          </View>
-        </View>
-
-        {/* Categories */}
-        <View style={styles.section}>
-          <Text style={styles.categoryTitle}>Don't know the issue? Select a category</Text>
-          <View style={styles.categoriesGrid}>
-            {categories.map((category) => (
-              <TouchableOpacity
-                key={category.id}
-                style={[
-                  styles.categoryCard,
-                  selectedCategory === category.id && styles.categoryCardSelected,
-                ]}
-                onPress={() => handleCategorySelect(category)}
-              >
-                <Text style={styles.categoryIcon}>{category.icon}</Text>
-                <Text style={styles.categoryText}>{category.title}</Text>
-              </TouchableOpacity>
-            ))}
-          </View>
-        </View>
-      </ScrollView>
-
-      {/* Next Button */}
-      <View style={styles.footer}>
-        <TouchableOpacity
-          style={styles.nextButton}
-          onPress={handleNext}
-        >
-          <Text style={styles.nextButtonText}>Next</Text>
-        </TouchableOpacity>
-      </View>
-
-      {/* Schedule Booking Modal */}
-      <Modal
-        isVisible={isScheduleModalVisible}
-        onBackdropPress={toggleScheduleModal}
-        onSwipeComplete={toggleScheduleModal}
-        swipeDirection={['down']}
-        style={styles.bottomModal}
+      <StatusBar barStyle="light-content" backgroundColor="#8B5CF6" />
+      
+      <LinearGradient
+        colors={['#ffffff', '#C3DFFF']}
+        start={{ x: 0.1, y: 0 }}
+        end={{ x: 1, y: 0 }}
+        style={styles.topBackground}
       >
-        <View style={styles.modalContent}>
-          <View style={styles.modalHeader}>
-            <Text style={styles.modalTitle}>Note</Text>
-            <TouchableOpacity onPress={toggleScheduleModal}>
-              <Icon name="close" size={24} color="#000" />
-            </TouchableOpacity>
+        {/* Header */}
+        <View style={styles.header}>
+          <Image source={logo} style={styles.logo} />
+          <View style={styles.greetingContainer}>
+            <Text style={styles.greeting}>Hi, Welcome</Text>
+            <Text style={styles.userName}>Janmani Kumar</Text>
           </View>
-          <Text style={styles.modalSubtitle}>Pick the date and time for your ambulance</Text>
-
-          {/* Select Date Input */}
-          <TouchableOpacity onPress={() => setShowDatePicker(true)} style={styles.datePickerInput}>
-            <Text style={styles.datePickerText}>
-              {selectedDate.toLocaleDateString('en-GB')}
-            </Text>
-            <Icon name="calendar-today" size={24} color="#8B5CF6" />
+          <TouchableOpacity style={[styles.notificationButton, { right: hp('2%') }]}>
+            <Icon name="notifications-on" size={24} color="black" />
           </TouchableOpacity>
-
-          {/* Select Time Input */}
-          <TouchableOpacity onPress={() => setShowTimePicker(true)} style={styles.timePickerInput}>
-            <Text style={styles.datePickerText}>
-              {selectedTime.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', hour12: true })}
-            </Text>
-            <Icon name="schedule" size={24} color="#8B5CF6" />
-          </TouchableOpacity>
-
-          {/* Validation Message */}
-          {!isScheduleValid && (
-            <Text style={styles.validationMessage}>
-              Booking must be at least 3 hours from now.
-            </Text>
-          )}
-
-          {/* Checkbox */}
-          <TouchableOpacity style={styles.checkboxContainer}>
-            <View style={[styles.checkbox, after3HoursChecked && styles.checkboxChecked]}>
-              {after3HoursChecked && <Icon name="check" size={16} color="#fff" />}
-            </View>
-            <Text style={styles.checkboxText}>After 3 hours only schedule Booking available</Text>
-          </TouchableOpacity>
-
-          {/* Submit Button */}
-          <TouchableOpacity
-            style={[styles.modalSubmitButton, !isScheduleValid && styles.modalSubmitButtonDisabled]}
-            onPress={handleScheduleSubmit}
-            disabled={!isScheduleValid}
-          >
-            <Text style={styles.modalSubmitButtonText}>Submit</Text>
+          <TouchableOpacity style={[styles.notificationButton, { backgroundColor: 'red' }]}>
+            <MaterialCommunityIcons name="alarm-light-outline" size={24} color="white" />
           </TouchableOpacity>
         </View>
-      </Modal>
 
-      {/* Date Picker - Render outside modal for better compatibility */}
-      {showDatePicker && (
-        <DateTimePicker
-          testID="datePicker"
-          value={selectedDate}
-          mode="date"
-          display={Platform.OS === 'ios' ? 'spinner' : 'default'}
-          onChange={onDateChange}
-          minimumDate={getMinimumDate()}
-        />
-      )}
+        <ScrollView style={styles.content}>
+          {/* Main Question */}
+          <Text style={styles.question}>Which ambulance variant do you choose?</Text>
 
-      {/* Time Picker - Render outside modal for better compatibility */}
-      {showTimePicker && (
-        <DateTimePicker
-          testID="timePicker"
-          value={selectedTime}
-          mode="time"
-          display={Platform.OS === 'ios' ? 'spinner' : 'default'}
-          onChange={onTimeChange}
-        />
-      )}
+          {/* Booking For Section */}
+          <View style={styles.section}>
+            <Text style={styles.sectionTitle}>Ambulance Booking For</Text>
+            <View style={styles.radioGroup}>
+              {['Yourself', 'Others'].map((option) => (
+                <TouchableOpacity
+                  key={option}
+                  style={[styles.radioOption, bookingFor === option && styles.radioOptionSelected]}
+                  onPress={() => setBookingFor(option)}
+                >
+                  <View style={[styles.radio, bookingFor === option && styles.radioSelected]}>
+                    {bookingFor === option && <View style={styles.radioInner} />}
+                  </View>
+                  <Text style={styles.radioText}>{option}</Text>
+                </TouchableOpacity>
+              ))}
+            </View>
+          </View>
+
+          {/* Booking Type Section */}
+          <View style={styles.section}>
+            <Text style={styles.sectionTitle}>Select the Option</Text>
+            <View style={styles.radioGroup}>
+              <TouchableOpacity
+                style={[styles.radioOption, bookingType === 'Emergency' && styles.radioOptionSelected]}
+                onPress={() => setBookingType('Emergency')}
+              >
+                <View style={[styles.radio, bookingType === 'Emergency' && styles.radioSelected]}>
+                  {bookingType === 'Emergency' && <View style={styles.radioInner} />}
+                </View>
+                <Text style={styles.radioText}>Emergency</Text>
+              </TouchableOpacity>
+
+              <TouchableOpacity
+                style={[styles.radioOption, bookingType === 'Schedule Booking' && styles.radioOptionSelected]}
+                onPress={() => {
+                  setBookingType('Schedule Booking');
+                  toggleScheduleModal();
+                }}
+              >
+                <View style={[styles.radio, bookingType === 'Schedule Booking' && styles.radioSelected]}>
+                  {bookingType === 'Schedule Booking' && <View style={styles.radioInner} />}
+                </View>
+                <Text style={styles.radioText}>Schedule Booking</Text>
+              </TouchableOpacity>
+            </View>
+          </View>
+
+          {/* Hospital Options */}
+          <View style={styles.section}>
+            <View style={styles.hospitalOption}>
+              <View style={styles.hospitalIndicator} />
+              <Text style={styles.hospitalText}>West Mambalam, Chennai-1: 33</Text>
+            </View>
+            <View style={styles.hospitalOption}>
+              <View style={[styles.hospitalIndicator, { backgroundColor: '#ff4444' }]} />
+              <Text style={styles.hospitalText}>Apollo Hospital, Thousand Lights, Chennai</Text>
+            </View>
+          </View>
+
+          {/* Emergency Categories */}
+          <View style={styles.section}>
+            <Text style={styles.categoryTitle}>Don't know the issue? Select a category</Text>
+            <View style={styles.categoriesGrid}>
+              {categories.map((category) => (
+                <TouchableOpacity
+                  key={category.id}
+                  style={[
+                    styles.categoryCard,
+                    selectedCategory === category.id && styles.categoryCardSelected,
+                  ]}
+                  onPress={() => handleCategorySelect(category)}
+                >
+                  <Text style={styles.categoryIcon}>{category.icon}</Text>
+                  <Text style={styles.categoryText}>{category.title}</Text>
+                </TouchableOpacity>
+              ))}
+            </View>
+          </View>
+
+          {/* Next Button */}
+          <TouchableOpacity style={styles.nextButton} onPress={handleNext}>
+            <Text style={styles.nextButtonText}>Next</Text>
+          </TouchableOpacity>
+        </ScrollView>
+
+        {/* Schedule Booking Modal */}
+        <Modal
+          isVisible={isScheduleModalVisible}
+          onBackdropPress={toggleScheduleModal}
+          onSwipeComplete={toggleScheduleModal}
+          swipeDirection={['down']}
+          style={styles.bottomModal}
+        >
+          <View style={styles.modalContent}>
+            <View style={styles.modalHeader}>
+              <Text style={styles.modalTitle}>Schedule Booking</Text>
+              <TouchableOpacity onPress={toggleScheduleModal}>
+                <Icon name="close" size={24} color="#000" />
+              </TouchableOpacity>
+            </View>
+            <Text style={styles.modalSubtitle}>Pick the date and time for your ambulance</Text>
+
+            {/* Date Picker */}
+            <TouchableOpacity 
+              onPress={() => setShowDatePicker(true)} 
+              style={styles.datePickerInput}
+            >
+              <Text style={styles.datePickerText}>
+                {selectedDate.toLocaleDateString('en-GB')}
+              </Text>
+              <Icon name="calendar-today" size={24} color="#8B5CF6" />
+            </TouchableOpacity>
+
+            {/* Time Picker */}
+            <TouchableOpacity 
+              onPress={() => setShowTimePicker(true)} 
+              style={styles.timePickerInput}
+            >
+              <Text style={styles.datePickerText}>
+                {selectedTime.toLocaleTimeString('en-US', { 
+                  hour: '2-digit', 
+                  minute: '2-digit', 
+                  hour12: true 
+                })}
+              </Text>
+              <Icon name="schedule" size={24} color="#8B5CF6" />
+            </TouchableOpacity>
+
+            {/* Validation Message */}
+            {!isScheduleValid && (
+              <Text style={styles.validationMessage}>
+                Booking must be at least 3 hours from now.
+              </Text>
+            )}
+
+            {/* 3 Hours Checkbox */}
+            <TouchableOpacity style={styles.checkboxContainer}>
+              <View style={[styles.checkbox, after3HoursChecked && styles.checkboxChecked]}>
+                {after3HoursChecked && <Icon name="check" size={16} color="#fff" />}
+              </View>
+              <Text style={styles.checkboxText}>
+                After 3 hours only schedule booking available
+              </Text>
+            </TouchableOpacity>
+
+            {/* Submit Button */}
+            <TouchableOpacity
+              style={[
+                styles.modalSubmitButton, 
+                !isScheduleValid && styles.modalSubmitButtonDisabled
+              ]}
+              onPress={handleScheduleSubmit}
+              disabled={!isScheduleValid}
+            >
+              <Text style={styles.modalSubmitButtonText}>Submit</Text>
+            </TouchableOpacity>
+          </View>
+        </Modal>
+
+        {/* Date/Time Pickers */}
+        {showDatePicker && (
+          <DateTimePicker
+            testID="datePicker"
+            value={selectedDate}
+            mode="date"
+            display={Platform.OS === 'ios' ? 'spinner' : 'default'}
+            onChange={onDateChange}
+            minimumDate={getMinimumDate()}
+          />
+        )}
+
+        {showTimePicker && (
+          <DateTimePicker
+            testID="timePicker"
+            value={selectedTime}
+            mode="time"
+            display={Platform.OS === 'ios' ? 'spinner' : 'default'}
+            onChange={onTimeChange}
+          />
+        )}
+      </LinearGradient>
     </SafeAreaView>
   );
 };
@@ -406,57 +383,46 @@ const AmbulanceBookingScreen = ({ navigation }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
+    backgroundColor: '#F8F9FF',
+  },
+  topBackground: {
+    paddingTop: hp('2%'),
+    paddingBottom: hp('2%'),
+    paddingHorizontal: wp('4%'),
+    height: hp('100%'),
   },
   header: {
-    backgroundColor: '#fff',
-    paddingHorizontal: 16,
-    paddingVertical: 12,
-    borderBottomWidth: 1,
-    borderBottomColor: '#f0f0f0',
-  },
-  backButton: {
-    marginBottom: 8,
-  },
-  headerContent: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-  },
-  profileSection: {
     flexDirection: 'row',
     alignItems: 'center',
+    marginBottom: hp('2%'),
   },
-  avatar: {
-    width: 40,
-    height: 40,
-    borderRadius: 20,
-    backgroundColor: '#8B5CF6',
-    justifyContent: 'center',
-    alignItems: 'center',
-    marginRight: 12,
+  logo: {
+    width: wp('10%'),
+    height: hp('5%'),
+    resizeMode: 'contain',
   },
-  avatarText: {
-    color: '#fff',
-    fontSize: 16,
-    fontWeight: 'bold',
+  greetingContainer: {
+    flex: 1,
+    marginLeft: wp('3%'),
   },
   greeting: {
-    fontSize: 12,
-    color: '#666',
+    fontSize: hp('2%'),
+    color: 'black',
+    opacity: 0.9,
   },
   userName: {
-    fontSize: 16,
-    fontWeight: '600',
-    color: '#000',
+    fontSize: hp('2%'),
+    fontWeight: 'bold',
+    color: 'black',
   },
-  headerIcons: {
-    flexDirection: 'row',
+  notificationButton: {
+    width: wp('10%'),
+    height: wp('10%'),
+    borderRadius: wp('5%'),
+    backgroundColor: 'white',
+    justifyContent: 'center',
     alignItems: 'center',
-  },
-  iconButton: {
-    marginLeft: 12,
-    padding: 4,
+    marginLeft: wp('2%'),
   },
   content: {
     flex: 1,
@@ -576,26 +542,19 @@ const styles = StyleSheet.create({
     fontWeight: '500',
     lineHeight: 14,
   },
-  footer: {
-    paddingHorizontal: 16,
-    paddingVertical: 16,
-    backgroundColor: '#fff',
-    borderTopWidth: 1,
-    borderTopColor: '#f0f0f0',
-  },
   nextButton: {
     backgroundColor: '#8B5CF6',
-    borderRadius: 8,
+    borderRadius: 12,
     paddingVertical: 16,
     alignItems: 'center',
+    marginVertical: 20,
+    marginHorizontal: 16,
   },
   nextButtonText: {
     color: '#fff',
     fontSize: 16,
     fontWeight: '600',
   },
-
-  // --- Modal Styles ---
   bottomModal: {
     justifyContent: 'flex-end',
     margin: 0,
@@ -694,7 +653,7 @@ const styles = StyleSheet.create({
     fontSize: 12,
     marginBottom: 10,
     textAlign: 'center',
-  }
+  },
 });
 
 export default AmbulanceBookingScreen;

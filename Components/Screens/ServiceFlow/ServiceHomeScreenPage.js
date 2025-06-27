@@ -25,31 +25,31 @@ const services = [
   {
     id: '1',
     name: 'Hospital',
-    image: require('../../Assets/myreportServiceHospital.png'),
+    image: require('../../Assets/report1.png'),
     screen: 'ServiceHospitalScreen',
   },
   {
     id: '2',
     name: 'Clinics',
-    image: require('../../Assets/myreportClinic.png'),
+    image: require('../../Assets/report2.png'),
     screen: 'ClinicsScreen',
   },
   {
     id: '3',
     name: 'Blood Bank',
-    image: require('../../Assets/myreportbloodbank.png'),
+    image: require('../../Assets/report3.png'),
     screen: 'BloodBankScreen',
   },
   {
     id: '4',
     name: 'Pharmacy',
-    image: require('../../Assets/myreportpharmacy.png'),
+    image: require('../../Assets/report4.png'),
     screen: 'PharmacyScreen',
   },
   {
     id: '5',
     name: 'Medical Equipment',
-    image: require('../../Assets/myreportmedicalequipment.png'),
+    image: require('../../Assets/report5.png'),
     screen: 'MedicalEquipmentScreen',
   },
 ];
