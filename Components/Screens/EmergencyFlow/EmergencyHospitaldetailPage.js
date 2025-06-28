@@ -21,6 +21,7 @@ import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityI
 
 const { width } = Dimensions.get('window');
 import LinearGradient from 'react-native-linear-gradient';
+
 const HospitalDetails = ({ navigation }) => {
   const [selectedTimeSlot, setSelectedTimeSlot] = useState(null);
   const [selectedRating, setSelectedRating] = useState(0);

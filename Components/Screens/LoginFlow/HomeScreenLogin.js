@@ -15,14 +15,16 @@ const { width } = Dimensions.get('window');
 const radius = width * 0.35;
 
 const icons = [
-  require('../../Assets/logos.png'),
-  require('../../Assets/logos.png'),
-  require('../../Assets/logos.png'),
-  require('../../Assets/logos.png'),
-  require('../../Assets/logos.png'),
-  require('../../Assets/logos.png'),
-  require('../../Assets/logos.png'),
-  require('../../Assets/logos.png'),
+  require('../../Assets/flash1.png'),
+  require('../../Assets/flash2.png'),
+  require('../../Assets/flash3.png'),
+  require('../../Assets/flash4.png'),
+  require('../../Assets/flash5.png'),
+  require('../../Assets/flash6.png'),
+  require('../../Assets/flash7.png'),
+  require('../../Assets/flash8.png'),
+  require('../../Assets/flash9.png'),
+
 ];
 
 export default function App() {
@@ -159,8 +161,8 @@ const styles = StyleSheet.create({
   footerText: {
     position: 'absolute',
     bottom: 30,
-    color: '#fff',
-    fontSize: 14,
+    color: '#ffff',
+    fontSize: 20,
     textAlign: 'center',
   },
 });

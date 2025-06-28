@@ -21,19 +21,24 @@ const OnboardingScreen5 = () => {
 
       {/* Skip Button */}
       <View style={styles.skipContainer}>
-        <TouchableOpacity>
+        <TouchableOpacity onPress={() => navigation.navigate('Login6')}>
           <Text style={styles.skipText}>Skip ⏭</Text>
         </TouchableOpacity>
       </View>
 
-      {/* Logo Row */}
-      <View style={styles.logoRow}>
-        <Image 
-          source={require('../../Assets/logos.png')} 
-          style={styles.logoImage} 
-        />
-        <Text style={styles.logoText}>Health Umbrella</Text>
-      </View>
+     <View style={styles.logoRow1}>
+                     <View style={styles.logoRow}>
+                       <Image
+                         source={require('../../Assets/logos.png')}
+                         style={styles.logoImage}
+                       />
+                     </View>
+                     <View style={{top:30}} >
+                       <Text style={{fontSize:30,color:'#7518AA',fontWeight:'700',fontFamily:'Satoshi'}}>Health</Text>
+                       <Text style={{fontSize:30,color:'#7518AA',fontWeight:'700',fontFamily:'Satoshi'}}>Umbrella</Text>
+           
+                     </View>
+                     </View>
 
       {/* Heading and Subheading */}
       <Text style={styles.heading}>Book Your Physiotherapist</Text>
@@ -69,7 +74,7 @@ const styles = StyleSheet.create({
   skipContainer: {
     position: 'absolute',
     top: 10,
-    right: -55,
+    right: -15,
     zIndex: 1,
   },
   skipText: {
@@ -85,8 +90,8 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   logoImage: {
-    width: 50,
-    height: 50,
+    width: 70,
+    height: 70,
     marginRight: 8,
   },
   logoText: {
@@ -95,7 +100,7 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
   },
   heading: {
-    fontSize: 28,
+    fontSize: 35,
     fontWeight: 'bold',
     textAlign: 'center',
     marginBottom: 10,
@@ -132,5 +137,12 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.25,
     shadowRadius: 3.84,
     elevation: 5,
+  },
+   logoRow1: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginBottom: 10,
+    top:10
   },
 });

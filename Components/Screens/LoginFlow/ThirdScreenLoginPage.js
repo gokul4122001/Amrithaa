@@ -8,27 +8,35 @@ import {
   Image,
   Dimensions,
 } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
 
 const HealthUmbrellaScreen = () => {
+    const navigation = useNavigation();
+  
   return (
     <>
       {/* Skip Button at Top-Right */}
-      <TouchableOpacity style={styles.skipContainer}>
+      <TouchableOpacity style={styles.skipContainer} onPress={() => navigation.navigate('Login6')}>
         <Text style={styles.skipText}>Skip ⏭</Text>
       </TouchableOpacity>
 
       <ScrollView style={styles.container}>
         {/* Header with Logo and Title */}
         <View style={styles.header}>
-          {/* Logo Row */}
+       <View style={styles.logoRow1}>
           <View style={styles.logoRow}>
             <Image
               source={require('../../Assets/logos.png')}
               style={styles.logoImage}
             />
-            <Text style={styles.logoText}>Health Umbrella</Text>
           </View>
+          <View>
+            <Text style={{fontSize:30,color:'#7518AA',fontWeight:'700',fontFamily:'Satoshi'}}>Health</Text>
+            <Text style={{fontSize:30,color:'#7518AA',fontWeight:'700',fontFamily:'Satoshi'}}>Umbrella</Text>
 
+          </View>
+          </View>
+ 
           {/* Title and Subtitle */}
           <View style={styles.centeredContent}>
             <Text style={styles.title}>Book Your Ambulance</Text>
@@ -74,9 +82,15 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     marginBottom: 10,
   },
+   logoRow1: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginBottom: 10,
+  },
   logoImage: {
-    width: 50,
-    height: 50,
+    width: 70,
+    height: 70,
     marginRight: 8,
   },
   logoText: {
@@ -90,7 +104,7 @@ const styles = StyleSheet.create({
     marginTop: 20,
   },
   title: {
-    fontSize: 28,
+    fontSize: 35,
     fontWeight: 'bold',
     textAlign: 'center',
     marginBottom: 10,

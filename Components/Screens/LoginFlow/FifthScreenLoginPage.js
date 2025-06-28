@@ -1,26 +1,34 @@
 import React from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, ScrollView,Image } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
 
 const HealthUmbrellaScreen = () => {
+    const navigation = useNavigation();
+  
   return (
     <>
     <ScrollView style={styles.container}>
       {/* Skip Button */}
       <View style={styles.skipContainer}>
-        <TouchableOpacity>
+        <TouchableOpacity onPress={() => navigation.navigate('Login6')}>
           <Text style={styles.skipText}>Skip ⏭</Text>
         </TouchableOpacity>
       </View>
 
     <View style={styles.header}>
-  {/* Logo Image and Text Row */}
-  <View style={styles.logoRow}>
-    <Image 
-      source={require('../../Assets/logos.png')} 
-      style={styles.logoImage} 
-    />
-    <Text style={styles.logoText}>Health Umbrella</Text>
-  </View>
+   <View style={styles.logoRow1}>
+           <View style={styles.logoRow}>
+             <Image
+               source={require('../../Assets/logos.png')}
+               style={styles.logoImage}
+             />
+           </View>
+           <View>
+             <Text style={{fontSize:30,color:'#7518AA',fontWeight:'700',fontFamily:'Satoshi'}}>Health</Text>
+             <Text style={{fontSize:30,color:'#7518AA',fontWeight:'700',fontFamily:'Satoshi'}}>Umbrella</Text>
+ 
+           </View>
+           </View>
 
   {/* Title and Subtitle */}
  <View style={styles.centeredContent}>
@@ -86,8 +94,8 @@ const styles = StyleSheet.create({
   justifyContent:'center'
 },
 logoImage: {
-  width: 50,
-  height: 50,
+  width: 70,
+  height: 70,
   marginRight: 8,
 },
 logoText: {
@@ -102,7 +110,7 @@ centeredContent: {
   marginTop: 20,              // Space from top
 },
 title: {
-  fontSize: 28,
+  fontSize: 35,
   fontWeight: 'bold',
   textAlign: 'center',        // Ensures text wraps centered
   marginBottom: 10,
@@ -112,7 +120,13 @@ subtitle: {
   color: '#666',
   textAlign: 'center',
 },
-
+ logoRow1: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginBottom: 10,
+    top:10
+  },
 
 });
 

@@ -8,11 +8,12 @@ import {
   TouchableOpacity,
   Animated,
   StatusBar,
+  SafeAreaView,
 } from 'react-native';
 import Swiper from 'react-native-swiper';
+import LinearGradient from 'react-native-linear-gradient';
 import { useNavigation } from '@react-navigation/native';
 
-// Import your other onboarding slides here
 import SecoundSlide from '../LoginFlow/ThirdScreenLoginPage';
 import ThirdSlide from '../LoginFlow/FourthScreenLoginPage';
 import FourthSlide from '../LoginFlow/FifthScreenLoginPage';
@@ -24,8 +25,6 @@ const centerY = height * 0.45;
 export default function Onboarding() {
   const navigation = useNavigation();
   const rotateAnim = useRef(new Animated.Value(0)).current;
-
-
 
   const spin = rotateAnim.interpolate({
     inputRange: [0, 1],
@@ -49,32 +48,53 @@ export default function Onboarding() {
       onIndexChanged={handleLastSlide}
     >
       {/* Slide 1 */}
-      <View style={styles.container}>
-        <StatusBar barStyle="light-content" backgroundColor="#6c1d95" />
+      <LinearGradient
+        colors={['#ffffff', '#C3DFFF']}
+        start={{ x: -0, y: 0.3 }}
+        end={{ x: 0, y: 0 }}
+        style={styles.gradientContainer}
+      >
+        <SafeAreaView style={styles.container}>
+          <StatusBar backgroundColor="#ffffff" barStyle="dark-content" />
 
-        <View style={styles.topBar}>
-          <Text style={styles.logoText}>Health Umbrella</Text>
-          <TouchableOpacity onPress={() => navigation.replace('Login')}>
-            <Text style={styles.skip}>Skip ▶</Text>
-          </TouchableOpacity>
-        </View>
-
-        <Text style={styles.title}>For All Your Health Needs</Text>
-        <Text style={styles.description}>
-          Now you can Book services online – Ambulance, Home Care Nurse, Physiotherapist, Lab Tests,
-          24-hour pharmacy, Hospital Services, Speciality Clinics and Funeral Services
-        </Text>
-
-        {/* Spinning Wheel (optional effect) */}
-   
-       
-          {/* Center Circle */}
-          <View style={{position:'absolute',top:"40%",left:10}} >
-            <Image source={require('../../Assets/spin.png')} style={{ width: 400, height: 400 }} />
-          
+          {/* Skip Button */}
+          <View style={styles.skipContainer}>
+            <TouchableOpacity onPress={() => navigation.navigate('Login6')}>
+              <Text style={styles.skipText}>Skip ⏭</Text>
+            </TouchableOpacity>
           </View>
-        </View>
-      
+
+          {/* Logo and Title */}
+          <View style={styles.logoRow1}>
+            <View style={styles.logoRow}>
+              <Image
+                source={require('../../Assets/logos.png')}
+                style={styles.logoImage}
+              />
+            </View>
+            <View style={{ top: 12 }}>
+              <Text style={styles.logoText}>Health</Text>
+              <Text style={styles.logoText}>Umbrella</Text>
+            </View>
+          </View>
+
+          {/* Headings */}
+          <Text style={styles.title}>For </Text>
+          <Text style={styles.title2}>All Your Health Needs</Text>
+          <Text style={styles.title1}>Now you can Book services online </Text>
+
+          {/* Description */}
+          <Text style={styles.description}>
+            Ambulance, Home Care Nurse, Physiotherapist, Lab Tests, 24-hour pharmacy,
+            Hospital Services, Speciality Clinics and Funeral Services
+          </Text>
+
+          {/* Center Circle Image */}
+          <View style={styles.spinContainer}>
+            <Image source={require('../../Assets/spin.png')} style={styles.spinImage} />
+          </View>
+        </SafeAreaView>
+      </LinearGradient>
 
       {/* Slide 2 */}
       <View style={styles.page}>
@@ -94,103 +114,90 @@ export default function Onboarding() {
   );
 }
 
-// Renders circular layout of icons
-const renderIcons = () => {
-  const items = [
-    'Ambulance',
-    'Homecare Nursing',
-    'Physio-Therapy',
-    'Lab Tests',
-    'Hospital',
-    'Funeral & Mortuary Service',
-    'Speciality Clinics',
-  ];
-
-  return items.map((item, index) => {
-    const angle = (index / items.length) * 2 * Math.PI;
-    const x = centerX + Math.cos(angle) * 140 - 40;
-    const y = centerY + Math.sin(angle) * 140 - 40;
-
-    return (
-      <View key={index} style={[styles.iconContainer, { top: y, left: x }]}>
-        <Image source={require('../../Assets/logos.png')} style={styles.icon} />
-        <Text style={styles.iconLabel}>{item}</Text>
-      </View>
-    );
-  });
-};
-
 const styles = StyleSheet.create({
+  gradientContainer: {
+    flex: 1,
+  },
   container: {
     flex: 1,
-    backgroundColor: '#fff',
-    paddingTop: 50,
-  },
-  topBar: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    paddingHorizontal: 20,
-  },
-  logoText: {
-    fontSize: 20,
-    fontWeight: 'bold',
-    color: '#6c1d95',
-  },
-  skip: {
-    color: '#6c1d95',
-    fontSize: 14,
-    paddingTop: 10,
+    paddingTop: height * 0.05,
+    alignItems: 'center',
   },
   title: {
     textAlign: 'center',
-    fontSize: 24,
+    fontSize: width * 0.05,
     fontWeight: 'bold',
-    marginTop: 10,
+    color: '#000',
+  },
+  title2: {
+    textAlign: 'center',
+    fontSize: width * 0.09,
+    fontWeight: 'bold',
+    marginTop: height * 0.01,
+    color: '#000',
+  },
+  title1: {
+    textAlign: 'center',
+    fontSize: width * 0.05,
+    fontWeight: 'bold',
+    marginTop: height * 0.01,
     color: '#000',
   },
   description: {
     textAlign: 'center',
-    fontSize: 13,
-    marginVertical: 10,
-    paddingHorizontal: 15,
+    fontSize: width * 0.04,
+    marginVertical: height * 0.015,
+    paddingHorizontal: width * 0.05,
     color: '#444',
   },
-  circleWrapper: {
-    width: width,
-    height: height * 0.6,
-    position: 'relative',
-  },
-  iconGroup: {
+  spinContainer: {
     position: 'absolute',
-    width: width,
-    height: height * 0.6,
+    top: height * 0.47,
+    left: width * 0.05,
   },
-  iconContainer: {
-    position: 'absolute',
-    alignItems: 'center',
-    width: 80,
-  },
-  icon: {
-    width: 40,
-    height: 40,
+  spinImage: {
+    width: width * 0.9,
+    height: width * 0.9,
     resizeMode: 'contain',
-  },
-  iconLabel: {
-    fontSize: 10,
-    textAlign: 'center',
-  },
- 
-  centerText: {
-    fontWeight: 'bold',
-    fontSize: 13,
-  },
-  centerSub: {
-    fontSize: 10,
   },
   page: {
     flex: 1,
     backgroundColor: '#fff',
     justifyContent: 'center',
     alignItems: 'center',
+  },
+  skipContainer: {
+    position: 'absolute',
+    top: height * 0.02,
+    right: width * 0.05,
+    zIndex: 1,
+  },
+  skipText: {
+    color: '#555',
+    fontWeight: 'bold',
+    fontSize: width * 0.04,
+  },
+  logoRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginTop: height * 0.03,
+    marginBottom: height * 0.01,
+    justifyContent: 'center',
+  },
+  logoImage: {
+    width: 70,
+    height: 70,
+    marginRight: 8,
+  },
+  logoText: {
+    fontSize: 30,
+    color: '#7518AA',
+    fontWeight: '700',
+  },
+  logoRow1: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginBottom: 10,
   },
 });
