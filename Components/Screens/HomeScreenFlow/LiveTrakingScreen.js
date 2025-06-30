@@ -40,7 +40,7 @@ const handleConfirmLocation = () => {
 
   return (
     <SafeAreaView style={styles.container}>
-      <StatusBar barStyle="dark-content" backgroundColor="#fff" />
+      <StatusBar barStyle="light-content" backgroundColor="#fff" />
       
       {/* Header */}
       <View style={styles.header}>

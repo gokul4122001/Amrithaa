@@ -22,7 +22,7 @@ export default function Onboarding() {
   return (
     <>
       {/* StatusBar config */}
-      <StatusBar backgroundColor={Colors.statusBar} barStyle="dark-content" translucent />
+      <StatusBar backgroundColor={Colors.statusBar} barStyle="light-content" translucent />
 
       <LinearGradient
         colors={['#ffffff', '#C3DFFF']}

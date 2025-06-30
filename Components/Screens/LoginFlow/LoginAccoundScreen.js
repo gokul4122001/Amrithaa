@@ -63,7 +63,7 @@ const LoginScreen = () => {
       end={{ x: 0, y: 0 }}
       style={styles.gradientContainer}
     >
-      <StatusBar barStyle="dark-content" backgroundColor={Colors.statusBar} translucent />
+      <StatusBar barStyle="light-content" backgroundColor={Colors.statusBar} translucent />
 
       <SafeAreaView style={styles.container}>
         {/* Logo */}

@@ -49,7 +49,7 @@ export default function Onboarding() {
          end={{ x: 0, y: 0 }}
          style={styles.gradientContainer}
        >
-        <StatusBar backgroundColor={Colors.statusBar} translucent barStyle="dark-content" />
+        <StatusBar backgroundColor={Colors.statusBar} translucent barStyle="light-content" />
         <SafeAreaView style={styles.safeArea}>
           <ScrollView contentContainerStyle={styles.container}>
             {/* Skip Button */}

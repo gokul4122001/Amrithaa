@@ -19,7 +19,7 @@ const CongratulationsScreen = ({ navigation }) => {
       end={{ x: 0, y: 0 }}
       style={styles.gradientContainer}
     >
-      <StatusBar backgroundColor={Colors.statusBar} barStyle="dark-content" />
+      <StatusBar backgroundColor={Colors.statusBar} barStyle="light-content" />
       <View style={styles.centerContent}>
         <Text style={styles.congratsText}>Congratulations</Text>
       </View>

@@ -95,7 +95,7 @@ const handleOptionSelect = (option) => {
   );
   return (
     <SafeAreaView style={styles.container}>
-      <StatusBar barStyle="dark-content" backgroundColor="white" />
+      <StatusBar barStyle="light-content" backgroundColor="white" />
       
       {/* White Top Section - 30% */}
       <View style={styles.whiteTopSection}>

@@ -23,7 +23,7 @@ const BookingOverviewScreen = ({ navigation }) => {
 
   return (
     <SafeAreaView style={styles.container}>
-      <StatusBar backgroundColor="#fff" barStyle="dark-content" />
+      <StatusBar backgroundColor="#fff" barStyle="light-content" />
       <ScrollView contentContainerStyle={styles.content}>
         {/* Header */}
         <TouchableOpacity style={styles.backButton}>

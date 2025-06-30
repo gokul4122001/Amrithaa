@@ -89,7 +89,7 @@ const OTPVerificationScreen = ({ route, navigation }) => {
       end={{ x: 0, y: 0 }}
       style={styles.gradientContainer}
     >
-      <StatusBar barStyle="dark-content" backgroundColor={Colors.statusBar} />
+      <StatusBar barStyle="light-content" backgroundColor={Colors.statusBar} />
       <KeyboardAvoidingView
         style={{ flex: 1 }}
         behavior={Platform.OS === 'ios' ? 'padding' : undefined}
