@@ -170,6 +170,7 @@ const ProfileScreen = ({ navigation }) => {
     ]}
     onPress={() => handleMenuPress(item)}
   >
+    <ScrollView>
     <View style={styles.menuItemContent}>
       <Icon
         name={item.icon}
@@ -186,9 +187,11 @@ const ProfileScreen = ({ navigation }) => {
         {item.title}
       </Text>
     </View>
+</ScrollView>
   </TouchableOpacity>
 ))}
 </View>
+
 
       </View>
 

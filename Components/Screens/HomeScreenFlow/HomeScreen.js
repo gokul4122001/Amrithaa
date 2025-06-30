@@ -53,9 +53,9 @@ export default function App({ navigation }) {
     <SafeAreaView style={styles.container}>
       <StatusBar barStyle="light-content" backgroundColor="#8B5CF6" />
            <LinearGradient
-                     colors={['#ffffff', '#C3DFFF']}
-                     start={{ x: 0.1, y: 0 }}
-                     end={{ x: 1, y: 0 }}
+                       colors={['#ffffff', '#C3DFFF']}
+      start={{ x: 0, y: 0.3 }}
+      end={{ x: 0, y: 0 }}
                      style={styles.topBackground}
                    >
       <View style={styles.header}>
@@ -308,7 +308,7 @@ searchBox: {
   },
   
     topBackground: {
-      paddingTop: hp('2%'),
+      paddingTop: hp('5%'),
       paddingBottom: hp('2%'),
       paddingHorizontal: wp('4%'),
       height: hp('100%'),
@@ -364,19 +364,25 @@ searchBox: {
     color: '#007bff',
     fontWeight: '500',
   },
-  transactionCard: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    padding: 12,
-    backgroundColor: '#fff',
-    borderRadius: 12,
-    marginBottom: 10,
-    shadowColor: '#00000015',
-    shadowOffset: { width: 0, height: 1 },
-    shadowOpacity: 0.1,
-    shadowRadius: 2,
-    elevation: 1,
+ transactionCard: {
+  flexDirection: 'row',
+  alignItems: 'center',
+  padding: 12,
+  backgroundColor: '#fff',
+  borderRadius: 12,
+  marginBottom: 10,
+  // iOS shadow
+  shadowColor: '#000',
+  shadowOffset: {
+    width: 0,
+    height: 2,
   },
+  shadowOpacity: 0.25,
+  shadowRadius: 3.84,
+  // Android shadow
+  elevation: 5,
+},
+
   iconContainer: {
     width: 40,
     height: 40,

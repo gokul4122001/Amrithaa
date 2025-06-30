@@ -3,89 +3,104 @@ import {
   View,
   Text,
   StyleSheet,
-  Image,
   TouchableOpacity,
+  ScrollView,
+  Image,
+  SafeAreaView,
   Dimensions,
+  StatusBar as RNStatusBar,
+  Platform,
   StatusBar,
 } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
+import LinearGradient from 'react-native-linear-gradient';
 
-const { width } = Dimensions.get('window');
+const { width, height } = Dimensions.get('window');
 
-const OnboardingScreen5 = () => {
+const HealthUmbrellaScreen = () => {
   const navigation = useNavigation();
 
   return (
-    <View style={styles.container}>
-      <StatusBar barStyle="dark-content" backgroundColor="#fff" />
+    <LinearGradient
+      colors={['#ffffff', '#C3DFFF']}
+      start={{ x: 0, y: 0.3 }}
+      end={{ x: 0, y: 0 }}
+      style={styles.gradientContainer}
+    >
+      <StatusBar backgroundColor="#7518AA" barStyle="light-content" />
 
-      {/* Skip Button */}
-      <View style={styles.skipContainer}>
-        <TouchableOpacity onPress={() => navigation.navigate('Login6')}>
-          <Text style={styles.skipText}>Skip ⏭</Text>
-        </TouchableOpacity>
-      </View>
+      <SafeAreaView style={styles.safeArea}>
+        <ScrollView style={styles.container}>
+          {/* Skip Button */}
+          <View style={styles.skipContainer}>
+            <TouchableOpacity onPress={() => navigation.navigate('Login6')}>
+              <Text style={styles.skipText}>Skip ⏭</Text>
+            </TouchableOpacity>
+          </View>
 
-     <View style={styles.logoRow1}>
-                     <View style={styles.logoRow}>
-                       <Image
-                         source={require('../../Assets/logos.png')}
-                         style={styles.logoImage}
-                       />
-                     </View>
-                     <View style={{top:30}} >
-                       <Text style={{fontSize:30,color:'#7518AA',fontWeight:'700',fontFamily:'Satoshi'}}>Health</Text>
-                       <Text style={{fontSize:30,color:'#7518AA',fontWeight:'700',fontFamily:'Satoshi'}}>Umbrella</Text>
-           
-                     </View>
-                     </View>
+          {/* Header */}
+          <View style={styles.header}>
+            <View style={styles.logoRow1}>
+              <View style={styles.logoRow}>
+                <Image
+                  source={require('../../Assets/logos.png')}
+                  style={styles.logoImage}
+                />
+              </View>
+              <View>
+                <Text style={styles.logoTitle}>Health</Text>
+                <Text style={styles.logoTitle}>Umbrella</Text>
+              </View>
+            </View>
 
-      {/* Heading and Subheading */}
-      <Text style={styles.heading}>Book Your Physiotherapist</Text>
-      <Text style={styles.subheading}>
-        home visits / clinic appointments
-      </Text>
+            {/* Title and Subtitle */}
+            <View style={styles.centeredContent}>
+              <Text style={styles.title}>Book Your Physiotherapist</Text>
+              <Text style={styles.subtitle}>
+               Home Visit / Clinic Appointment
+              </Text>
+            </View>
+          </View>
+        </ScrollView>
 
-      {/* Images */}
-      <View style={styles.imageContainer}>
-        <Image
-          source={require('../../Assets/clini.png')} // 👈 Your doctor image
-          style={styles.mainImage}
-          resizeMode="contain"
-        />
-        <Image
-          source={require('../../Assets/cliniakk2.png')} // 👈 Physiotherapy overlay
-          style={styles.overlayImage}
-          resizeMode="cover"
-        />
-      </View>
-    </View>
+       
+        <View style={styles.bottomImageContainer}>
+          <Image
+            source={require('../../Assets/clini.png')}
+            style={styles.bottomImage}
+          />
+          
+        </View>
+        
+      </SafeAreaView>
+    </LinearGradient>
   );
 };
 
-export default OnboardingScreen5;
+export default HealthUmbrellaScreen;
 
 const styles = StyleSheet.create({
+  gradientContainer: {
+    flex: 1,
+    paddingTop: Platform.OS === 'android' ? RNStatusBar.currentHeight : 0,
+  },
+  safeArea: {
+    flex: 1,
+  },
   container: {
     flex: 1,
-    backgroundColor: '#fff',
-    position: 'relative',
   },
   skipContainer: {
-    position: 'absolute',
-    top: 10,
-    right: -15,
-    zIndex: 1,
+    alignItems: 'flex-end',
+    padding: 16,
   },
   skipText: {
     color: '#555',
     fontWeight: 'bold',
-    fontSize: 16,
   },
   logoRow: {
     flexDirection: 'row',
     alignItems: 'center',
-    marginTop: 60,
     marginBottom: 10,
     justifyContent: 'center',
   },
@@ -94,55 +109,43 @@ const styles = StyleSheet.create({
     height: 70,
     marginRight: 8,
   },
-  logoText: {
-    fontSize: 18,
-    color: '#8000ff',
-    fontWeight: 'bold',
+  logoTitle: {
+    fontSize: 30,
+    color: '#7518AA',
+    fontWeight: '700',
+    fontFamily: 'Satoshi',
   },
-  heading: {
+  centeredContent: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    paddingHorizontal: 20,
+    marginTop: 20,
+  },
+  title: {
     fontSize: 35,
     fontWeight: 'bold',
     textAlign: 'center',
     marginBottom: 10,
-    marginTop: 20,
   },
-  subheading: {
-    fontSize: 18,
+  subtitle: {
+    fontSize: 20,
     color: '#666',
     textAlign: 'center',
   },
-  imageContainer: {
-    alignItems: 'center',
-    justifyContent: 'center',
-    marginTop: 40,
-    position: 'relative',
-  },
-  mainImage: {
-    width: width * 0.8,
-    height: width * 1.0,
-    position: 'absolute',
-    top: 100,
-    left: -90,
-  },
-  overlayImage: {
-    width: width * 0.40,
-    height: width * 0.35,
-    borderRadius: 10,
-    position: 'absolute',
-    top: 110,
-    left: '60%',
-    backgroundColor: '#fff',
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.25,
-    shadowRadius: 3.84,
-    elevation: 5,
-  },
-   logoRow1: {
+  logoRow1: {
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
     marginBottom: 10,
-    top:10
+    top: 10,
+  },
+  bottomImageContainer: {
+    width: width,
+   
+  },
+  bottomImage: {
+    width: 350,
+    height: 500,
+    resizeMode: 'contain',
   },
 });

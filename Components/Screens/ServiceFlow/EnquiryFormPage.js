@@ -52,8 +52,8 @@ import Icon from 'react-native-vector-icons/MaterialIcons';
             
                   <LinearGradient
                     colors={['#ffffff', '#C3DFFF']}
-                    start={{ x: 0.1, y: 0 }}
-                    end={{ x: 1, y: 0 }}
+      start={{ x: 0, y: 0.3 }}
+      end={{ x: 0, y: 0 }}
                     style={styles.topBackground}
                   >
         {/* Header */}
@@ -167,7 +167,7 @@ import Icon from 'react-native-vector-icons/MaterialIcons';
         backgroundColor: '#F8F9FA',
     },
     topBackground: {
-      paddingTop: hp('2%'),
+      paddingTop: hp('4%'),
       paddingBottom: hp('2%'),
       paddingHorizontal: wp('4%'),
       height: hp('100%'),

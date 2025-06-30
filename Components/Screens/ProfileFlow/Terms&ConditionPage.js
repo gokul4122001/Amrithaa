@@ -30,10 +30,11 @@ It is a long established fact that a reader will be distracted by the readable c
   <StatusBar barStyle="light-content" backgroundColor="#8B5CF6" />
        <LinearGradient
                  colors={['#ffffff', '#C3DFFF']}
-                 start={{ x: 0.1, y: 0 }}
-                 end={{ x: 1, y: 0 }}
+        start={{ x: -0, y: 0.3 }}
+        end={{ x: 0, y: 0 }}
                  style={styles.topBackground}
                >
+               <ScrollView>
           <View style={styles.header}>
                                  <Image source={logo} style={styles.logo} />
                                  <View style={styles.greetingContainer}>
@@ -67,12 +68,13 @@ It is a long established fact that a reader will be distracted by the readable c
             </TouchableOpacity>
             <Text style={styles.pageTitle}>Terms and Conditions</Text>
           </View>
-
+ 
           <View style={styles.contentBody}>
             <Text style={styles.contentText}>{termsContent}</Text>
           </View>
+       
         </View>
-     
+        </ScrollView>
         </LinearGradient>
            </SafeAreaView>
    
@@ -178,7 +180,7 @@ const styles = StyleSheet.create({
     fontWeight:'600'
   },
     topBackground: {
-      paddingTop: hp('2%'),
+      paddingTop: hp('4%'),
       paddingBottom: hp('2%'),
       paddingHorizontal: wp('4%'),
       height: hp('100%'),

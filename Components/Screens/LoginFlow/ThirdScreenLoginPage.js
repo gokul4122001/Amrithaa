@@ -2,91 +2,146 @@ import React from 'react';
 import {
   View,
   Text,
-  StyleSheet,
-  TouchableOpacity,
-  ScrollView,
   Image,
+  StyleSheet,
   Dimensions,
+  TouchableOpacity,
+  StatusBar,
+  SafeAreaView,
+  Platform,
+  StatusBar as RNStatusBar,
 } from 'react-native';
+import LinearGradient from 'react-native-linear-gradient';
 import { useNavigation } from '@react-navigation/native';
 
-const HealthUmbrellaScreen = () => {
-    const navigation = useNavigation();
-  
+const { width, height } = Dimensions.get('window');
+
+export default function Onboarding() {
+  const navigation = useNavigation();
+
   return (
     <>
-      {/* Skip Button at Top-Right */}
-      <TouchableOpacity style={styles.skipContainer} onPress={() => navigation.navigate('Login6')}>
-        <Text style={styles.skipText}>Skip ⏭</Text>
-      </TouchableOpacity>
+      {/* StatusBar config */}
+      <StatusBar backgroundColor="transparent" barStyle="dark-content" translucent />
 
-      <ScrollView style={styles.container}>
-        {/* Header with Logo and Title */}
-        <View style={styles.header}>
-       <View style={styles.logoRow1}>
-          <View style={styles.logoRow}>
-            <Image
-              source={require('../../Assets/logos.png')}
-              style={styles.logoImage}
-            />
-          </View>
-          <View>
-            <Text style={{fontSize:30,color:'#7518AA',fontWeight:'700',fontFamily:'Satoshi'}}>Health</Text>
-            <Text style={{fontSize:30,color:'#7518AA',fontWeight:'700',fontFamily:'Satoshi'}}>Umbrella</Text>
+      <LinearGradient
+        colors={['#ffffff', '#C3DFFF']}
+        start={{ x: 0, y: 0.3 }}
+        end={{ x: 0, y: 0 }}
+        style={styles.gradientContainer}
+      >
+        <SafeAreaView style={styles.safeArea}>
+          <View
+            style={[
+              styles.container,
+              Platform.OS === 'android' && { paddingTop: StatusBar.currentHeight },
+            ]}
+          >
+            {/* Skip Button */}
+            <View style={styles.skipContainer}>
+              <TouchableOpacity onPress={() => navigation.navigate('Login6')}>
+                <Text style={styles.skipText}>Skip ⏭</Text>
+              </TouchableOpacity>
+            </View>
 
-          </View>
-          </View>
- 
-          {/* Title and Subtitle */}
-          <View style={styles.centeredContent}>
-            <Text style={styles.title}>Book Your Ambulance</Text>
-            <Text style={styles.subtitle}>Emergency / Schedule Booking</Text>
-          </View>
-        </View>
-      </ScrollView>
+            {/* Logo and Title */}
+            <View style={styles.logoRow1}>
+              <View style={styles.logoRow}>
+                <Image
+                  source={require('../../Assets/logos.png')}
+                  style={styles.logoImage}
+                />
+              </View>
+              <View style={{ top: 12 }}>
+                <Text style={styles.logoText}>Health</Text>
+                <Text style={styles.logoText}>Umbrella</Text>
+              </View>
+            </View>
 
-      {/* Image Floating at Bottom Center */}
-    <View style={{position:'absolute',justifyContent:'center',alignItems:'center',bottom:110}}>
-    <Image source={require('../../Assets/bookambulance.png')} style={{ width: 400, height: 400,resizeMode:'contain' }} />
+            <Text style={styles.title2}>Book Your Ambulance</Text>
+            <Text style={styles.title1}>Emergency / Schedule Booking</Text>
 
-</View>
+            {/* Description */}
+            <Text style={styles.description}>
+              Ambulance, Home Care Nurse, Physiotherapist, Lab Tests, 24-hour pharmacy,
+              Hospital Services, Speciality Clinics and Funeral Services
+            </Text>
+
+            {/* Center Circle Image */}
+            <View style={styles.spinContainer}>
+              <Image
+                source={require('../../Assets/bookambulance.png')}
+                style={styles.spinImage}
+              />
+            </View>
+          </View>
+        </SafeAreaView>
+      </LinearGradient>
     </>
   );
-};
-
-const { width } = Dimensions.get('window');
+}
 
 const styles = StyleSheet.create({
+  gradientContainer: {
+    flex: 1,
+      paddingTop: Platform.OS === 'android' ? RNStatusBar.currentHeight : 0,
+  },
+  safeArea: {
+    flex: 1,
+  },
   container: {
     flex: 1,
-    backgroundColor: '#fff',
-    paddingTop: 60,
+    alignItems: 'center',
+  },
+  title2: {
+    textAlign: 'center',
+    fontSize: width * 0.09,
+    fontWeight: 'bold',
+    marginTop: height * 0.01,
+    color: '#000',
+  },
+  title1: {
+    textAlign: 'center',
+    fontSize: width * 0.05,
+    fontWeight: 'bold',
+    marginTop: height * 0.01,
+    color: 'grey',
+  },
+  description: {
+    fontSize: width * 0.04,
+    textAlign: 'center',
+    marginTop: 20,
+    color: '#ffff',
+    paddingHorizontal: 20,
+    lineHeight: 22,
+  },
+  spinContainer: {
+    position: 'absolute',
+    top: height * 0.47,
+    left: width * 0.05,
+  },
+  spinImage: {
+    width: width * 0.9,
+    height: width * 0.9,
+    resizeMode: 'contain',
   },
   skipContainer: {
     position: 'absolute',
-    top: 20,
-    right: 20,
-    zIndex: 10,
+    top: height * 0.02,
+    right: width * 0.05,
+    zIndex: 1,
   },
   skipText: {
     color: '#555',
     fontWeight: 'bold',
-    fontSize: 16,
-  },
-  header: {
-    paddingTop: 20,
+    fontSize: width * 0.04,
   },
   logoRow: {
     flexDirection: 'row',
     alignItems: 'center',
+    marginTop: height * 0.03,
+    marginBottom: height * 0.01,
     justifyContent: 'center',
-    marginBottom: 10,
-  },
-   logoRow1: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'center',
-    marginBottom: 10,
   },
   logoImage: {
     width: 70,
@@ -94,27 +149,14 @@ const styles = StyleSheet.create({
     marginRight: 8,
   },
   logoText: {
-    fontSize: 18,
-    color: '#8000ff',
-    fontWeight: 'bold',
+    fontSize: 30,
+    color: '#7518AA',
+    fontWeight: '700',
   },
-  centeredContent: {
+  logoRow1: {
+    flexDirection: 'row',
     alignItems: 'center',
-    paddingHorizontal: 20,
-    marginTop: 20,
-  },
-  title: {
-    fontSize: 35,
-    fontWeight: 'bold',
-    textAlign: 'center',
+    justifyContent: 'center',
     marginBottom: 10,
   },
-  subtitle: {
-    fontSize: 20,
-    color: '#666',
-    textAlign: 'center',
-  },
- 
 });
-
-export default HealthUmbrellaScreen;

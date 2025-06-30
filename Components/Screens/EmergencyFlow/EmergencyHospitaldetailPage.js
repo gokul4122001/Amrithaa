@@ -239,9 +239,9 @@ const HospitalDetails = ({ navigation }) => {
             <StatusBar barStyle="light-content" backgroundColor="#8B5CF6" />
     
           <LinearGradient
-            colors={['#ffffff', '#C3DFFF']}
-            start={{ x: 0.1, y: 0 }}
-            end={{ x: 1, y: 0 }}
+             colors={['#ffffff', '#C3DFFF']}
+      start={{ x: 0, y: 0.3 }}
+      end={{ x: 0, y: 0 }}
             style={styles.topBackground}
           >
       {/* Header */}

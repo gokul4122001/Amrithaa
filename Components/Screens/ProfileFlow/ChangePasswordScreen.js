@@ -21,7 +21,7 @@ import logo from '../../Assets/logos.png';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 
 
-const ChangePasswordScreen = () => {
+const ChangePasswordScreen = ({navigation}) => {
   const [passwords, setPasswords] = useState({
     currentPassword: '',
     newPassword: '',
@@ -137,9 +137,9 @@ const ChangePasswordScreen = () => {
     <SafeAreaView style={styles.container}>
       <StatusBar barStyle="light-content" backgroundColor="#8B5CF6" />
  <LinearGradient
-           colors={['#ffffff', '#C3DFFF']}
-           start={{ x: 0.1, y: 0 }}
-           end={{ x: 1, y: 0 }}
+             colors={['#ffffff', '#C3DFFF']}
+      start={{ x: 0, y: 0.3 }}
+      end={{ x: 0, y: 0 }}
            style={styles.topBackground}
          >
             <View style={styles.header}>
@@ -165,7 +165,7 @@ const ChangePasswordScreen = () => {
                      </View>
 
                        <View style={styles.headered}>
-                             <TouchableOpacity style={styles.backButton}>
+                             <TouchableOpacity style={styles.backButton} onPress={() => navigation.goBack()}>
                                <Icon name="arrow-back" size={24} color="#000000" />
                              </TouchableOpacity>
                              <Text style={{fontSize:20,fontWeight:'700'}}>Change Password</Text>
@@ -370,7 +370,7 @@ const styles = StyleSheet.create({
     fontWeight: '600',
   },
    topBackground: {
-      paddingTop: hp('2%'),
+      paddingTop: hp('4%'),
       paddingBottom: hp('2%'),
       paddingHorizontal: wp('4%'),
       height: hp('100%'),

@@ -18,6 +18,7 @@ export default function App() {
   return (
     <NavigationContainer>
       <Stack.Navigator initialRouteName="Login1" screenOptions={{ headerShown: false }}>
+         <Stack.Screen name="MainApp" component={BottomTabs} />
         <Stack.Screen name="Login1" component={Login1} />
         <Stack.Screen name="Login2" component={Login2} />
          <Stack.Screen name="Login3" component={Login3} />
@@ -26,7 +27,7 @@ export default function App() {
          <Stack.Screen name="Login6" component={Login6} />
          <Stack.Screen name="Login7" component={Login7} />
          <Stack.Screen name="Login8" component={Login8} />
-        <Stack.Screen name="MainApp" component={BottomTabs} />
+       
       </Stack.Navigator>
     </NavigationContainer>
   );

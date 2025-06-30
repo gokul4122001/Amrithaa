@@ -18,7 +18,7 @@ import {
 } from 'react-native-responsive-screen';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 
-const ProfileDisplayScreen = () => {
+const ProfileDisplayScreen = ({navigation}) => {
   const profileData = {
     name: 'Jeswanth Kumar',
     dateOfBirth: '03/06/2002',
@@ -106,9 +106,9 @@ const ProfileDisplayScreen = () => {
       <StatusBar barStyle="light-content" backgroundColor="#8B5CF6" />
       
   <LinearGradient
-           colors={['#ffffff', '#C3DFFF']}
-           start={{ x: 0.1, y: 0 }}
-           end={{ x: 1, y: 0 }}
+             colors={['#ffffff', '#C3DFFF']}
+      start={{ x: 0, y: 0.3 }}
+      end={{ x: 0, y: 0 }}
            style={styles.topBackground}
          >
             <View style={styles.header}>
@@ -133,13 +133,13 @@ const ProfileDisplayScreen = () => {
                        </TouchableOpacity>
                      </View>
 
-                       <View style={styles.headered}>
-                             <TouchableOpacity style={styles.backButton}>
-                               <Icon name="arrow-back" size={24} color="#000000" />
-                             </TouchableOpacity>
-                             <Text style={styles.headerTitle}>My Profile</Text>
-                            
-                           </View>
+                      <View style={styles.headered}>
+  <TouchableOpacity style={styles.backButton} onPress={() => navigation.goBack()}>
+    <Icon name="arrow-back" size={24} color="#000000" />
+  </TouchableOpacity>
+  <Text style={styles.headerTitle}>My Profile</Text>
+</View>
+
 
       <ScrollView style={styles.content} showsVerticalScrollIndicator={false}>
         {/* Main Profile */}
@@ -231,8 +231,9 @@ const styles = StyleSheet.create({
   },
   content: {
     flex: 1,
-    paddingHorizontal: 16,
+    paddingHorizontal: 10,
     paddingTop: 16,
+    
   },
   profileCard: {
     backgroundColor: '#FFFFFF',
@@ -345,7 +346,7 @@ const styles = StyleSheet.create({
     marginLeft: 4,
   },
    topBackground: {
-      paddingTop: hp('2%'),
+      paddingTop: hp('4%'),
       paddingBottom: hp('2%'),
       paddingHorizontal: wp('4%'),
       height: hp('100%'),

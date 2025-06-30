@@ -7,7 +7,9 @@ import {
   Platform,
   Image,
   TouchableOpacity,
-  ScrollView,SafeAreaView
+  SafeAreaView,
+  FlatList,
+  Dimensions,
 } from 'react-native';
 import {
   widthPercentageToDP as wp,
@@ -20,134 +22,86 @@ import logo from '../../Assets/logos.png';
 import LinearGradient from 'react-native-linear-gradient';
 
 const EmergencyHomeScreen = ({ navigation }) => {
- 
-
   const services = [
-    { 
-      id: 1, 
-      name: 'Accident/Trauma', 
-      Image: require('../../Assets/em1.png'),
-      route: 'EmergencyHospitalScreen',
-      params: { serviceType: 'Accident/Trauma' }
-    },
-    { 
-      id: 2, 
-      name: 'Stroke', 
-      Image: require('../../Assets/em2.png'),
-      route: 'EmergencyHospitalScreen',
-      params: { serviceType: 'Stroke' }
-    },
-    { 
-      id: 3, 
-      name: 'Burns', 
-      Image: require('../../Assets/em3.png'),
-      route: 'EmergencyHospitalScreen',
-      params: { serviceType: 'Burns' }
-    },
-    { 
-      id: 4, 
-      name: 'Cardiac', 
-      Image: require('../../Assets/em4.png'),
-      route: 'EmergencyHospitalScreen',
-      params: { serviceType: 'Cardiac' }
-    },
-    { 
-      id: 5, 
-      name: 'Bites/Poisoning', 
-      Image: require('../../Assets/em5.png'),
-      route: 'EmergencyHospitalScreen',
-      params: { serviceType: 'Bites/Poisoning' }
-    },
-    { 
-      id: 6, 
-      name: '24/7 Pharmacy', 
-      Image: require('../../Assets/em6.png'),
-      route: 'EmergencyHospitalScreen',
-      params: { serviceType: '24/7 Pharmacy' }
-    },
-    { 
-      id: 7, 
-      name: 'Maternity', 
-      Image: require('../../Assets/em7.png'),
-      route: 'EmergencyHospitalScreen',
-      params: { serviceType: 'Maternity' }
-    },
+    { id: 1, name: 'Accident/Trauma', Image: require('../../Assets/em1.png'), route: 'EmergencyHospitalScreen', params: { serviceType: 'Accident/Trauma' }},
+    { id: 2, name: 'Stroke', Image: require('../../Assets/em2.png'), route: 'EmergencyHospitalScreen', params: { serviceType: 'Stroke' }},
+    { id: 3, name: 'Burns', Image: require('../../Assets/em3.png'), route: 'EmergencyHospitalScreen', params: { serviceType: 'Burns' }},
+    { id: 4, name: 'Cardiac', Image: require('../../Assets/em4.png'), route: 'EmergencyHospitalScreen', params: { serviceType: 'Cardiac' }},
+    { id: 5, name: 'Bites/Poisoning', Image: require('../../Assets/em5.png'), route: 'EmergencyHospitalScreen', params: { serviceType: 'Bites/Poisoning' }},
+    { id: 6, name: '24/7 Pharmacy', Image: require('../../Assets/em6.png'), route: 'EmergencyHospitalScreen', params: { serviceType: '24/7 Pharmacy' }},
+    { id: 7, name: 'Maternity', Image: require('../../Assets/em7.png'), route: 'EmergencyHospitalScreen', params: { serviceType: 'Maternity' }},
   ];
 
-  const ServiceCard = ({ service }) => (
-  <View style={{ alignItems: 'center', margin: 10}}>
-  <TouchableOpacity onPress={() => navigation.navigate(service.route, service.params)}>
-    <Image style={styles.serviceIcon} source={service.Image} />
-  </TouchableOpacity>
-  <Text style={styles.serviceName}>{service.name}</Text>
-</View>
-
+  const renderItem = ({ item, index }) => (
+    <TouchableOpacity
+      style={styles.card}
+      onPress={() => navigation.navigate(item.route, item.params)}
+    >
+      <Image source={item.Image} style={styles.serviceIcon} />
+      <Text style={styles.serviceName}>{item.name}</Text>
+    </TouchableOpacity>
   );
 
+  const formatData = (data, numColumns) => {
+    const numberOfFullRows = Math.floor(data.length / numColumns);
+    let numberOfElementsLastRow = data.length - (numberOfFullRows * numColumns);
+
+    while (numberOfElementsLastRow !== numColumns && numberOfElementsLastRow !== 0) {
+      data.push({ id: `blank-${numberOfElementsLastRow}`, empty: true });
+      numberOfElementsLastRow++;
+    }
+    return data;
+  };
+
   return (
-      <SafeAreaView style={styles.container}>
-          <StatusBar barStyle="light-content" backgroundColor="#8B5CF6" />
-  
-        <LinearGradient
-          colors={['#ffffff', '#C3DFFF']}
-          start={{ x: 0.1, y: 0 }}
-          end={{ x: 1, y: 0 }}
-          style={styles.topBackground}
-        >
-          <View style={styles.header}>
-            <Image source={logo} style={styles.logo} />
-            <View style={styles.greetingContainer}>
-              <Text style={styles.greeting}>Hi, Welcome</Text>
-              <Text style={styles.userName}>Janmani Kumar</Text>
-            </View>
-            <TouchableOpacity
-              style={[styles.notificationButton, { right: hp('2%') }]}
-            >
-              <Icon name="notifications-on" size={24} color="black" />
-            </TouchableOpacity>
-            <TouchableOpacity
-              style={[styles.notificationButton, { backgroundColor: 'red' }]}
-            >
-              <MaterialCommunityIcons
-                name="alarm-light-outline"
-                size={24}
-                color="white"
-              />
-            </TouchableOpacity>
+    <SafeAreaView style={styles.container}>
+      <StatusBar barStyle="light-content" backgroundColor="#8B5CF6" />
+      <LinearGradient
+       colors={['#ffffff', '#C3DFFF']}
+      start={{ x: 0, y: 0.3 }}
+      end={{ x: 0, y: 0 }}
+        style={styles.topBackground}
+      >
+        <View style={styles.header}>
+          <Image source={logo} style={styles.logo} />
+          <View style={styles.greetingContainer}>
+            <Text style={styles.greeting}>Hi, Welcome</Text>
+            <Text style={styles.userName}>Janmani Kumar</Text>
           </View>
-          <View
-            style={{
-              flexDirection: 'row',
-              padding: 5,
-              top: 10,
-              alignItems: 'center',
-              
-            }}
-          >
-            <FontAwesome6 name="angle-left" size={18} color="black" />
-            <Text style={styles.type}>Emergency list</Text>
-          </View>
-          <View style={styles.servicesGrid}>
-            {services.map(service => (
-              <ServiceCard key={service.id} service={service} />
-            ))}
-          </View>
-        </LinearGradient>
+          <TouchableOpacity style={[styles.notificationButton, { right: hp('2%') }]}>
+            <Icon name="notifications-on" size={24} color="black" />
+          </TouchableOpacity>
+          <TouchableOpacity style={[styles.notificationButton, { backgroundColor: 'red' }]}>
+            <MaterialCommunityIcons name="alarm-light-outline" size={24} color="white" />
+          </TouchableOpacity>
+        </View>
+
+        <View style={styles.sectionHeader}>
+          <FontAwesome6 name="angle-left" size={18} color="black" />
+          <Text style={styles.type}>Emergency list</Text>
+        </View>
+
+        <FlatList
+          data={formatData([...services], 3)}
+          renderItem={({ item }) =>
+            item.empty ? <View style={[styles.card, styles.invisible]} /> : renderItem({ item })
+          }
+          keyExtractor={(item) => item.id.toString()}
+          numColumns={3}
+          contentContainerStyle={styles.flatListContent}
+        />
+      </LinearGradient>
     </SafeAreaView>
   );
 };
 
 const styles = StyleSheet.create({
-  statusBarBackground: {
-    height: Platform.OS === 'android' ? StatusBar.currentHeight : 0,
-    backgroundColor: 'rgba(117, 24, 170, 1)',
-  },
-  safeArea: {
+  container: {
     flex: 1,
     backgroundColor: 'white',
   },
   topBackground: {
-    paddingTop: hp('2%'),
+    paddingTop: hp('4%'),
     paddingBottom: hp('2%'),
     paddingHorizontal: wp('4%'),
     height: hp('100%'),
@@ -182,41 +136,44 @@ const styles = StyleSheet.create({
     backgroundColor: 'white',
     justifyContent: 'center',
     alignItems: 'center',
+    marginLeft: 10,
   },
-  restOfScreen: {
-    flex: 1,
-    backgroundColor: 'white',
-    paddingHorizontal: wp('4%'),
-    paddingTop: hp('2%'),
+  sectionHeader: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginTop: hp('2%'),
   },
   type: {
     fontSize: 20,
     fontWeight: 'bold',
     color: 'black',
-    left: 10,
+    marginLeft: 10,
   },
-  servicesGrid: {
-    flexDirection: 'row',
-    flexWrap: 'wrap',
-    justifyContent: 'space-between',
-    marginBottom: 30,
-    paddingTop:30
+  flatListContent: {
+    marginTop: hp('3%'),
+    justifyContent: 'center',
   },
-
- serviceIcon: {
-  width: 100,
-  height: 100,
-  resizeMode: 'contain',
-  marginBottom: 5,
-},
-
-serviceName: {
-  fontSize: 16,
-  color: '#4a4a4a',
-  textAlign: 'center',
-  fontWeight:'700'
-},
-
+  card: {
+    flex: 1,
+    alignItems: 'center',
+    margin: 10,
+    maxWidth: Dimensions.get('window').width / 3 - 20,
+  },
+  serviceIcon: {
+    width: 110,
+    height: 110,
+    resizeMode: 'contain',
+    marginBottom: 5,
+  },
+  serviceName: {
+    fontSize: 14,
+    fontWeight: '700',
+    color: '#4a4a4a',
+    textAlign: 'center',
+  },
+  invisible: {
+    backgroundColor: 'transparent',
+  },
 });
 
 export default EmergencyHomeScreen;

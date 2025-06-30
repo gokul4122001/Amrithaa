@@ -18,7 +18,7 @@ import {
 } from 'react-native-responsive-screen';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 
-const EmergencyContactScreen = () => {
+const EmergencyContactScreen = ({navigation}) => {
   const [contacts, setContacts] = useState([
     {
       id: 1,
@@ -149,9 +149,9 @@ const EmergencyContactScreen = () => {
 
       {/* Header with Gradient */}
   <LinearGradient
-              colors={['#ffffff', '#C3DFFF']}
-              start={{ x: 0.1, y: 0 }}
-              end={{ x: 1, y: 0 }}
+             colors={['#ffffff', '#C3DFFF']}
+      start={{ x: 0, y: 0.3 }}
+      end={{ x: 0, y: 0 }}
               style={styles.topBackground}
             >
       <View style={styles.header}>
@@ -177,7 +177,13 @@ const EmergencyContactScreen = () => {
                             </View>
         <View style={styles.titleSection}>
           <View style={styles.titleRow}>
-            <Text style={styles.pageTitle}>Emergency Contact</Text>
+          <View style={styles.titleRow}>
+  <TouchableOpacity onPress={() => navigation.goBack()} style={styles.backButton}>
+    <Icon name="chevron-left" size={30} color="#000" />
+  </TouchableOpacity>
+  <Text style={styles.pageTitle}>Emergency Contact</Text>
+</View>
+
             <TouchableOpacity
               style={styles.addContactButton}
               onPress={handleAddContact}>
@@ -307,23 +313,32 @@ const styles = StyleSheet.create({
   contactsList: {
     marginBottom: 20,
   },
-  contactItem: {
-    backgroundColor: '#FFFFFF',
-    borderRadius: 12,
-    padding: 16,
-    marginBottom: 12,
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-    shadowColor: '#000',
-    shadowOffset: {
-      width: 0,
-      height: 1,
-    },
-    shadowOpacity: 0.05,
-    shadowRadius: 2,
-   width:'105%'
+ contactItem: {
+  backgroundColor: '#FFFFFF',
+  borderRadius: 12,
+  padding: 16,
+  marginBottom: 12,
+  flexDirection: 'row',
+  alignItems: 'center',
+  justifyContent: 'space-between',
+
+  // iOS Shadow
+  shadowColor: '#000',
+  shadowOffset: {
+    width: 0,
+    height: 2,
   },
+  shadowOpacity: 0.15,
+  shadowRadius: 3.84,
+
+  // Android Shadow
+  elevation: 5,
+
+  // Layout
+  width: '100%', // use 100% for proper layout within the parent
+  alignSelf: 'center', // ensure centered in container
+},
+
   contactContent: {
     flexDirection: 'row',
     alignItems: 'center',
@@ -398,7 +413,7 @@ const styles = StyleSheet.create({
     fontWeight: '500',
   },
   topBackground: {
-      paddingTop: hp('2%'),
+      paddingTop: hp('4%'),
       paddingBottom: hp('2%'),
       paddingHorizontal: wp('4%'),
       height: hp('100%'),
@@ -434,6 +449,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
   },
+  
 });
 
 export default EmergencyContactScreen;

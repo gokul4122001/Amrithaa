@@ -108,8 +108,8 @@ const AccidentScreen = ({ navigation }) => {
      
         <LinearGradient
           colors={['#ffffff', '#C3DFFF']}
-          start={{ x: 0.1, y: 0 }}
-          end={{ x: 1, y: 0 }}
+      start={{ x: 0, y: 0.3 }}
+      end={{ x: 0, y: 0 }}
           style={styles.topBackground}
         >
           {/* Header */}
@@ -128,18 +128,24 @@ const AccidentScreen = ({ navigation }) => {
           </View>
 
           {/* Title */}
-          <View style={{ flexDirection: 'row', padding: 5, top: 10, alignItems: 'center' }}>
+          <TouchableOpacity style={{ flexDirection: 'row', padding: 5, top: 10, alignItems: 'center' }} onPress={() => navigation.goBack()}>
             <FontAwesome6 name="angle-left" size={16} color="black" />
             <Text style={styles.type}>Accident / Trauma</Text>
-          </View>
+          </TouchableOpacity>
 
           {/* Location */}
           <View style={styles.locationContainer}>
             <Text style={styles.locationPin}>📍</Text>
             <Text style={styles.locationLabel}>Your Location: </Text>
-            <TouchableOpacity onPress={handleLocationPress}>
-              <Text style={styles.locationText}>{currentLocation}</Text>
-            </TouchableOpacity>
+      <TouchableOpacity onPress={() => setShowLocationModal(true)}>
+  <Text style={styles.locationText}>
+    {currentLocation.length > 20
+      ? currentLocation.substring(0, 20) + '...'
+      : currentLocation}
+  </Text>
+</TouchableOpacity>
+
+
           </View>
 
           {/* Modal for Changing Location */}
@@ -157,7 +163,8 @@ const AccidentScreen = ({ navigation }) => {
                     style={styles.backButton}
                     onPress={() => setShowLocationModal(false)}
                   >
-                    <Text style={styles.backButtonText}>←</Text>
+               <Icon name="chevron-left" size={28} color="#000" style={styles.backButtonText} />
+
                   </TouchableOpacity>
                   <Text style={styles.modalTitle}>Change your Location</Text>
                   <View style={styles.placeholder} />
@@ -210,7 +217,7 @@ const styles = StyleSheet.create({
     backgroundColor: 'rgba(117, 24, 170, 1)',
   },
   topBackground: {
-    paddingTop: hp('2%'),
+    paddingTop: hp('4%'),
     paddingBottom: hp('2%'),
     paddingHorizontal: wp('4%'),
     minHeight: hp('100%'),
@@ -248,7 +255,7 @@ const styles = StyleSheet.create({
     marginLeft: 8,
   },
   type: {
-    fontSize: hp('2.1%'),
+    fontSize: hp('2.3%'),
     fontWeight: 'bold',
     color: 'black',
     left: 10,
@@ -256,6 +263,7 @@ const styles = StyleSheet.create({
   servicesGrid: {
     justifyContent: 'space-between',
     marginBottom: 30,
+    top:10
   },
   serviceCard: {
     width: wp('92%'),
@@ -312,7 +320,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     marginBottom: 16,
     paddingHorizontal: 4,
-    top:10
+    top:20
   },
   locationPin: {
     fontSize: 16,
@@ -330,6 +338,7 @@ const styles = StyleSheet.create({
     fontWeight: '500',
     color: '#000000',
     textDecorationLine: 'underline',
+    
   },
   hospitalCard: {
     backgroundColor: '#FFFFFF',

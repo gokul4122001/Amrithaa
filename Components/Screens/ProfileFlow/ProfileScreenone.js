@@ -226,11 +226,11 @@ const ProfileFormScreen = ({ navigation }) => {
 
   return (
     <SafeAreaView style={styles.container}>
-      <StatusBar barStyle="dark-content" backgroundColor="#FFFFFF" />
+      <StatusBar barStyle="dark-content" backgroundColor="#8B5CF6" />
       <LinearGradient
         colors={['#ffffff', '#C3DFFF']}
-        start={{ x: 0.1, y: 0 }}
-        end={{ x: 1, y: 0 }}
+      start={{ x: 0, y: 0.3 }}
+      end={{ x: 0, y: 0 }}
         style={styles.topBackground}
       >
         <View style={styles.header}>
@@ -256,7 +256,7 @@ const ProfileFormScreen = ({ navigation }) => {
         </View>
         
         <View style={styles.headered}>
-          <TouchableOpacity style={styles.backButton}>
+          <TouchableOpacity style={styles.backButton} onPress={() => navigation.goBack()}>
             <Icon name="arrow-back" size={24} color="#000000" />
           </TouchableOpacity>
           <Text style={styles.headerTitle}>My Profile</Text>
@@ -626,7 +626,7 @@ const styles = StyleSheet.create({
     fontWeight: '600',
   },
   topBackground: {
-    paddingTop: hp('2%'),
+    paddingTop: hp('4%'),
     paddingBottom: hp('2%'),
     paddingHorizontal: wp('4%'),
     height: hp('100%'),

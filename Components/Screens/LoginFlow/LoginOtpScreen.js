@@ -5,14 +5,14 @@ import {
   TextInput,
   TouchableOpacity,
   StyleSheet,
-  SafeAreaView,
   StatusBar,
-  Alert,
   Image,
   ScrollView,
   KeyboardAvoidingView,
   Platform,
+  Alert,
 } from 'react-native';
+import LinearGradient from 'react-native-linear-gradient';
 
 const OTPVerificationScreen = ({ route, navigation }) => {
   const [otp, setOtp] = useState(['', '', '', '']);
@@ -63,7 +63,6 @@ const OTPVerificationScreen = ({ route, navigation }) => {
       Alert.alert('Invalid OTP', 'Please enter a 4-digit OTP');
       return;
     }
-
     navigation.navigate('Login8');
     Alert.alert('Success', `OTP ${enteredOtp} verified successfully!`);
   };
@@ -82,36 +81,30 @@ const OTPVerificationScreen = ({ route, navigation }) => {
   };
 
   return (
-    <SafeAreaView style={styles.container}>
-      <StatusBar barStyle="dark-content" backgroundColor="#f8f5ff" />
+    <LinearGradient
+      colors={['#ffffff', '#C3DFFF']}
+      start={{ x: 0, y: 0.3 }}
+      end={{ x: 0, y: 0 }}
+      style={styles.gradientContainer}
+    >
+      <StatusBar barStyle="dark-content" backgroundColor="#7518AA" />
       <KeyboardAvoidingView
         style={{ flex: 1 }}
         behavior={Platform.OS === 'ios' ? 'padding' : undefined}
         keyboardVerticalOffset={Platform.OS === 'ios' ? 40 : 20}
       >
-        <ScrollView
-          contentContainerStyle={{ flexGrow: 1, paddingBottom: 60 }} // Extra bottom space
-          keyboardShouldPersistTaps="handled"
-        >
-          {/* Logo Section */}
+        <ScrollView contentContainerStyle={{ flexGrow: 1, paddingBottom: 60 }} keyboardShouldPersistTaps="handled">
           <View style={styles.logoRow1}>
-            <View style={styles.logoRow}>
-              <Image
-                source={require('../../Assets/logos.png')}
-                style={styles.logoImage}
-              />
-            </View>
+            <Image source={require('../../Assets/logos.png')} style={styles.logoImage} />
             <View>
               <Text style={styles.logoBrand}>Health</Text>
               <Text style={styles.logoBrand}>Umbrella</Text>
             </View>
           </View>
 
-          {/* Main Content */}
           <View style={styles.mainContent}>
             <View style={styles.content}>
               <Text style={styles.title}>OTP Sent to {mobileNumber}</Text>
-
               <TouchableOpacity onPress={handleChangeMobile}>
                 <Text style={styles.changeMobileText}>Change Mobile number</Text>
               </TouchableOpacity>
@@ -121,10 +114,7 @@ const OTPVerificationScreen = ({ route, navigation }) => {
                   <TextInput
                     key={index}
                     ref={(ref) => (inputRefs.current[index] = ref)}
-                    style={[
-                      styles.otpInput,
-                      digit ? styles.otpInputFilled : styles.otpInputEmpty,
-                    ]}
+                    style={[styles.otpInput, digit ? styles.otpInputFilled : styles.otpInputEmpty]}
                     value={digit}
                     onChangeText={(value) => handleOtpChange(value, index)}
                     onKeyPress={(e) => handleKeyPress(e, index)}
@@ -154,21 +144,19 @@ const OTPVerificationScreen = ({ route, navigation }) => {
           </View>
         </ScrollView>
 
-        {/* Submit Button Fixed Bottom with spacing */}
         <View style={styles.submitContainer}>
           <TouchableOpacity style={styles.submitButton} onPress={handleSubmit}>
             <Text style={styles.submitButtonText}>Submit</Text>
           </TouchableOpacity>
         </View>
       </KeyboardAvoidingView>
-    </SafeAreaView>
+    </LinearGradient>
   );
 };
 
 const styles = StyleSheet.create({
-  container: {
+  gradientContainer: {
     flex: 1,
-    backgroundColor: '#f8f5ff',
   },
   logoRow1: {
     flexDirection: 'row',
@@ -264,8 +252,8 @@ const styles = StyleSheet.create({
   },
   submitContainer: {
     padding: 10,
-    paddingBottom: 20, 
-    backgroundColor: '#f8f5ff',
+    paddingBottom: 20,
+    backgroundColor: 'transparent',
   },
   submitButton: {
     backgroundColor: '#7518AA',

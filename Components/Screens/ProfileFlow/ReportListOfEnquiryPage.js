@@ -133,9 +133,9 @@ const HospitalListingScreen = ({ navigation }) => {
         <SafeAreaView style={styles.container}>
     <StatusBar barStyle="light-content" backgroundColor="#8B5CF6" />
          <LinearGradient
-                   colors={['#ffffff', '#C3DFFF']}
-                   start={{ x: 0.1, y: 0 }}
-                   end={{ x: 1, y: 0 }}
+                  colors={['#ffffff', '#C3DFFF']}
+        start={{ x: -0, y: 0.3 }}
+        end={{ x: 0, y: 0 }}
                    style={styles.topBackground}
                  >
             <View style={styles.header}>
@@ -222,22 +222,27 @@ const styles = StyleSheet.create({
     padding: 16,
     
   },
-  cardContainer: {
-    backgroundColor: '#FFF',
-    borderRadius: 12,
-    marginBottom: 16,
-    padding: 16,
-    shadowColor: '#000',
-    shadowOffset: {
-      width: 0,
-      height: 2,
-    },
-    shadowOpacity: 0.1,
-    shadowRadius: 3.84,
-    width:'105%',
-    paddingBottom:30
-    
+ cardContainer: {
+  backgroundColor: '#FFF',
+  borderRadius: 12,
+  marginBottom: 40,
+  padding: 16,
+  width: '100%',
+  paddingBottom: 30,
+
+  // iOS shadow
+  shadowColor: '#000',
+  shadowOffset: {
+    width: 1,
+    height: 2,
   },
+  shadowOpacity: 0.1,
+  shadowRadius: 3.84,
+
+  // Android shadow
+  elevation: 2,
+ 
+},
   hospitalInfoSection: {
     flexDirection: 'row',
     marginBottom: 16,
@@ -335,7 +340,7 @@ const styles = StyleSheet.create({
     marginTop: 4,
   },
   topBackground: {
-      paddingTop: hp('2%'),
+      paddingTop: hp('4%'),
       paddingBottom: hp('2%'),
       paddingHorizontal: wp('4%'),
       height: hp('100%'),

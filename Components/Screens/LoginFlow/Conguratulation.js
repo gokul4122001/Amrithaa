@@ -1,30 +1,34 @@
 import React, { useEffect } from 'react';
-import { View, Text, StyleSheet, SafeAreaView, StatusBar } from 'react-native';
+import { View, Text, StyleSheet, StatusBar } from 'react-native';
+import LinearGradient from 'react-native-linear-gradient';
 
 const CongratulationsScreen = ({ navigation }) => {
   useEffect(() => {
     const timeout = setTimeout(() => {
-      // Navigate to next screen after 3 seconds
- navigation.navigate('MainApp');
+      navigation.navigate('MainApp');
     }, 3000);
 
-    return () => clearTimeout(timeout); // Cleanup timeout on unmount
+    return () => clearTimeout(timeout);
   }, [navigation]);
 
   return (
-    <SafeAreaView style={styles.container}>
-      <StatusBar backgroundColor="#f8f5ff" barStyle="dark-content" />
+    <LinearGradient
+      colors={['#ffffff', '#C3DFFF']}
+      start={{ x: 0, y: 0.3 }}
+      end={{ x: 0, y: 0 }}
+      style={styles.gradientContainer}
+    >
+      <StatusBar backgroundColor="#7518AA" barStyle="dark-content" />
       <View style={styles.centerContent}>
-        <Text style={styles.congratsText}> Congratulations </Text>
+        <Text style={styles.congratsText}>Congratulations</Text>
       </View>
-    </SafeAreaView>
+    </LinearGradient>
   );
 };
 
 const styles = StyleSheet.create({
-  container: {
+  gradientContainer: {
     flex: 1,
-    backgroundColor: '#f8f5ff',
     justifyContent: 'center',
     alignItems: 'center',
   },
@@ -37,7 +41,7 @@ const styles = StyleSheet.create({
     fontWeight: '700',
     color: '#188B0E',
     textAlign: 'center',
-    fontFamily: 'roboto', 
+    fontFamily: 'Roboto', // Ensure 'Roboto' is available or use default
   },
 });
 
