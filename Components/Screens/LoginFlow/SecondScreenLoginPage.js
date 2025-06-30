@@ -15,10 +15,11 @@ import {
 import Swiper from 'react-native-swiper';
 import LinearGradient from 'react-native-linear-gradient';
 import { useNavigation } from '@react-navigation/native';
-
+import Fonts from '../../Fonts/Fonts';
 import SecoundSlide from '../LoginFlow/ThirdScreenLoginPage';
 import ThirdSlide from '../LoginFlow/FourthScreenLoginPage';
 import FourthSlide from '../LoginFlow/FifthScreenLoginPage';
+import Colors from '../../Colors/Colors';
 
 const { width, height } = Dimensions.get('window');
 
@@ -48,7 +49,7 @@ export default function Onboarding() {
          end={{ x: 0, y: 0 }}
          style={styles.gradientContainer}
        >
-        <StatusBar backgroundColor="transparent" translucent barStyle="dark-content" />
+        <StatusBar backgroundColor={Colors.statusBar} translucent barStyle="dark-content" />
         <SafeAreaView style={styles.safeArea}>
           <ScrollView contentContainerStyle={styles.container}>
             {/* Skip Button */}
@@ -130,6 +131,7 @@ const styles = StyleSheet.create({
     fontSize: width * 0.05,
     fontWeight: 'bold',
     color: '#000',
+     fontFamily:Fonts.family.regular
   },
   title2: {
     textAlign: 'center',
@@ -137,6 +139,7 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     marginTop: height * 0.01,
     color: '#000',
+     fontFamily:Fonts.family.regular
   },
   title1: {
     textAlign: 'center',
@@ -144,6 +147,7 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     marginTop: height * 0.01,
     color: '#000',
+     fontFamily:Fonts.family.regular
   },
   description: {
     textAlign: 'center',
@@ -151,6 +155,7 @@ const styles = StyleSheet.create({
     marginVertical: height * 0.015,
     paddingHorizontal: width * 0.05,
     color: '#444',
+     fontFamily:Fonts.family.regular
   },
   spinContainer: {
     marginTop: height * 0.02,
@@ -176,6 +181,7 @@ const styles = StyleSheet.create({
     color: '#555',
     fontWeight: 'bold',
     fontSize: width * 0.04,
+     fontFamily:Fonts.family.regular
   },
   logoRow1: {
     flexDirection: 'row',
@@ -190,7 +196,8 @@ const styles = StyleSheet.create({
   },
   logoText: {
     fontSize: 30,
-    color: '#7518AA',
+    color: Colors.statusBar,
     fontWeight: '700',
+     fontFamily:Fonts.family.regular
   },
 });

@@ -20,6 +20,8 @@ import Entypo from 'react-native-vector-icons/Entypo';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import logo from '../../Assets/logos.png';
 import Icons from 'react-native-vector-icons/Feather';
+import Fonts from '../../Fonts/Fonts';
+import Colors from '../../Colors/Colors';
 const HospitalListingScreen = ({ navigation }) => {
   const hospitalData = [
     {
@@ -131,7 +133,7 @@ const HospitalListingScreen = ({ navigation }) => {
 
   return (
         <SafeAreaView style={styles.container}>
-    <StatusBar barStyle="light-content" backgroundColor="#8B5CF6" />
+    <StatusBar barStyle="light-content" backgroundColor={Colors.statusBar} />
          <LinearGradient
                   colors={['#ffffff', '#C3DFFF']}
         start={{ x: -0, y: 0.3 }}
@@ -208,12 +210,14 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     color: '#333',
     marginBottom: 4,
+     fontFamily:Fonts.family.regular
   },
   subtitleText: {
     fontSize: 25,
     color: '#7416B2',
     fontWeight: '800',
-   textAlign:'center'
+   textAlign:'center',
+    fontFamily:Fonts.family.regular
   },
   // scrollContainer: {
   // top:'5%'
@@ -261,12 +265,14 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     color: '#333',
     marginBottom: 4,
+     fontFamily:Fonts.family.regular
   },
   hospitalTiming: {
     fontSize: 12,
     color: '#4CAF50',
     fontWeight: '500',
     marginBottom: 4,
+     fontFamily:Fonts.family.regular
   },
   addressContainer: {
     flexDirection: 'row',
@@ -278,6 +284,7 @@ const styles = StyleSheet.create({
     color: '#666',
     marginLeft: 4,
     flex: 1,
+     fontFamily:Fonts.family.regular
   },
   ratingContainer: {
     flexDirection: 'row',
@@ -289,6 +296,7 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     color: '#333',
     marginLeft: 4,
+     fontFamily:Fonts.family.regular
   },
   viewDetailsButton: {
     backgroundColor: '#8E24AA',
@@ -300,6 +308,7 @@ const styles = StyleSheet.create({
     fontSize: 12,
     color: '#FFF',
     fontWeight: '500',
+     fontFamily:Fonts.family.regular
   },
   patientInfoSection: {
     borderTopWidth: 1,
@@ -324,11 +333,13 @@ const styles = StyleSheet.create({
     fontWeight: '500',
     color: '#666',
     marginRight: 8,
+     fontFamily:Fonts.family.regular
   },
   patientValue: {
     fontSize: 14,
     color: '#333',
     fontWeight: '500',
+     fontFamily:Fonts.family.regular
   },
   reasonContainer: {
     marginTop: 4,
@@ -338,9 +349,10 @@ const styles = StyleSheet.create({
     color: '#666',
     lineHeight: 16,
     marginTop: 4,
+     fontFamily:Fonts.family.regular
   },
   topBackground: {
-      paddingTop: hp('4%'),
+      paddingTop: hp('5%'),
       paddingBottom: hp('2%'),
       paddingHorizontal: wp('4%'),
       height: hp('100%'),
@@ -362,11 +374,13 @@ const styles = StyleSheet.create({
     fontSize: hp('2%'),
     color: 'black',
     opacity: 0.9,
+     fontFamily:Fonts.family.regular
   },
   userName: {
     fontSize: hp('2%'),
     fontWeight: 'bold',
     color: 'black',
+     fontFamily:Fonts.family.regular
   },
   notificationButton: {
     width: wp('10%'),

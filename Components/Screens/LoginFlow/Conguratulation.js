@@ -1,7 +1,8 @@
 import React, { useEffect } from 'react';
 import { View, Text, StyleSheet, StatusBar } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
-
+import Fonts from '../../Fonts/Fonts';
+import Colors from '../../Colors/Colors';
 const CongratulationsScreen = ({ navigation }) => {
   useEffect(() => {
     const timeout = setTimeout(() => {
@@ -18,7 +19,7 @@ const CongratulationsScreen = ({ navigation }) => {
       end={{ x: 0, y: 0 }}
       style={styles.gradientContainer}
     >
-      <StatusBar backgroundColor="#7518AA" barStyle="dark-content" />
+      <StatusBar backgroundColor={Colors.statusBar} barStyle="dark-content" />
       <View style={styles.centerContent}>
         <Text style={styles.congratsText}>Congratulations</Text>
       </View>
@@ -41,7 +42,7 @@ const styles = StyleSheet.create({
     fontWeight: '700',
     color: '#188B0E',
     textAlign: 'center',
-    fontFamily: 'Roboto', // Ensure 'Roboto' is available or use default
+     fontFamily:Fonts.family.regular
   },
 });
 

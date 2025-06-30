@@ -13,16 +13,16 @@ import {
 } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 import { useNavigation } from '@react-navigation/native';
-
+import Fonts from '../../Fonts/Fonts';
 const { width, height } = Dimensions.get('window');
-
+import Colors from '../../Colors/Colors';
 export default function Onboarding() {
   const navigation = useNavigation();
 
   return (
     <>
       {/* StatusBar config */}
-      <StatusBar backgroundColor="transparent" barStyle="dark-content" translucent />
+      <StatusBar backgroundColor={Colors.statusBar} barStyle="dark-content" translucent />
 
       <LinearGradient
         colors={['#ffffff', '#C3DFFF']}
@@ -99,6 +99,7 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     marginTop: height * 0.01,
     color: '#000',
+     fontFamily:Fonts.family.regular
   },
   title1: {
     textAlign: 'center',
@@ -106,6 +107,7 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     marginTop: height * 0.01,
     color: 'grey',
+     fontFamily:Fonts.family.regular
   },
   description: {
     fontSize: width * 0.04,
@@ -114,6 +116,7 @@ const styles = StyleSheet.create({
     color: '#ffff',
     paddingHorizontal: 20,
     lineHeight: 22,
+     fontFamily:Fonts.family.regular
   },
   spinContainer: {
     position: 'absolute',
@@ -135,6 +138,7 @@ const styles = StyleSheet.create({
     color: '#555',
     fontWeight: 'bold',
     fontSize: width * 0.04,
+     fontFamily:Fonts.family.regular
   },
   logoRow: {
     flexDirection: 'row',
@@ -150,8 +154,9 @@ const styles = StyleSheet.create({
   },
   logoText: {
     fontSize: 30,
-    color: '#7518AA',
+    color: Colors.statusBar,
     fontWeight: '700',
+     fontFamily:Fonts.family.regular
   },
   logoRow1: {
     flexDirection: 'row',

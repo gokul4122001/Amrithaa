@@ -18,7 +18,8 @@ import Icon from 'react-native-vector-icons/MaterialIcons';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import FontAwesome6 from 'react-native-vector-icons/FontAwesome6';
 import logo from '../../Assets/logos.png';
-
+import Fonts from '../../Fonts/Fonts';
+import Colors from '../../Colors/Colors';
 const TermsAndConditionsScreen = ({ navigation }) => {
   const termsContent = `It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more or less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable English. Many desktop publishing packages and web page editors now use Lorem Ipsum as their default model text, and a search for 'lorem ipsum' will uncover many web sites still in their infancy. Various versions have evolved over the years, sometimes by accident, sometimes on purpose (injected humour and the like).
 
@@ -27,7 +28,7 @@ It is a long established fact that a reader will be distracted by the readable c
   return (
    
          <SafeAreaView style={styles.container}>
-  <StatusBar barStyle="light-content" backgroundColor="#8B5CF6" />
+  <StatusBar barStyle="light-content" backgroundColor={Colors.statusBar} />
        <LinearGradient
                  colors={['#ffffff', '#C3DFFF']}
         start={{ x: -0, y: 0.3 }}
@@ -120,15 +121,12 @@ const styles = StyleSheet.create({
     flex: 1,
     marginLeft: wp('3%'),
   },
-  greeting: {
-    fontSize: hp('1.8%'),
-    color: 'white',
-    opacity: 0.9,
-  },
+ 
   userName: {
     fontSize: hp('2%'),
     fontWeight: 'bold',
     color: 'white',
+     fontFamily:Fonts.family.regular
   },
   headerButtons: {
     flexDirection: 'row',
@@ -166,6 +164,7 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     color: '#1F2937',
     flex: 1,
+     fontFamily:Fonts.family.regular
   },
   contentBody: {
   top:20,
@@ -177,10 +176,11 @@ const styles = StyleSheet.create({
     lineHeight: hp('3.5%'),
     color: '#4a4a4a',
     textAlign: 'justify',
-    fontWeight:'600'
+    fontWeight:'600',
+     fontFamily:Fonts.family.regular
   },
     topBackground: {
-      paddingTop: hp('4%'),
+      paddingTop: hp('5%'),
       paddingBottom: hp('2%'),
       paddingHorizontal: wp('4%'),
       height: hp('100%'),
@@ -202,11 +202,13 @@ const styles = StyleSheet.create({
     fontSize: hp('2%'),
     color: 'black',
     opacity: 0.9,
+     fontFamily:Fonts.family.regular
   },
   userName: {
     fontSize: hp('2%'),
     fontWeight: 'bold',
     color: 'black',
+     fontFamily:Fonts.family.regular
   },
   notificationButton: {
     width: wp('10%'),

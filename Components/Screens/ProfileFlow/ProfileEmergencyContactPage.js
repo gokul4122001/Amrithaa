@@ -17,7 +17,8 @@ import {
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
-
+import Fonts from '../../Fonts/Fonts';
+import Colors from '../../Colors/Colors';
 const EmergencyContactScreen = ({navigation}) => {
   const [contacts, setContacts] = useState([
     {
@@ -145,7 +146,7 @@ const EmergencyContactScreen = ({navigation}) => {
 
   return (
     <SafeAreaView style={styles.container}>
-      <StatusBar barStyle="light-content" backgroundColor="#8B5CF6" />
+      <StatusBar barStyle="light-content" backgroundColor={Colors.statusBar} />
 
       {/* Header with Gradient */}
   <LinearGradient
@@ -288,6 +289,7 @@ const styles = StyleSheet.create({
     fontSize: 20,
     color: '#4a4a4a',
     fontWeight: '700',
+     fontFamily:Fonts.family.regular
   },
   addContactButton: {
     flexDirection: 'row',
@@ -304,6 +306,7 @@ const styles = StyleSheet.create({
     fontSize: 12,
     fontWeight: '500',
     marginLeft: 4,
+     fontFamily:Fonts.family.regular
   },
   content: {
     flex: 1,
@@ -356,6 +359,7 @@ const styles = StyleSheet.create({
     color: '#FFFFFF',
     fontSize: 18,
     fontWeight: '600',
+     fontFamily:Fonts.family.regular
   },
   contactInfo: {
     flex: 1,
@@ -365,10 +369,12 @@ const styles = StyleSheet.create({
     fontWeight: '600',
     color: '#1F2937',
     marginBottom: 4,
+     fontFamily:Fonts.family.regular
   },
   contactNumber: {
     fontSize: 14,
     color: '#6B7280',
+     fontFamily:Fonts.family.regular
   },
   editButton: {
     flexDirection: 'row',
@@ -380,6 +386,7 @@ const styles = StyleSheet.create({
     color: '#7518AA',
     fontSize: 14,
     marginLeft: 4,
+     fontFamily:Fonts.family.regular
   },
   emptyState: {
     alignItems: 'center',
@@ -393,6 +400,7 @@ const styles = StyleSheet.create({
     color: '#1F2937',
     marginTop: 16,
     marginBottom: 8,
+     fontFamily:Fonts.family.regular
   },
   emptyStateText: {
     fontSize: 14,
@@ -400,6 +408,7 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     lineHeight: 20,
     marginBottom: 24,
+     fontFamily:Fonts.family.regular
   },
   addFirstContactButton: {
     backgroundColor: '#8B5CF6',
@@ -411,9 +420,10 @@ const styles = StyleSheet.create({
     color: '#FFFFFF',
     fontSize: 14,
     fontWeight: '500',
+     fontFamily:Fonts.family.regular
   },
   topBackground: {
-      paddingTop: hp('4%'),
+      paddingTop: hp('5%'),
       paddingBottom: hp('2%'),
       paddingHorizontal: wp('4%'),
       height: hp('100%'),
@@ -435,11 +445,13 @@ const styles = StyleSheet.create({
     fontSize: hp('2%'),
     color: 'black',
     opacity: 0.9,
+     fontFamily:Fonts.family.regular
   },
   userName: {
     fontSize: hp('2%'),
     fontWeight: 'bold',
     color: 'black',
+     fontFamily:Fonts.family.regular
   },
   notificationButton: {
     width: wp('10%'),

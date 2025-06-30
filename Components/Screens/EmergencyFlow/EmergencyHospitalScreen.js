@@ -24,7 +24,8 @@ import FontAwesome6 from 'react-native-vector-icons/FontAwesome6';
 import Entypo from 'react-native-vector-icons/Entypo';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import logo from '../../Assets/logos.png';
-
+import Fonts from '../../Fonts/Fonts';
+import Colors from '../../Colors/Colors';
 const AccidentScreen = ({ navigation }) => {
   const [location, setLocation] = useState('');
   const [currentLocation, setCurrentLocation] = useState(
@@ -90,7 +91,7 @@ const AccidentScreen = ({ navigation }) => {
           <View style={{ flexDirection: 'row', top: 10, justifyContent: 'space-between' }}>
             <View style={{ flexDirection: 'row' }}>
               <AntDesign name="star" size={16} color="gold" />
-              <Text style={{ fontSize: 16, fontWeight: 'bold', color: '#333', left: 6 }}>
+              <Text style={{ fontSize: 16, fontWeight: 'bold', color: '#333', left: 6 , fontFamily:Fonts.family.regular}}>
                 {hospital.rating}
               </Text>
             </View>
@@ -103,7 +104,7 @@ const AccidentScreen = ({ navigation }) => {
 
   return (
    <SafeAreaView style={styles.container}>
-          <StatusBar barStyle="light-content" backgroundColor="#8B5CF6" />
+          <StatusBar barStyle="light-content" backgroundColor={Colors.statusBar} />
   
      
         <LinearGradient
@@ -217,7 +218,7 @@ const styles = StyleSheet.create({
     backgroundColor: 'rgba(117, 24, 170, 1)',
   },
   topBackground: {
-    paddingTop: hp('4%'),
+    paddingTop: hp('5%'),
     paddingBottom: hp('2%'),
     paddingHorizontal: wp('4%'),
     minHeight: hp('100%'),
@@ -239,11 +240,13 @@ const styles = StyleSheet.create({
     fontSize: hp('2%'),
     color: 'black',
     opacity: 0.9,
+     fontFamily:Fonts.family.regular
   },
   userName: {
     fontSize: hp('2%'),
     fontWeight: 'bold',
     color: 'black',
+     fontFamily:Fonts.family.regular
   },
   notificationButton: {
     width: wp('10%'),
@@ -259,6 +262,7 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     color: 'black',
     left: 10,
+     fontFamily:Fonts.family.regular
   },
   servicesGrid: {
     justifyContent: 'space-between',
@@ -292,18 +296,21 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     color: '#333',
     flexWrap: 'wrap',
+     fontFamily:Fonts.family.regular
   },
   timing: {
     fontSize: 14,
     color: '#177C1B',
     marginTop: 2,
     fontWeight: 'bold',
+     fontFamily:Fonts.family.regular
   },
   address: {
     flexDirection: 'row',
     fontSize: 13,
     color: '#555',
     marginTop: 4,
+     fontFamily:Fonts.family.regular
   },
   viewdetails: {
     width: wp('20%'),
@@ -313,6 +320,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     backgroundColor: 'rgb(96, 15, 143)',
     color: 'white',
+     fontFamily:Fonts.family.regular
   },
 
   locationContainer: {
@@ -326,18 +334,21 @@ const styles = StyleSheet.create({
     fontSize: 16,
     color: 'red',
     marginRight: 8,
+     fontFamily:Fonts.family.regular
   },
   locationLabel: {
     fontSize: 16,
     fontWeight: '500',
     color: 'rgba(83, 90, 91, 1)',
     marginLeft: 8,
+     fontFamily:Fonts.family.regular
   },
   locationText: {
     fontSize: 16,
     fontWeight: '500',
     color: '#000000',
     textDecorationLine: 'underline',
+     fontFamily:Fonts.family.regular
     
   },
   hospitalCard: {
@@ -454,6 +465,7 @@ const styles = StyleSheet.create({
     fontSize: 16,
     color: '#6B7280',
     marginRight: 12,
+     fontFamily:Fonts.family.regular
   },
   locationInput: {
     flex: 1,
@@ -479,6 +491,7 @@ const styles = StyleSheet.create({
     color: '#FFFFFF',
     fontSize: 16,
     fontWeight: 'bold',
+     fontFamily:Fonts.family.regular
   },
 });
 

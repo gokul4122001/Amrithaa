@@ -19,6 +19,8 @@ import Icons from 'react-native-vector-icons/Ionicons';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import LinearGradient from 'react-native-linear-gradient';
 import Icon from 'react-native-vector-icons/MaterialIcons';
+import Colors from '../../Colors/Colors';
+
     const HospitalForm = ({ navigation }) => {
     const [formData, setFormData] = useState({
         name: '',
@@ -48,7 +50,7 @@ import Icon from 'react-native-vector-icons/MaterialIcons';
 
     return (
         <SafeAreaView style={styles.container}>
-                    <StatusBar barStyle="light-content" backgroundColor="#8B5CF6" />
+                    <StatusBar barStyle="light-content" backgroundColor={Colors.statusBar} />
             
                   <LinearGradient
                     colors={['#ffffff', '#C3DFFF']}
@@ -167,7 +169,7 @@ import Icon from 'react-native-vector-icons/MaterialIcons';
         backgroundColor: '#F8F9FA',
     },
     topBackground: {
-      paddingTop: hp('4%'),
+      paddingTop: hp('5%'),
       paddingBottom: hp('2%'),
       paddingHorizontal: wp('4%'),
       height: hp('100%'),

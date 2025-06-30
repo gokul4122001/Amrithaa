@@ -19,7 +19,8 @@ import {
 import LinearGradient from 'react-native-linear-gradient';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import Icon from 'react-native-vector-icons/MaterialIcons';
-
+import Fonts from '../../Fonts/Fonts';
+import Colors from '../../Colors/Colors';
 const MyReportsScreen = ({ navigation }) => {
   const services = [
     {
@@ -70,7 +71,7 @@ const MyReportsScreen = ({ navigation }) => {
 
   return (
     <SafeAreaView style={styles.container}>
-      <StatusBar barStyle="light-content" backgroundColor="#8B5CF6" />
+      <StatusBar barStyle="light-content" backgroundColor={Colors.statusBar} />
       <LinearGradient
         colors={['#ffffff', '#C3DFFF']}
         start={{ x: -0, y: 0.3 }}
@@ -126,7 +127,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#F8F9FF',
   },
   topBackground: {
-    paddingTop: hp('4%'),
+    paddingTop: hp('5%'),
     paddingBottom: hp('2%'),
     paddingHorizontal: wp('4%'),
     height: hp('100%'),
@@ -148,11 +149,13 @@ const styles = StyleSheet.create({
     fontSize: hp('2%'),
     color: 'black',
     opacity: 0.9,
+     fontFamily:Fonts.family.regular
   },
   userName: {
     fontSize: hp('2%'),
     fontWeight: 'bold',
     color: 'black',
+     fontFamily:Fonts.family.regular
   },
   notificationButton: {
     width: wp('10%'),
@@ -173,6 +176,7 @@ const styles = StyleSheet.create({
     fontSize: 20,
     fontWeight: 'bold',
     marginLeft: 10,
+     fontFamily:Fonts.family.regular
   },
   serviceLabel: {
     fontSize: 25,
@@ -180,6 +184,7 @@ const styles = StyleSheet.create({
     marginVertical: 10,
     color: '#000',
     marginHorizontal: 13,
+     fontFamily:Fonts.family.regular
   },
   gridContainer: {
     paddingBottom: 20,
@@ -204,6 +209,7 @@ const styles = StyleSheet.create({
     color: '#4a4a4a',
     textAlign: 'center',
     fontWeight: '600',
+     fontFamily:Fonts.family.regular
   },
 });
 

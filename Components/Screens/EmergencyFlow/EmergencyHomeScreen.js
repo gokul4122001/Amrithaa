@@ -20,7 +20,8 @@ import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityI
 import FontAwesome6 from 'react-native-vector-icons/FontAwesome6';
 import logo from '../../Assets/logos.png';
 import LinearGradient from 'react-native-linear-gradient';
-
+import Fonts from '../../Fonts/Fonts';
+import Colors from '../../Colors/Colors';
 const EmergencyHomeScreen = ({ navigation }) => {
   const services = [
     { id: 1, name: 'Accident/Trauma', Image: require('../../Assets/em1.png'), route: 'EmergencyHospitalScreen', params: { serviceType: 'Accident/Trauma' }},
@@ -55,7 +56,7 @@ const EmergencyHomeScreen = ({ navigation }) => {
 
   return (
     <SafeAreaView style={styles.container}>
-      <StatusBar barStyle="light-content" backgroundColor="#8B5CF6" />
+      <StatusBar barStyle="light-content" backgroundColor={Colors.statusBar} />
       <LinearGradient
        colors={['#ffffff', '#C3DFFF']}
       start={{ x: 0, y: 0.3 }}
@@ -101,7 +102,7 @@ const styles = StyleSheet.create({
     backgroundColor: 'white',
   },
   topBackground: {
-    paddingTop: hp('4%'),
+    paddingTop: hp('5%'),
     paddingBottom: hp('2%'),
     paddingHorizontal: wp('4%'),
     height: hp('100%'),
@@ -123,11 +124,13 @@ const styles = StyleSheet.create({
     fontSize: hp('2%'),
     color: 'black',
     opacity: 0.9,
+     fontFamily:Fonts.family.regular
   },
   userName: {
     fontSize: hp('2%'),
     fontWeight: 'bold',
     color: 'black',
+     fontFamily:Fonts.family.regular
   },
   notificationButton: {
     width: wp('10%'),
@@ -148,6 +151,7 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     color: 'black',
     marginLeft: 10,
+     fontFamily:Fonts.family.regular
   },
   flatListContent: {
     marginTop: hp('3%'),
@@ -170,6 +174,7 @@ const styles = StyleSheet.create({
     fontWeight: '700',
     color: '#4a4a4a',
     textAlign: 'center',
+     fontFamily:Fonts.family.regular
   },
   invisible: {
     backgroundColor: 'transparent',

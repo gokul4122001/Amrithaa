@@ -14,7 +14,8 @@ import {
 } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import LinearGradient from 'react-native-linear-gradient';
-
+import Fonts from '../../Fonts/Fonts';
+import Colors from '../../Colors/Colors';
 const { width, height } = Dimensions.get('window');
 
 const HealthUmbrellaScreen = () => {
@@ -27,7 +28,7 @@ const HealthUmbrellaScreen = () => {
       end={{ x: 0, y: 0 }}
       style={styles.gradientContainer}
     >
-      <StatusBar backgroundColor="#7518AA" barStyle="light-content" />
+      <StatusBar backgroundColor={Colors.statusBar} barStyle="light-content" />
 
       <SafeAreaView style={styles.safeArea}>
         <ScrollView style={styles.container}>
@@ -97,6 +98,7 @@ const styles = StyleSheet.create({
   skipText: {
     color: '#555',
     fontWeight: 'bold',
+     fontFamily:Fonts.family.regular
   },
   logoRow: {
     flexDirection: 'row',
@@ -111,9 +113,9 @@ const styles = StyleSheet.create({
   },
   logoTitle: {
     fontSize: 30,
-    color: '#7518AA',
+    color: Colors.statusBar,
     fontWeight: '700',
-    fontFamily: 'Satoshi',
+    fontFamily:Fonts.family.regular,
   },
   centeredContent: {
     alignItems: 'center',
@@ -126,11 +128,13 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     textAlign: 'center',
     marginBottom: 10,
+     fontFamily:Fonts.family.regular
   },
   subtitle: {
     fontSize: 20,
     color: '#666',
     textAlign: 'center',
+     fontFamily:Fonts.family.regular
   },
   logoRow1: {
     flexDirection: 'row',

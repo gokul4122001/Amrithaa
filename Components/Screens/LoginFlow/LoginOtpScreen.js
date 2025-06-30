@@ -13,6 +13,8 @@ import {
   Alert,
 } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
+import Fonts from '../../Fonts/Fonts';
+import Colors from '../../Colors/Colors';
 
 const OTPVerificationScreen = ({ route, navigation }) => {
   const [otp, setOtp] = useState(['', '', '', '']);
@@ -87,7 +89,7 @@ const OTPVerificationScreen = ({ route, navigation }) => {
       end={{ x: 0, y: 0 }}
       style={styles.gradientContainer}
     >
-      <StatusBar barStyle="dark-content" backgroundColor="#7518AA" />
+      <StatusBar barStyle="dark-content" backgroundColor={Colors.statusBar} />
       <KeyboardAvoidingView
         style={{ flex: 1 }}
         behavior={Platform.OS === 'ios' ? 'padding' : undefined}
@@ -171,8 +173,9 @@ const styles = StyleSheet.create({
   },
   logoBrand: {
     fontSize: 30,
-    color: '#7518AA',
+    color:  Colors.statusBar,
     fontWeight: '700',
+     fontFamily:Fonts.family.regular
   },
   mainContent: {
     flex: 1,
@@ -189,6 +192,7 @@ const styles = StyleSheet.create({
     color: '#333',
     marginBottom: 10,
     textAlign: 'center',
+     fontFamily:Fonts.family.regular
   },
   changeMobileText: {
     fontSize: 20,
@@ -197,6 +201,7 @@ const styles = StyleSheet.create({
     marginBottom: 40,
     top: 10,
     fontWeight: '700',
+     fontFamily:Fonts.family.regular
   },
   otpContainer: {
     flexDirection: 'row',
@@ -212,6 +217,7 @@ const styles = StyleSheet.create({
     fontSize: 18,
     fontWeight: 'bold',
     textAlign: 'center',
+     fontFamily:Fonts.family.regular
   },
   otpInputEmpty: {
     borderColor: '#e0e0e0',
@@ -229,6 +235,7 @@ const styles = StyleSheet.create({
     fontWeight: '600',
     marginBottom: 20,
     top: 20,
+     fontFamily:Fonts.family.regular
   },
   resendContainer: {
     flexDirection: 'row',
@@ -239,10 +246,12 @@ const styles = StyleSheet.create({
   resendQuestion: {
     fontSize: 17,
     color: '#666',
+     fontFamily:Fonts.family.regular
   },
   resendLink: {
     fontSize: 14,
     fontWeight: '600',
+     fontFamily:Fonts.family.regular
   },
   resendEnabled: {
     color: '#ff4444',
@@ -275,6 +284,7 @@ const styles = StyleSheet.create({
     color: 'white',
     fontSize: 16,
     fontWeight: '600',
+     fontFamily:Fonts.family.regular
   },
 });
 

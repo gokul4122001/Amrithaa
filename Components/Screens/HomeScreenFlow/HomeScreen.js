@@ -18,6 +18,8 @@ import {
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import Iconed from 'react-native-vector-icons/MaterialCommunityIcons';
 import  { useState } from 'react';
+import Colors from '../../Colors/Colors';
+import Fonts from '../../Fonts/Fonts';
 const services = [
   { title: 'Ambulance', image: require('../../Assets/HomeAmbulance.png') ,screen: 'AmbulanceBookingScreen'},
   { title: 'Home care Nursing', image: require('../../Assets/Homecarenursing.png') },
@@ -51,7 +53,7 @@ export default function App({ navigation }) {
 
   return (
     <SafeAreaView style={styles.container}>
-      <StatusBar barStyle="light-content" backgroundColor="#8B5CF6" />
+      <StatusBar barStyle="light-content" backgroundColor={Colors.statusBar} />
            <LinearGradient
                        colors={['#ffffff', '#C3DFFF']}
       start={{ x: 0, y: 0.3 }}
@@ -233,7 +235,7 @@ searchBox: {
     marginTop: 5,
     fontSize: 16,
     textAlign: 'center',
-    fontFamily:'Roboto',
+     fontFamily:Fonts.family.regular,
     fontWeight:'700',
     color:'#000000'
   },
@@ -257,9 +259,11 @@ searchBox: {
   doctorName: {
     color: '#fff',
     fontWeight: 'bold',
+     fontFamily:Fonts.family.regular
   },
   specialty: {
     color: '#ddd',
+     fontFamily:Fonts.family.regular
   },
   phoneIcon: {
     width: 34,
@@ -305,6 +309,7 @@ searchBox: {
     marginLeft: 6,
     fontSize: 16,
     color: '#333',
+     fontFamily:Fonts.family.regular
   },
   
     topBackground: {
@@ -330,11 +335,13 @@ searchBox: {
     fontSize: hp('2%'),
     color: 'black',
     opacity: 0.9,
+     fontFamily:Fonts.family.regular
   },
   userName: {
     fontSize: hp('2%'),
     fontWeight: 'bold',
     color: 'black',
+     fontFamily:Fonts.family.regular
   },
   notificationButton: {
     width: wp('10%'),
@@ -357,12 +364,15 @@ searchBox: {
   sectionTitle: {
     fontSize: 18,
     fontWeight: 'bold',
-    marginBottom:15
+    marginBottom:15,
+     fontFamily:Fonts.family.regular
+
   },
   seeAll: {
     fontSize: 14,
     color: '#007bff',
     fontWeight: '500',
+     fontFamily:Fonts.family.regular
   },
  transactionCard: {
   flexDirection: 'row',
@@ -398,15 +408,18 @@ searchBox: {
   transactionTitle: {
     fontSize: 16,
     fontWeight: '600',
+     fontFamily:Fonts.family.regular
   },
   transactionDate: {
     fontSize: 13,
     color: '#888',
     marginTop: 2,
+     fontFamily:Fonts.family.regular
   },
   transactionAmount: {
     fontSize: 16,
     fontWeight: '600',
     color: '#000',
+     fontFamily:Fonts.family.regular
   },
 });

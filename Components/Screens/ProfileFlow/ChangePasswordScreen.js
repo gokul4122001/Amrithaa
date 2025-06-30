@@ -19,8 +19,8 @@ import {
 import Header from '../../ReUsableComponents/Header';
 import logo from '../../Assets/logos.png';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
-
-
+import Fonts from '../../Fonts/Fonts';
+import Colors from '../../Colors/Colors';
 const ChangePasswordScreen = ({navigation}) => {
   const [passwords, setPasswords] = useState({
     currentPassword: '',
@@ -135,7 +135,7 @@ const ChangePasswordScreen = ({navigation}) => {
 
   return (
     <SafeAreaView style={styles.container}>
-      <StatusBar barStyle="light-content" backgroundColor="#8B5CF6" />
+      <StatusBar barStyle="light-content" backgroundColor={Colors.statusBar} />
  <LinearGradient
              colors={['#ffffff', '#C3DFFF']}
       start={{ x: 0, y: 0.3 }}
@@ -168,7 +168,7 @@ const ChangePasswordScreen = ({navigation}) => {
                              <TouchableOpacity style={styles.backButton} onPress={() => navigation.goBack()}>
                                <Icon name="arrow-back" size={24} color="#000000" />
                              </TouchableOpacity>
-                             <Text style={{fontSize:20,fontWeight:'700'}}>Change Password</Text>
+                             <Text style={{fontSize:20,fontWeight:'700', fontFamily:Fonts.family.regular}}>Change Password</Text>
                             
                            </View>
     
@@ -309,11 +309,13 @@ const styles = StyleSheet.create({
     fontWeight: '600',
     color: '#1F2937',
     marginBottom: 4,
+     fontFamily:Fonts.family.regular
   },
   cardSubtitle: {
     fontSize: 14,
     color: '#6B7280',
     lineHeight: 16,
+     fontFamily:Fonts.family.regular
   },
   formContainer: {
     marginTop: 8,
@@ -326,6 +328,7 @@ const styles = StyleSheet.create({
     fontWeight: '600',
     color: '#0C0B0B',
     marginBottom: 4,
+     fontFamily:Fonts.family.regular
   },
   required: {
     color: '#EF4444',
@@ -335,6 +338,7 @@ const styles = StyleSheet.create({
     color: '#6B7280',
     marginBottom: 8,
     lineHeight: 16,
+     fontFamily:Fonts.family.regular
   },
   passwordContainer: {
     flexDirection: 'row',
@@ -368,9 +372,10 @@ const styles = StyleSheet.create({
     color: '#FFFFFF',
     fontSize: 16,
     fontWeight: '600',
+     fontFamily:Fonts.family.regular
   },
    topBackground: {
-      paddingTop: hp('4%'),
+      paddingTop: hp('5%'),
       paddingBottom: hp('2%'),
       paddingHorizontal: wp('4%'),
       height: hp('100%'),
@@ -392,11 +397,13 @@ const styles = StyleSheet.create({
     fontSize: hp('2%'),
     color: 'black',
     opacity: 0.9,
+     fontFamily:Fonts.family.regular
   },
   userName: {
     fontSize: hp('2%'),
     fontWeight: 'bold',
     color: 'black',
+     fontFamily:Fonts.family.regular
   },
   notificationButton: {
     width: wp('10%'),

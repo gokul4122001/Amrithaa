@@ -10,9 +10,10 @@ import {
   Easing,
 } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
-
+import Fonts from '../../Fonts/Fonts';
 const { width } = Dimensions.get('window');
 const radius = width * 0.35;
+import Colors from '../../Colors/Colors';
 
 const icons = [
   require('../../Assets/flash1.png'),
@@ -55,7 +56,7 @@ export default function App() {
 
   return (
     <View style={styles.container}>
-      <StatusBar barStyle="light-content" backgroundColor="#4B0076" />
+      <StatusBar barStyle="light-content" backgroundColor={Colors.statusBar} />
 
       <View style={styles.circle}>
         <View style={styles.circleRing} />
@@ -157,6 +158,7 @@ const styles = StyleSheet.create({
     color: '#fff',
     fontSize: 18,
     fontWeight: 'bold',
+    fontFamily:Fonts.family.regular
   },
   footerText: {
     position: 'absolute',
@@ -164,5 +166,6 @@ const styles = StyleSheet.create({
     color: '#ffff',
     fontSize: 20,
     textAlign: 'center',
+     fontFamily:Fonts.family.regular
   },
 });

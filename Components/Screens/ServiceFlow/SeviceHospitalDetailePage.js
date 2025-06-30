@@ -18,7 +18,7 @@ import {
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
-
+import Colors from '../../Colors/Colors';
 const { width } = Dimensions.get('window');
 import LinearGradient from 'react-native-linear-gradient';
 const HospitalDetails = ({ navigation }) => {
@@ -235,7 +235,7 @@ const HospitalDetails = ({ navigation }) => {
 
   return (
    <SafeAreaView style={styles.container}>
-            <StatusBar barStyle="light-content" backgroundColor="#8B5CF6" />
+            <StatusBar barStyle="light-content" backgroundColor={Colors.statusBar}/>
     
           <LinearGradient
             colors={['#ffffff', '#C3DFFF']}
@@ -966,7 +966,7 @@ const styles = StyleSheet.create({
     fontSize: 14,
   },
     topBackground: {
-        paddingTop: hp('2%'),
+        paddingTop: hp('5%'),
         paddingBottom: hp('2%'),
         paddingHorizontal: wp('4%'),
         height: hp('100%'),

@@ -19,6 +19,7 @@ import {
 import LinearGradient from 'react-native-linear-gradient';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import Icon from 'react-native-vector-icons/MaterialIcons';
+import Colors from '../../Colors/Colors';
 
 const MyReportsScreen = ({ navigation }) => {
   const services = [
@@ -52,7 +53,7 @@ const MyReportsScreen = ({ navigation }) => {
 
   return (
     <SafeAreaView style={styles.container}>
-      <StatusBar barStyle="light-content" backgroundColor="#8B5CF6" />
+      <StatusBar barStyle="light-content" backgroundColor={Colors.statusBar} />
       <LinearGradient     colors={['#ffffff', '#C3DFFF']}
       start={{ x: 0, y: 0.3 }}
       end={{ x: 0, y: 0 }}
@@ -100,7 +101,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#F8F9FF',
   },
   topBackground: {
-    paddingTop: hp('4%'),
+    paddingTop: hp('5%'),
     paddingBottom: hp('2%'),
     paddingHorizontal: wp('4%'),
     height: hp('100%'),

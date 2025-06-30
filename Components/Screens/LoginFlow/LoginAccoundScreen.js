@@ -17,7 +17,8 @@ import { countries } from './CountryJson';
 import { useNavigation } from '@react-navigation/native';
 import Icons from 'react-native-vector-icons/MaterialIcons';
 import LinearGradient from 'react-native-linear-gradient';
-
+import Fonts from '../../Fonts/Fonts';
+import Colors from '../../Colors/Colors';
 const LoginScreen = () => {
   const [selectedCountry, setSelectedCountry] = useState(countries[0]);
   const [mobileNumber, setMobileNumber] = useState('');
@@ -62,7 +63,7 @@ const LoginScreen = () => {
       end={{ x: 0, y: 0 }}
       style={styles.gradientContainer}
     >
-      <StatusBar barStyle="dark-content" backgroundColor="#7518AA" translucent />
+      <StatusBar barStyle="dark-content" backgroundColor={Colors.statusBar} translucent />
 
       <SafeAreaView style={styles.container}>
         {/* Logo */}
@@ -159,12 +160,14 @@ const styles = StyleSheet.create({
     color: '#333',
     marginBottom: 30,
     textAlign: 'center',
+     fontFamily:Fonts.family.regular
   },
   label: {
     fontSize: 20,
     color: '#333',
     marginBottom: 15,
     fontWeight: '600',
+     fontFamily:Fonts.family.regular
   },
   inputContainer: {
     flexDirection: 'row',
@@ -221,6 +224,7 @@ const styles = StyleSheet.create({
     color: 'white',
     fontSize: 16,
     fontWeight: '600',
+     fontFamily:Fonts.family.regular
   },
   modalContainer: {
     flex: 1,
@@ -231,6 +235,7 @@ const styles = StyleSheet.create({
     fontSize: 22,
     fontWeight: 'bold',
     marginVertical: 20,
+     fontFamily:Fonts.family.regular
   },
   countryItem: {
     flexDirection: 'row',
@@ -248,6 +253,7 @@ const styles = StyleSheet.create({
 },
   countryText: {
     fontSize: 16,
+     fontFamily:Fonts.family.regular
   },
   closeButton: {
     backgroundColor: '#7c3aed',
@@ -260,6 +266,7 @@ const styles = StyleSheet.create({
     color: '#fff',
     fontWeight: 'bold',
     fontSize: 16,
+     fontFamily:Fonts.family.regular
   },
   logoRow: {
     flexDirection: 'row',
@@ -279,9 +286,9 @@ const styles = StyleSheet.create({
   },
   logoBrand: {
     fontSize: 30,
-    color: '#7518AA',
+    color:  Colors.statusBar,
     fontWeight: '700',
-    fontFamily: 'Satoshi',
+   fontFamily:Fonts.family.regular
   },
 });
 

@@ -11,7 +11,8 @@ import {
   TextInput,
   Alert,
 } from 'react-native';
-
+import Colors from '../../Colors/Colors';
+import Colors from '../../Colors/Colors';
 const BookingSuccessScreen = ({ navigation }) => {
   const [showFeedbackModal, setShowFeedbackModal] = useState(false);
   const [rating, setRating] = useState(0);
@@ -73,7 +74,7 @@ const BookingSuccessScreen = ({ navigation }) => {
 
   return (
     <SafeAreaView style={styles.container}>
-      <StatusBar backgroundColor="#ffffff" barStyle="dark-content" />
+      <StatusBar backgroundColor={Colors.statusBar} barStyle="dark-content" />
       <View style={styles.content}>
         <Text style={styles.successText}>Booking Successful</Text>
       </View>

@@ -22,7 +22,7 @@ import Entypo from 'react-native-vector-icons/Entypo';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import logo from '../../Assets/logos.png'; 
-
+import Colors from '../../Colors/Colors';
 
 
 const AccidentScreen = ({ navigation }) => {
@@ -110,7 +110,7 @@ const AccidentScreen = ({ navigation }) => {
 
   return (
     <SafeAreaView style={styles.container}>
-      <StatusBar barStyle="light-content" backgroundColor="#8B5CF6" />
+      <StatusBar barStyle="light-content" backgroundColor={Colors.statusBar} />
       <LinearGradient
         colors={['#ffffff', '#C3DFFF']}
       start={{ x: 0, y: 0.3 }}
@@ -186,7 +186,7 @@ const styles = StyleSheet.create({
   },
   topBackground: {
     flex: 1,
-    paddingTop: hp('4%'),
+    paddingTop: hp('5%'),
     paddingBottom: hp('2%'),
     paddingHorizontal: wp('4%'),
   },

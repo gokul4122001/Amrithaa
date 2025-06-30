@@ -386,7 +386,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#F8F9FF',
   },
   topBackground: {
-    paddingTop: hp('2%'),
+    paddingTop: hp('5%'),
     paddingBottom: hp('2%'),
     paddingHorizontal: wp('4%'),
     height: hp('100%'),

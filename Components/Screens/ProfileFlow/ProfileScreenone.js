@@ -22,7 +22,8 @@ import {
 } from 'react-native-responsive-screen';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import DateTimePicker from '@react-native-community/datetimepicker';
-
+import Fonts from '../../Fonts/Fonts';
+import Colors from '../../Colors/Colors';
 const ProfileFormScreen = ({ navigation }) => {
   const [profileData, setProfileData] = useState({
     name: '',
@@ -226,7 +227,7 @@ const ProfileFormScreen = ({ navigation }) => {
 
   return (
     <SafeAreaView style={styles.container}>
-      <StatusBar barStyle="dark-content" backgroundColor="#8B5CF6" />
+      <StatusBar barStyle="dark-content" backgroundColor={Colors.statusBar} />
       <LinearGradient
         colors={['#ffffff', '#C3DFFF']}
       start={{ x: 0, y: 0.3 }}
@@ -474,13 +475,15 @@ const styles = StyleSheet.create({
     fontWeight: '600',
     color: '#1F2937',
     marginLeft: 8,
+     fontFamily:Fonts.family.regular
   },
   sectionTitle: {
     fontSize: 20,
     fontWeight: '600',
     color: '#1F2937',
     marginBottom: 16,
-    marginTop: 10
+    marginTop: 10,
+     fontFamily:Fonts.family.regular
   },
   fieldContainer: {
     marginBottom: 16,
@@ -490,7 +493,7 @@ const styles = StyleSheet.create({
     fontWeight: '500',
     color: '#4F4C4C',
     marginBottom: 8,
-    fontFamily: 'Roboto'
+    fontFamily:Fonts.family.regular
   },
   textInput: {
     borderWidth: 1,
@@ -518,9 +521,11 @@ const styles = StyleSheet.create({
   dropdownText: {
     fontSize: 16,
     color: '#1F2937',
+     fontFamily:Fonts.family.regular
   },
   placeholderText: {
     color: '#9CA3AF',
+     fontFamily:Fonts.family.regular
   },
   rowContainer: {
     flexDirection: 'row',
@@ -573,6 +578,7 @@ const styles = StyleSheet.create({
     marginTop: 8,
     fontSize: 14,
     color: '#6B7280',
+     fontFamily:Fonts.family.regular
   },
   toggleContainer: {
     flexDirection: 'row',
@@ -588,6 +594,7 @@ const styles = StyleSheet.create({
     fontSize: 14,
     color: '#166534',
     flex: 1,
+     fontFamily:Fonts.family.regular
   },
   familyMemberContainer: {
     marginBottom: 24,
@@ -610,6 +617,7 @@ const styles = StyleSheet.create({
     fontSize: 14,
     color: '#8B5CF6',
     fontWeight: '500',
+     fontFamily:Fonts.family.regular
   },
   saveButton: {
     backgroundColor: '#7518AA',
@@ -624,9 +632,10 @@ const styles = StyleSheet.create({
     color: '#FFFFFF',
     fontSize: 16,
     fontWeight: '600',
+     fontFamily:Fonts.family.regular
   },
   topBackground: {
-    paddingTop: hp('4%'),
+    paddingTop: hp('5%'),
     paddingBottom: hp('2%'),
     paddingHorizontal: wp('4%'),
     height: hp('100%'),
@@ -648,11 +657,13 @@ const styles = StyleSheet.create({
     fontSize: hp('2%'),
     color: 'black',
     opacity: 0.9,
+     fontFamily:Fonts.family.regular
   },
   userName: {
     fontSize: hp('2%'),
     fontWeight: 'bold',
     color: 'black',
+     fontFamily:Fonts.family.regular
   },
   notificationButton: {
     width: wp('10%'),

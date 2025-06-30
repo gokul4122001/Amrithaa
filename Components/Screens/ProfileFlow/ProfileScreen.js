@@ -17,7 +17,8 @@ import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
-
+import Fonts from '../../Fonts/Fonts';
+import Colors from '../../Colors/Colors';
 const ProfileScreen = ({ navigation }) => {
   const [isEmergencyModalVisible, setIsEmergencyModalVisible] = useState(false);
   const [isLogoutPopupVisible, setIsLogoutPopupVisible] = useState(false);
@@ -138,7 +139,7 @@ const ProfileScreen = ({ navigation }) => {
 
   return (
     <SafeAreaView style={styles.container}>
-      <StatusBar barStyle="light-content" backgroundColor="#7518AA" />
+      <StatusBar barStyle="light-content" backgroundColor={Colors.statusBar} />
       
    <ScrollView>
       <View style={styles.content}>
@@ -359,6 +360,7 @@ profileCard: {
     fontSize: 25,
     fontWeight:'800',
     color: '#4a4a4a',
+     fontFamily:Fonts.family.regular
   },
   menuContainer: {
     backgroundColor: '#FFFFFF',
@@ -398,11 +400,12 @@ menuItem: {
     fontSize: 20,
     color: '#6B7280',
     fontWeight: '800',
-    fontFamily:'Roboto'
+     fontFamily:Fonts.family.regular
   },
   activeMenuText: {
     color: '#7518AA',
     fontWeight: '600',
+     fontFamily:Fonts.family.regular
   },
   bottomNav: {
     flexDirection: 'row',
@@ -423,9 +426,11 @@ menuItem: {
     color: '#9CA3AF',
     marginTop: 4,
     fontWeight: '500',
+     fontFamily:Fonts.family.regular
   },
   activeTabLabel: {
     color: '#8B5CF6',
+     fontFamily:Fonts.family.regular
   },
   // Modal Styles
   modalOverlay: {
@@ -452,6 +457,7 @@ menuItem: {
     fontSize: 20,
     fontWeight: '600',
     color: '#1F2937',
+     fontFamily:Fonts.family.regular
   },
   closeButton: {
     padding: 4,
@@ -461,6 +467,7 @@ menuItem: {
     color: '#6B7280',
     marginBottom: 24,
     lineHeight: 20,
+     fontFamily:Fonts.family.regular
   },
   formContainer: {
     marginBottom: 32,
@@ -473,6 +480,7 @@ menuItem: {
     fontWeight: '500',
     color: '#374151',
     marginBottom: 8,
+     fontFamily:Fonts.family.regular
   },
   textInput: {
     borderWidth: 1,
@@ -502,6 +510,7 @@ menuItem: {
     fontSize: 16,
     fontWeight: '500',
     color: '#6B7280',
+     fontFamily:Fonts.family.regular
   },
   saveButton: {
     flex: 1,
@@ -515,6 +524,7 @@ menuItem: {
     fontSize: 16,
     fontWeight: '500',
     color: '#FFFFFF',
+     fontFamily:Fonts.family.regular
   },
   // Logout Popup Styles
   logoutOverlay: {
@@ -557,6 +567,7 @@ menuItem: {
     fontWeight: '600',
     color: '#1F2937',
     marginBottom: 12,
+     fontFamily:Fonts.family.regular
   },
   logoutMessage: {
     fontSize: 14,
@@ -564,6 +575,7 @@ menuItem: {
     textAlign: 'center',
     lineHeight: 20,
     marginBottom: 24,
+     fontFamily:Fonts.family.regular
   },
   logoutButtons: {
     flexDirection: 'row',
@@ -584,6 +596,7 @@ menuItem: {
     fontSize: 16,
     fontWeight: '500',
     color: '#6B7280',
+     fontFamily:Fonts.family.regular
   },
   logoutConfirmButton: {
     flex: 1,
@@ -597,6 +610,7 @@ menuItem: {
     fontSize: 16,
     fontWeight: '500',
     color: '#FFFFFF',
+     fontFamily:Fonts.family.regular
   },
 profileCardBackground: {
   width: '100%',
