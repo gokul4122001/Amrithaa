@@ -144,12 +144,12 @@ const styles = StyleSheet.create({
     marginTop: 20,
   },
   sectionTitle: {
-    fontSize: 23,
+    fontSize: 20,
     fontWeight: 'bold',
     marginLeft: 10,
   },
   serviceLabel: {
-    fontSize: 25,
+    fontSize: 20,
     fontWeight: '700',
     marginVertical: 10,
     color: '#000',

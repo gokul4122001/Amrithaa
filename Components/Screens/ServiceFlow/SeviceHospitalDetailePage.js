@@ -21,6 +21,9 @@ import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityI
 import Colors from '../../Colors/Colors';
 const { width } = Dimensions.get('window');
 import LinearGradient from 'react-native-linear-gradient';
+import Ionicons from 'react-native-vector-icons/Ionicons';
+import Fonts from '../../Fonts/Fonts';
+
 const HospitalDetails = ({ navigation }) => {
   const [selectedTimeSlot, setSelectedTimeSlot] = useState(null);
   const [selectedRating, setSelectedRating] = useState(0);
@@ -43,7 +46,7 @@ const HospitalDetails = ({ navigation }) => {
       specialty: 'Cardiologist',
       experience: '8 years exp',
       rating: 4.8,
-      image: require('../../Assets/heat.png'), // Use local image
+      image: require('../../Assets/doc1.png'), // Use local image
       available: true,
     },
     {
@@ -52,7 +55,7 @@ const HospitalDetails = ({ navigation }) => {
       specialty: 'Neurologist',
       experience: '12 years exp',
       rating: 4.9,
-      image: require('../../Assets/heat.png'), // Use local image
+      image: require('../../Assets/doc1.png'), // Use local image
       available: false,
     },
   ];
@@ -60,17 +63,17 @@ const HospitalDetails = ({ navigation }) => {
   const hospitalPhotos = [
     {
       id: '1',
-      uri: require('../../Assets/heat.png'),
+      uri: require('../../Assets/doc1.png'),
       title: 'Hospital Exterior',
     },
     {
       id: '2',
-      uri: require('../../Assets/heat.png'),
+      uri: require('../../Assets/doc2.png'),
       title: 'Operating Room',
     },
     {
       id: '3',
-      uri: require('../../Assets/heat.png'),
+      uri: require('../../Assets/doc1.png'),
       title: 'Hospital Room',
     },
   ];
@@ -113,24 +116,23 @@ const HospitalDetails = ({ navigation }) => {
   );
 
   const DoctorCard = ({ doctor }) => (
-    <TouchableOpacity style={styles.doctorCard}>
+   <TouchableOpacity style={styles.doctorCard}>
+    <View style={styles.imageContainer}>
       <Image source={doctor.image} style={styles.doctorImage} />
-      <View style={styles.doctorInfo}>
-        <Text style={styles.doctorName}>{doctor.name}</Text>
-        <Text style={styles.doctorSpecialty}>{doctor.specialty}</Text>
+      <View style={styles.ratingBadge}>
+        <Icon name="star" size={14} color="white" />
+        <Text style={styles.ratingText}>{doctor.rating}</Text>
+      </View>
+    </View>
+    <View style={styles.infoContainer}>
+      <Text style={styles.doctorName}>{doctor.name}</Text>
+      <Text style={styles.doctorSpecialty}>{doctor.specialty}</Text>
+      <View style={styles.experienceRow}>
+        <Icon name="verified" size={14} color="#4CAF50" />
         <Text style={styles.doctorExperience}>{doctor.experience}</Text>
-        <View style={styles.doctorRating}>
-          <Icon name="star" size={14} color="#FFD700" />
-          <Text style={styles.ratingText}>{doctor.rating}</Text>
-        </View>
       </View>
-      <View style={styles.doctorActions}>
-        <TouchableOpacity style={styles.chatButton}>
-          <Icon name="chat" size={20} color="#4A90E2" />
-        </TouchableOpacity>
-        <View style={[styles.statusIndicator, { backgroundColor: doctor.available ? '#4CAF50' : '#FF6B6B' }]} />
-      </View>
-    </TouchableOpacity>
+    </View>
+  </TouchableOpacity>
   );
 
   const ReviewCard = ({ review }) => (
@@ -185,15 +187,15 @@ const HospitalDetails = ({ navigation }) => {
   ];
 
   const quickActions = [
-    { id: '1', title: 'Doctors', subtitle: '7,500+', icon: 'person', color: '#E8F4FD' },
+    { id: '1', title: 'Patients', subtitle: '7,500+', icon: 'person', color: '#E8F4FD' },
     { id: '2', title: 'Years Exp', subtitle: '10+', icon: 'schedule', color: '#FFF2E8' },
     { id: '3', title: 'Rating', subtitle: '4.3', icon: 'star', color: '#FDE8E8' },
     { id: '4', title: 'Reviews', subtitle: '4,956', icon: 'rate-review', color: '#E8F8F4' },
   ];
 
   const ActionCard = ({ action }) => (
-    <View style={[styles.actionCard, { backgroundColor: action.color }]}>
-      <Icon name={action.icon} size={24} color="#4A90E2" />
+    <View style={[styles.actionCard, {  }]}>
+      <Icon name={action.icon} size={24} color="#7518AA" />
       <Text style={styles.actionSubtitle}>{action.subtitle}</Text>
       <Text style={styles.actionTitle}>{action.title}</Text>
     </View>
@@ -239,8 +241,8 @@ const HospitalDetails = ({ navigation }) => {
     
           <LinearGradient
             colors={['#ffffff', '#C3DFFF']}
-            start={{ x: 0.1, y: 0 }}
-            end={{ x: 1, y: 0 }}
+      start={{ x: 0, y: 0.3 }}
+      end={{ x: 0, y: 0 }}
             style={styles.topBackground}
           >
       {/* Header */}
@@ -267,6 +269,17 @@ const HospitalDetails = ({ navigation }) => {
                           </View>
 
       <ScrollView style={styles.content} showsVerticalScrollIndicator={false}>
+
+       <View style={{ flexDirection: 'row', alignItems: 'center', marginBottom: 16 }}>
+         <TouchableOpacity onPress={() => navigation.goBack()}>
+    <Ionicons name="chevron-back" size={24} color="#000" />
+  </TouchableOpacity>
+  <Text style={{ fontSize: 16, fontWeight: 'bold', marginLeft: 8 }}>
+    Accident / Trauma
+  </Text>
+ 
+</View>
+
         {/* Hospital Image */}
         <View style={styles.hospitalImageContainer}>
           <Image
@@ -288,13 +301,13 @@ const HospitalDetails = ({ navigation }) => {
             </View>
           </View>
           <View style={styles.locationContainer}>
-            <Icon name="location-on" size={16} color="#666" />
+            <Icon name="location-on" size={16} color="red" />
             <Text style={styles.location}>
               No 3/1, 1st Street, West Mambalam, Chennai - 33
             </Text>
           </View>
           <View style={styles.timingContainer}>
-            <Icon name="schedule" size={16} color="#4A90E2" />
+            <Icon name="schedule" size={16} color="green" />
             <Text style={styles.timing}>Open 24 Hours</Text>
           </View>
         </View>
@@ -400,12 +413,19 @@ const HospitalDetails = ({ navigation }) => {
         </View>
 
         {/* Doctors in Hospitals */}
-        <View style={styles.section}>
-          <Text style={styles.sectionTitle}>Doctors in Hospitals</Text>
-          {doctors.map((doctor) => (
-            <DoctorCard key={doctor.id} doctor={doctor} />
-          ))}
-        </View>
+       <View style={styles.section}>
+  <Text style={styles.sectionTitle}>Doctors in Hospitals</Text>
+  <ScrollView
+    horizontal
+    showsHorizontalScrollIndicator={false}
+    contentContainerStyle={styles.horizontalScroll}
+  >
+    {doctors.map((doctor) => (
+      <DoctorCard key={doctor.id} doctor={doctor} />
+    ))}
+  </ScrollView>
+</View>
+
 
         {/* Reviews & Ratings */}
         <View style={styles.section}>
@@ -451,10 +471,7 @@ const HospitalDetails = ({ navigation }) => {
     </View>
 
 
-        {/* Book Appointment Button */}
-        <TouchableOpacity style={styles.bookButton}>
-          <Text style={styles.bookButtonText}>Book Appointment</Text>
-        </TouchableOpacity>
+      
 
         <View style={styles.bottomPadding} />
       </ScrollView>
@@ -468,7 +485,72 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#fff',
   },
- 
+  scrollContainer: {
+    paddingHorizontal: 10,
+  },
+  doctorCard: {
+    width: 150,
+    backgroundColor: '#fff',
+    borderRadius: 12,
+    marginRight: 16,
+    overflow: 'hidden',
+    elevation: 3,
+    padding:10,
+    marginBottom:5
+  },
+  imageContainer: {
+    position: 'relative',
+    height: 120,
+    backgroundColor: '#EAF4FF',
+  },
+  doctorImage: {
+    width: '100%',
+    height: '100%',
+    resizeMode: 'cover',
+  },
+  ratingBadge: {
+    position: 'absolute',
+    top: 8,
+    right: 8,
+    backgroundColor: '#FFB300',
+    borderRadius: 12,
+    paddingHorizontal: 6,
+    paddingVertical: 2,
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  ratingText: {
+    color: '#fff',
+    marginLeft: 4,
+    fontSize: 12,
+    fontWeight: 'bold',
+        fontFamily:Fonts.family.regular,
+  },
+  infoContainer: {
+    padding: 10,
+  },
+  doctorName: {
+    fontSize: 14,
+    fontWeight: 'bold',
+    color: '#000',
+        fontFamily:Fonts.family.regular,
+  },
+  doctorSpecialty: {
+    fontSize: 12,
+    color: '#555',
+    marginVertical: 4,
+        fontFamily:Fonts.family.regular,
+  },
+  experienceRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  doctorExperience: {
+    fontSize: 12,
+    color: '#555',
+    marginLeft: 4,
+        fontFamily:Fonts.family.regular,
+  },
   headerRight: {
     flexDirection: 'row',
   },
@@ -484,10 +566,16 @@ const styles = StyleSheet.create({
   backButton: {
     marginRight: 15,
   },
+  horizontalScroll: {
+  paddingHorizontal: 10,
+  paddingTop: 10,
+},
+
   headerTitle: {
     color: '#fff',
     fontSize: 18,
     fontWeight: '600',
+        fontFamily:Fonts.family.regular,
   },
   content: {
     flex: 1,
@@ -497,6 +585,7 @@ const styles = StyleSheet.create({
   hospitalImageContainer: {
     position: 'relative',
     height: 200,
+    resizeMode:'cover'
   },
   hospitalImage: {
     width: '100%',
@@ -516,6 +605,7 @@ const styles = StyleSheet.create({
     color: '#fff',
     fontSize: 12,
     fontWeight: 'bold',
+        fontFamily:Fonts.family.regular,
   },
   hospitalInfo: {
     padding: 20,
@@ -534,11 +624,12 @@ const styles = StyleSheet.create({
     color: '#333',
     flex: 1,
     marginRight: 10,
+        fontFamily:Fonts.family.regular,
   },
   ratingContainer: {
     flexDirection: 'row',
     alignItems: 'center',
-    backgroundColor: '#f8f9fa',
+
     paddingHorizontal: 10,
     paddingVertical: 5,
     borderRadius: 15,
@@ -548,6 +639,7 @@ const styles = StyleSheet.create({
     fontSize: 14,
     fontWeight: '600',
     color: '#333',
+        fontFamily:Fonts.family.regular,
   },
   locationContainer: {
     flexDirection: 'row',
@@ -560,6 +652,7 @@ const styles = StyleSheet.create({
     color: '#666',
     flex: 1,
     lineHeight: 20,
+        fontFamily:Fonts.family.regular,
   },
   timingContainer: {
     flexDirection: 'row',
@@ -568,8 +661,9 @@ const styles = StyleSheet.create({
   timing: {
     marginLeft: 8,
     fontSize: 14,
-    color: '#4A90E2',
+    color: 'green',
     fontWeight: '600',
+        fontFamily:Fonts.family.regular,
   },
   quickActions: {
     flexDirection: 'row',
@@ -591,11 +685,13 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     color: '#333',
     marginTop: 5,
+        fontFamily:Fonts.family.regular,
   },
   actionTitle: {
     fontSize: 12,
     color: '#666',
     marginTop: 2,
+        fontFamily:Fonts.family.regular,
   },
   section: {
     padding: 20,
@@ -607,6 +703,7 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     color: '#333',
     marginBottom: 15,
+        fontFamily:Fonts.family.regular,
   },
   aboutText: {
     fontSize: 14,
@@ -629,22 +726,28 @@ const styles = StyleSheet.create({
     fontSize: 14,
     fontWeight: '600',
     color: '#333',
+    
+        fontFamily:Fonts.family.regular,
+
   },
   holidayText: {
     fontSize: 12,
     color: '#FF6B6B',
     marginTop: 2,
+        fontFamily:Fonts.family.regular,
   },
   dayHours: {
     fontSize: 14,
     fontWeight: '600',
     color: '#4A90E2',
+        fontFamily:Fonts.family.regular,
   },
   dayLabel: {
     fontSize: 16,
     fontWeight: '600',
     color: '#333',
     marginBottom: 15,
+        fontFamily:Fonts.family.regular,
   },
   timeSlotsContainer: {
     flexDirection: 'row',
@@ -672,6 +775,7 @@ const styles = StyleSheet.create({
     fontSize: 13,
     color: '#333',
     textAlign: 'center',
+        fontFamily:Fonts.family.regular,
   },
   selectedTimeSlotText: {
     color: '#4A90E2',
@@ -685,6 +789,7 @@ const styles = StyleSheet.create({
     color: '#FF6B6B',
     textAlign: 'center',
     marginTop: 2,
+        fontFamily:Fonts.family.regular,
   },
   facilitiesList: {
     gap: 15,
@@ -706,6 +811,7 @@ const styles = StyleSheet.create({
     fontSize: 14,
     color: '#333',
     flex: 1,
+        fontFamily:Fonts.family.regular,
   },
   bookButton: {
     backgroundColor: '#4A90E2',
@@ -740,6 +846,7 @@ const styles = StyleSheet.create({
   specializationIcon: {
     fontSize: 24,
     marginBottom: 8,
+        fontFamily:Fonts.family.regular,
   },
   specializationName: {
     fontSize: 10,
@@ -747,6 +854,7 @@ const styles = StyleSheet.create({
     color: '#333',
     textAlign: 'center',
     lineHeight: 12,
+        fontFamily:Fonts.family.regular,
   },
   photosContainer: {
     paddingRight: 20,
@@ -757,9 +865,9 @@ const styles = StyleSheet.create({
     overflow: 'hidden',
   },
   photoImage: {
-    width: 120,
-    height: 80,
-    resizeMode: 'cover',
+    width: 100,
+    height: 100,
+    resizeMode:'contain',
   },
   addressContainer: {
     flexDirection: 'row',
@@ -772,6 +880,7 @@ const styles = StyleSheet.create({
     color: '#666',
     flex: 1,
     lineHeight: 20,
+        fontFamily:Fonts.family.regular,
   },
   mapContainer: {
     height: 150,
@@ -801,62 +910,7 @@ const styles = StyleSheet.create({
     paddingVertical: 8,
     borderRadius: 20,
   },
-  doctorCard: {
-    flexDirection: 'row',
-    backgroundColor: '#f8f9fa',
-    borderRadius: 12,
-    padding: 15,
-    marginBottom: 15,
-    alignItems: 'center',
-  },
-  doctorImage: {
-    width: 60,
-    height: 60,
-    borderRadius: 30,
-  },
-  doctorInfo: {
-    flex: 1,
-    marginLeft: 15,
-  },
-  doctorName: {
-    fontSize: 16,
-    fontWeight: 'bold',
-    color: '#333',
-    marginBottom: 2,
-  },
-  doctorSpecialty: {
-    fontSize: 14,
-    color: '#666',
-    marginBottom: 2,
-  },
-  doctorExperience: {
-    fontSize: 12,
-    color: '#999',
-    marginBottom: 5,
-  },
-  doctorRating: {
-    flexDirection: 'row',
-    alignItems: 'center',
-  },
-  ratingText: {
-    marginLeft: 4,
-    fontSize: 12,
-    color: '#666',
-  },
-  doctorActions: {
-    alignItems: 'center',
-  },
-  chatButton: {
-    backgroundColor: '#E8F4FD',
-    padding: 10,
-    borderRadius: 20,
-    marginBottom: 10,
-  },
-  statusIndicator: {
-    width: 12,
-    height: 12,
-    borderRadius: 6,
-  },
+  
   reviewsHeader: {
     flexDirection: 'row',
     justifyContent: 'space-between',
@@ -867,6 +921,7 @@ const styles = StyleSheet.create({
     fontSize: 14,
     color: '#4A90E2',
     fontWeight: '600',
+        fontFamily:Fonts.family.regular,
   },
   overallRating: {
     alignItems: 'center',
@@ -880,6 +935,7 @@ const styles = StyleSheet.create({
     fontWeight: '600',
     color: '#333',
     marginBottom: 15,
+        fontFamily:Fonts.family.regular,
   },
   starRating: {
     flexDirection: 'row',
@@ -895,6 +951,7 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     color: '#333',
     marginBottom: 15,
+        fontFamily:Fonts.family.regular,
   },
   reviewCard: {
     backgroundColor: '#f8f9fa',
@@ -912,6 +969,7 @@ const styles = StyleSheet.create({
     fontSize: 14,
     fontWeight: 'bold',
     color: '#333',
+        fontFamily:Fonts.family.regular,
   },
   reviewRating: {
     flexDirection: 'row',
@@ -922,16 +980,19 @@ const styles = StyleSheet.create({
     fontSize: 14,
     fontWeight: '600',
     color: '#333',
+        fontFamily:Fonts.family.regular,
   },
   reviewComment: {
     fontSize: 14,
     color: '#666',
     lineHeight: 20,
     marginBottom: 10,
+        fontFamily:Fonts.family.regular,
   },
   reviewDate: {
     fontSize: 12,
     color: '#999',
+        fontFamily:Fonts.family.regular,
   },
    buttonContainer: {
     flexDirection: 'row',
@@ -952,6 +1013,7 @@ const styles = StyleSheet.create({
     color: '#8E3FFF',
     fontWeight: '600',
     fontSize: 14,
+        fontFamily:Fonts.family.regular,
   },
   enquiryButton: {
     paddingVertical: 10,
@@ -964,6 +1026,7 @@ const styles = StyleSheet.create({
     color: '#fff',
     fontWeight: '600',
     fontSize: 14,
+        fontFamily:Fonts.family.regular,
   },
     topBackground: {
         paddingTop: hp('4%'),
@@ -988,11 +1051,13 @@ const styles = StyleSheet.create({
       fontSize: hp('2%'),
       color: 'black',
       opacity: 0.9,
+          fontFamily:Fonts.family.regular,
     },
     userName: {
       fontSize: hp('2%'),
       fontWeight: 'bold',
       color: 'black',
+          fontFamily:Fonts.family.regular,
     },
     notificationButton: {
       width: wp('10%'),
