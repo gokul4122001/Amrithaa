@@ -7,9 +7,19 @@ import {
   SafeAreaView,
   StatusBar,
   ScrollView,
-  Alert,
+  Alert,Image
 } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+import LinearGradient from 'react-native-linear-gradient';
+import {
+  widthPercentageToDP as wp,
+  heightPercentageToDP as hp,
+} from 'react-native-responsive-screen';
+import logo from '../../Assets/logos.png';
+import Fonts from '../../Fonts/Fonts';
+import Colors from '../../Colors/Colors';
+import Icons from 'react-native-vector-icons/MaterialIcons';
 
 const AmbulanceSelectionScreen = ({ navigation }) => {
   const [selectedAmbulance, setSelectedAmbulance] = useState(null);
@@ -122,27 +132,28 @@ const AmbulanceSelectionScreen = ({ navigation }) => {
   );
 
   return (
-    <SafeAreaView style={styles.container}>
-      <StatusBar barStyle="light-content" backgroundColor="#fff" />
-      
-      {/* Header */}
-      <View style={styles.header}>
-        <View style={styles.welcomeSection}>
-          <Icon name="medical" size={24} color="#7C3AED" />
-          <View style={styles.welcomeText}>
-            <Text style={styles.hiText}>Hi, Welcome</Text>
-            <Text style={styles.nameText}>{userName}</Text>
+      <SafeAreaView style={styles.container}>
+        <StatusBar barStyle="light-content" backgroundColor={Colors.statusBar} />
+        <LinearGradient
+          colors={['#ffffff', '#C3DFFF']}
+      start={{ x: 0, y: 0.3 }}
+      end={{ x: 0, y: 0 }}
+          style={styles.topBackground}
+        >
+          {/* Header */}
+          <View style={styles.header}>
+            <Image source={logo} style={styles.logo} />
+            <View style={styles.greetingContainer}>
+              <Text style={styles.greeting}>Hi, Welcome</Text>
+              <Text style={styles.userName}>Jeswanth Kumar</Text>
+            </View>
+            <TouchableOpacity style={[styles.notificationButton, { right: hp('2%') }]}>
+              <Icons name="notifications-on" size={24} color="black" />
+            </TouchableOpacity>
+            <TouchableOpacity style={[styles.notificationButton, { backgroundColor: 'red' }]}>
+              <MaterialCommunityIcons name="alarm-light-outline" size={24} color="white" />
+            </TouchableOpacity>
           </View>
-        </View>
-        <View style={styles.headerIcons}>
-          <TouchableOpacity style={styles.iconButton}>
-            <Icon name="notifications-outline" size={24} color="#000" />
-          </TouchableOpacity>
-          <TouchableOpacity style={styles.profileButton}>
-            <Icon name="person" size={20} color="#fff" />
-          </TouchableOpacity>
-        </View>
-      </View>
 
       {/* Location Info */}
       <View style={styles.locationContainer}>
@@ -212,28 +223,14 @@ const AmbulanceSelectionScreen = ({ navigation }) => {
           </Text>
         </TouchableOpacity>
       )}
+      </LinearGradient>
     </SafeAreaView>
   );
 };
 
 const styles = StyleSheet.create({
   container: { flex: 1, backgroundColor: '#fff' },
-  header: {
-    flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center',
-    paddingHorizontal: 20, paddingVertical: 15, backgroundColor: '#fff',
-    elevation: 2, shadowColor: '#000', shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.1, shadowRadius: 4,
-  },
-  welcomeSection: { flexDirection: 'row', alignItems: 'center' },
-  welcomeText: { marginLeft: 10 },
-  hiText: { fontSize: 14, color: '#666' },
-  nameText: { fontSize: 16, fontWeight: 'bold', color: '#000' },
-  headerIcons: { flexDirection: 'row', alignItems: 'center' },
-  iconButton: { marginRight: 15 },
-  profileButton: {
-    width: 36, height: 36, borderRadius: 18, backgroundColor: '#FF4444',
-    justifyContent: 'center', alignItems: 'center',
-  },
+ 
   locationContainer: { paddingHorizontal: 20, paddingVertical: 10 },
   locationRow: { flexDirection: 'row', alignItems: 'center', marginBottom: 8 },
   greenDot: { width: 10, height: 10, borderRadius: 5, backgroundColor: '#22C55E', marginRight: 12 },
@@ -312,6 +309,34 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   bookButtonText: { color: '#fff', fontSize: 16, fontWeight: 'bold' },
+   topBackground: {
+    flex: 1,
+    paddingTop: hp('4%'),
+    paddingHorizontal: wp('5%'),
+    position: 'relative',
+  },
+  header: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginBottom: hp('2%'),
+  },
+  logo: {
+    width: wp('10%'),
+    height: hp('5%'),
+    resizeMode: 'contain',
+  },
+  greetingContainer: { flex: 1, marginLeft: wp('3%') },
+  greeting: { fontSize: hp('2%'), color: 'black', fontFamily: Fonts.family.regular },
+  userName: { fontSize: hp('2%'), fontWeight: 'bold', color: 'black', fontFamily: Fonts.family.regular },
+  notificationButton: {
+    width: wp('10%'),
+    height: wp('10%'),
+    borderRadius: wp('5%'),
+    backgroundColor: 'white',
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginLeft: wp('2%'),
+  },
 });
 
 export default AmbulanceSelectionScreen;

@@ -5,15 +5,28 @@ import {
   StyleSheet,
   TouchableOpacity,
   TextInput,
+  Image,
   ScrollView,
+  SafeAreaView,
+  StatusBar,
+  KeyboardAvoidingView,
+  Platform,
 } from 'react-native';
-import Icon from 'react-native-vector-icons/MaterialIcons'; // Or any other icon library you prefer
+import Icon from 'react-native-vector-icons/MaterialIcons';
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+import LinearGradient from 'react-native-linear-gradient';
+import {
+  widthPercentageToDP as wp,
+  heightPercentageToDP as hp,
+} from 'react-native-responsive-screen';
+import logo from '../../Assets/logos.png';
+import Fonts from '../../Fonts/Fonts';
+import Colors from '../../Colors/Colors';
 
 const SelectHospitalScreen = ({ navigation }) => {
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedHospitals, setSelectedHospitals] = useState([]);
 
-  // Dummy data for suggested hospitals
   const suggestedHospitals = ['Apollo', 'SIMS Hospital', 'KRS'];
 
   const handleHospitalSelect = (hospitalName) => {
@@ -26,237 +39,229 @@ const SelectHospitalScreen = ({ navigation }) => {
     setSelectedHospitals(selectedHospitals.filter((h) => h !== hospitalName));
   };
 
- const handleSubmit = () => {
-  console.log('Selected Hospitals:', selectedHospitals);
-  navigation.navigate('LiveTrakingScreen'); // Replace with your actual screen name
-};
-
+  const handleSubmit = () => {
+    console.log('Selected Hospitals:', selectedHospitals);
+    navigation.navigate('LiveTrakingScreen');
+  };
 
   return (
-    <View style={styles.container}>
-      {/* Header */}
-      <View style={styles.header}>
-        <View style={styles.userInfo}>
-          <View style={styles.avatarPlaceholder} />
-          <View>
-            <Text style={styles.greeting}>Hi, Welcome</Text>
-            <Text style={styles.userName}>Jeswanth Kumar</Text>
-          </View>
-        </View>
-        <View style={styles.headerIcons}>
-          <TouchableOpacity style={styles.iconButton}>
-            <Icon name="notifications" size={24} color="#000" />
-          </TouchableOpacity>
-          <TouchableOpacity style={[styles.iconButton, styles.alertIcon]}>
-            <Icon name="notifications-active" size={24} color="#fff" />
-          </TouchableOpacity>
-        </View>
-      </View>
-
-      {/* Back Button and Title */}
-      <View style={styles.titleContainer}>
-        <TouchableOpacity onPress={() => console.log('Go Back')}>
-          <Icon name="arrow-back" size={24} color="#000" />
-        </TouchableOpacity>
-        <Text style={styles.title}>Select Hospital</Text>
-      </View>
-
-      <Text style={styles.subtitle}>You can also choose hospitals on your own</Text>
-
-      {/* Search Bar */}
-      <View style={styles.searchBarContainer}>
-        <TextInput
-          style={styles.searchInput}
-          placeholder="Search your hospital"
-          value={searchQuery}
-          onChangeText={setSearchQuery}
-        />
-        <Icon name="arrow-drop-down" size={24} color="#000" />
-      </View>
-
-      {/* Suggested Hospitals */}
-      <View style={styles.suggestedHospitalsContainer}>
-        {suggestedHospitals.map((hospital, index) => (
-          <TouchableOpacity
-            key={index}
-            style={styles.hospitalTag}
-            onPress={() => handleHospitalSelect(hospital)}>
-            <Icon name="add" size={18} color="#000" />
-            <Text style={styles.hospitalTagName}>{hospital}</Text>
-          </TouchableOpacity>
-        ))}
-        {/* Added the extra Apollo button as per the image */}
-        <TouchableOpacity
-            style={styles.hospitalTag}
-            onPress={() => handleHospitalSelect('Apollo')}>
-            <Icon name="add" size={18} color="#000" />
-            <Text style={styles.hospitalTagName}>Apollo</Text>
-          </TouchableOpacity>
-      </View>
-
-      {/* Display Selected Hospitals (if needed, not explicitly shown in image but common pattern) */}
-      {selectedHospitals.length > 0 && (
-        <ScrollView horizontal showsHorizontalScrollIndicator={false} style={styles.selectedHospitalsScroll}>
-          {selectedHospitals.map((hospital, index) => (
-            <View key={index} style={styles.selectedHospitalBadge}>
-              <Text style={styles.selectedHospitalText}>{hospital}</Text>
-              <TouchableOpacity onPress={() => handleRemoveHospital(hospital)}>
-                <Icon name="close" size={16} color="#fff" style={styles.removeIcon} />
-              </TouchableOpacity>
+    <KeyboardAvoidingView
+      behavior={Platform.OS === 'ios' ? 'padding' : undefined}
+      style={{ flex: 1 }}
+    >
+      <SafeAreaView style={styles.container}>
+        <StatusBar barStyle="light-content" backgroundColor={Colors.statusBar} />
+        <LinearGradient
+          colors={['#ffffff', '#C3DFFF']}
+      start={{ x: 0, y: 0.3 }}
+      end={{ x: 0, y: 0 }}
+          style={styles.topBackground}
+        >
+          {/* Header */}
+          <View style={styles.header}>
+            <Image source={logo} style={styles.logo} />
+            <View style={styles.greetingContainer}>
+              <Text style={styles.greeting}>Hi, Welcome</Text>
+              <Text style={styles.userName}>Jeswanth Kumar</Text>
             </View>
-          ))}
-        </ScrollView>
-      )}
+            <TouchableOpacity style={[styles.notificationButton, { right: hp('2%') }]}>
+              <Icon name="notifications-on" size={24} color="black" />
+            </TouchableOpacity>
+            <TouchableOpacity style={[styles.notificationButton, { backgroundColor: 'red' }]}>
+              <MaterialCommunityIcons name="alarm-light-outline" size={24} color="white" />
+            </TouchableOpacity>
+          </View>
 
-      {/* Submit Button */}
-      <TouchableOpacity style={styles.submitButton} onPress={handleSubmit}>
-        <Text style={styles.submitButtonText}>Submit</Text>
-      </TouchableOpacity>
-    </View>
+          <ScrollView
+            contentContainerStyle={styles.contentContainer}
+            showsVerticalScrollIndicator={false}
+          >
+            {/* Title */}
+            <View style={styles.titleContainer}>
+              <TouchableOpacity onPress={() => navigation.goBack()}>
+                <Icon name="arrow-back" size={24} color="#000" />
+              </TouchableOpacity>
+              <Text style={styles.title}>Select Hospital</Text>
+            </View>
+
+            <Text style={styles.subtitle}>You can also choose hospitals on your own</Text>
+
+            {/* Search Bar */}
+            <View style={styles.searchBarContainer}>
+              <TextInput
+                style={styles.searchInput}
+                placeholder="Search your hospital"
+                value={searchQuery}
+                onChangeText={setSearchQuery}
+                placeholderTextColor="#999"
+              />
+              <Icon name="arrow-drop-down" size={24} color="#000" />
+            </View>
+
+            {/* Suggested Hospitals */}
+            <View style={styles.suggestedHospitalsContainer}>
+              {[...suggestedHospitals, 'Apollo'].map((hospital, index) => (
+                <TouchableOpacity
+                  key={index}
+                  style={styles.hospitalTag}
+                  onPress={() => handleHospitalSelect(hospital)}
+                >
+                  <Text style={styles.hospitalTagText}>+ {hospital}</Text>
+                </TouchableOpacity>
+              ))}
+            </View>
+
+            {/* Selected Hospitals */}
+            {selectedHospitals.length > 0 && (
+              <ScrollView
+                horizontal
+                showsHorizontalScrollIndicator={false}
+                style={styles.selectedHospitalsScroll}
+              >
+                {selectedHospitals.map((hospital, index) => (
+                  <View key={index} style={styles.selectedHospitalBadge}>
+                    <Text style={styles.selectedHospitalText}>{hospital}</Text>
+                    <TouchableOpacity onPress={() => handleRemoveHospital(hospital)}>
+                      <Icon name="close" size={16} color="#fff" style={styles.removeIcon} />
+                    </TouchableOpacity>
+                  </View>
+                ))}
+              </ScrollView>
+            )}
+          </ScrollView>
+
+          {/* Submit Button */}
+          <TouchableOpacity style={styles.submitButton} onPress={handleSubmit}>
+            <Text style={styles.submitButtonText}>Submit</Text>
+          </TouchableOpacity>
+        </LinearGradient>
+      </SafeAreaView>
+    </KeyboardAvoidingView>
   );
 };
 
 const styles = StyleSheet.create({
-  container: {
+  container: { flex: 1, backgroundColor: '#F8F9FF' },
+  topBackground: {
     flex: 1,
-    backgroundColor: '#f0f2f5',
-    padding: 20,
-    paddingTop: 0, // Adjust to prevent extra space at top
+    paddingTop: hp('4%'),
+    paddingHorizontal: wp('5%'),
+    position: 'relative',
   },
   header: {
     flexDirection: 'row',
-    justifyContent: 'space-between',
     alignItems: 'center',
-    paddingVertical: 15,
-    backgroundColor: '#fff',
-    borderBottomLeftRadius: 20,
-    borderBottomRightRadius: 20,
-    marginHorizontal: -20, // To make it full width
-    paddingHorizontal: 20,
-    marginBottom: 20,
+    marginBottom: hp('2%'),
   },
-  userInfo: {
-    flexDirection: 'row',
+  logo: {
+    width: wp('10%'),
+    height: hp('5%'),
+    resizeMode: 'contain',
+  },
+  greetingContainer: { flex: 1, marginLeft: wp('3%') },
+  greeting: { fontSize: hp('2%'), color: 'black', fontFamily: Fonts.family.regular },
+  userName: { fontSize: hp('2%'), fontWeight: 'bold', color: 'black', fontFamily: Fonts.family.regular },
+  notificationButton: {
+    width: wp('10%'),
+    height: wp('10%'),
+    borderRadius: wp('5%'),
+    backgroundColor: 'white',
+    justifyContent: 'center',
     alignItems: 'center',
+    marginLeft: wp('2%'),
   },
-  avatarPlaceholder: {
-    width: 40,
-    height: 40,
-    borderRadius: 20,
-    backgroundColor: '#ccc', // Placeholder color
-    marginRight: 10,
+
+  contentContainer: {
+    paddingBottom: 180, // extra space to avoid overlap
   },
-  greeting: {
-    fontSize: 14,
-    color: '#666',
-  },
-  userName: {
-    fontSize: 16,
-    fontWeight: 'bold',
-  },
-  headerIcons: {
-    flexDirection: 'row',
-  },
-  iconButton: {
-    padding: 8,
-    borderRadius: 20,
-    backgroundColor: '#eee',
-    marginLeft: 10,
-  },
-  alertIcon: {
-    backgroundColor: '#ff4c4c', // Red color for alert
-  },
+
   titleContainer: {
     flexDirection: 'row',
     alignItems: 'center',
-    marginBottom: 20,
+    marginBottom: 16,
   },
   title: {
-    fontSize: 22,
+    fontSize: 20,
     fontWeight: 'bold',
-    marginLeft: 15,
+    marginLeft: 12,
   },
   subtitle: {
     fontSize: 14,
-    color: '#555',
-    marginBottom: 20,
+    color: '#666',
+    marginBottom: 12,
   },
+
   searchBarContainer: {
     flexDirection: 'row',
     alignItems: 'center',
     backgroundColor: '#fff',
     borderRadius: 10,
     paddingHorizontal: 15,
+    height: 50,
     marginBottom: 20,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.1,
-    shadowRadius: 4,
-    elevation: 2,
   },
   searchInput: {
     flex: 1,
-    height: 50,
     fontSize: 16,
+    color: '#000',
   },
+
   suggestedHospitalsContainer: {
     flexDirection: 'row',
     flexWrap: 'wrap',
-    marginBottom: 20,
+    marginBottom: 16,
   },
   hospitalTag: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    backgroundColor: '#e0e0e0',
+    backgroundColor: '#f2f2f2',
     borderRadius: 20,
     paddingVertical: 8,
-    paddingHorizontal: 15,
+    paddingHorizontal: 14,
     marginRight: 10,
     marginBottom: 10,
   },
-  hospitalTagName: {
-    marginLeft: 5,
+  hospitalTagText: {
     fontSize: 14,
     color: '#333',
+    fontWeight: '500',
   },
+
   selectedHospitalsScroll: {
-    marginBottom: 10,
+    marginBottom: 20,
   },
   selectedHospitalBadge: {
     flexDirection: 'row',
     alignItems: 'center',
-    backgroundColor: '#6200ee', // A distinct color for selected items
+    backgroundColor: '#7518AA',
     borderRadius: 20,
-    paddingVertical: 8,
-    paddingHorizontal: 15,
+    paddingVertical: 6,
+    paddingHorizontal: 12,
     marginRight: 10,
   },
   selectedHospitalText: {
     color: '#fff',
     marginRight: 5,
   },
-  removeIcon: {
-    // Styling for the close icon within selected badge
-  },
+
   submitButton: {
-    backgroundColor: '#6200ee', // A deep purple color
+    backgroundColor: '#7518AA',
     borderRadius: 10,
-    paddingVertical: 15,
+    paddingVertical: 14,
     alignItems: 'center',
+    justifyContent: 'center',
     position: 'absolute',
-    bottom: 20,
+    bottom: 100,
     left: 20,
     right: 20,
+    elevation: 8,
     shadowColor: '#000',
     shadowOffset: { width: 0, height: 4 },
     shadowOpacity: 0.2,
-    shadowRadius: 5,
-    elevation: 5,
+    shadowRadius: 6,
   },
   submitButtonText: {
     color: '#fff',
-    fontSize: 18,
-    fontWeight: 'bold',
+    fontSize: 16,
+    fontWeight: '600',
   },
 });
 

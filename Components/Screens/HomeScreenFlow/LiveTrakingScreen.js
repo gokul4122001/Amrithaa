@@ -7,10 +7,20 @@ import {
   TextInput,
   SafeAreaView,
   StatusBar,
-  Alert,
+  Alert,Image
 } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
+import Icons from 'react-native-vector-icons/MaterialIcons';
 
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+import LinearGradient from 'react-native-linear-gradient';
+import {
+  widthPercentageToDP as wp,
+  heightPercentageToDP as hp,
+} from 'react-native-responsive-screen';
+import logo from '../../Assets/logos.png';
+import Fonts from '../../Fonts/Fonts';
+import Colors from '../../Colors/Colors';
 const RideBookingScreen = ({ navigation }) => {
   const [pickup, setPickup] = useState('West Mambalam, Chennai-33');
   const [destination, setDestination] = useState('Apollo Hospital, Thousand Lights, Chennai');
@@ -30,65 +40,66 @@ const handleConfirmLocation = () => {
 };
 
 
-  const handleNotification = () => {
-    Alert.alert('Notifications', 'You have no new notifications');
-  };
-
-  const handleProfile = () => {
-    Alert.alert('Profile', `Welcome ${userName}!`);
-  };
+ 
 
   return (
-    <SafeAreaView style={styles.container}>
-      <StatusBar barStyle="light-content" backgroundColor="#fff" />
-      
-      {/* Header */}
-      <View style={styles.header}>
-        <View style={styles.welcomeSection}>
-          <Icon name="car-sport" size={24} color="#7C3AED" />
-          <View style={styles.welcomeText}>
-            <Text style={styles.hiText}>Hi, Welcome</Text>
-            <Text style={styles.nameText}>{userName}</Text>
+   <SafeAreaView style={styles.container}>
+        <StatusBar barStyle="light-content" backgroundColor={Colors.statusBar} />
+        <LinearGradient
+          colors={['#ffffff', '#C3DFFF']}
+      start={{ x: 0, y: 0.3 }}
+      end={{ x: 0, y: 0 }}
+          style={styles.topBackground}
+        >
+          {/* Header */}
+          <View style={styles.header}>
+            <Image source={logo} style={styles.logo} />
+            <View style={styles.greetingContainer}>
+              <Text style={styles.greeting}>Hi, Welcome</Text>
+              <Text style={styles.userName}>Jeswanth Kumar</Text>
+            </View>
+            <TouchableOpacity style={[styles.notificationButton, { right: hp('2%') }]}>
+              <Icons name="notifications-on" size={24} color="black" />
+            </TouchableOpacity>
+            <TouchableOpacity style={[styles.notificationButton, { backgroundColor: 'red' }]}>
+              <MaterialCommunityIcons name="alarm-light-outline" size={24} color="white" />
+            </TouchableOpacity>
           </View>
-        </View>
-        <View style={styles.headerIcons}>
-          <TouchableOpacity onPress={handleNotification} style={styles.iconButton}>
-            <Icon name="notifications-outline" size={24} color="#000" />
-          </TouchableOpacity>
-          <TouchableOpacity onPress={handleProfile} style={styles.profileButton}>
-            <Icon name="person" size={20} color="#fff" />
-          </TouchableOpacity>
-        </View>
-      </View>
+    <View style={styles.cardContainer}>
+  {/* Dots and Arrow */}
+  <View style={styles.dotsContainer}>
+    <View style={styles.dotRow}>
+      <View style={styles.dotGreen} />
+    </View>
+    <View style={styles.verticalLine}>
+      <View style={styles.dashedLine} />
+   <MaterialCommunityIcons name="arrow-down-bold" size={18} color="#888" />
+    </View>
+    <View style={styles.dotRow}>
+      <View style={styles.dotRed} />
+    </View>
+  </View>
 
-      {/* Location Inputs */}
-      <View style={styles.locationContainer}>
-        <View style={styles.locationInputGroup}>
-          <View style={styles.locationIcon}>
-            <View style={styles.greenDot} />
-          </View>
-          <TextInput
-            style={styles.locationInput}
-            value={pickup}
-            onChangeText={setPickup}
-            placeholder="Enter pickup location"
-            placeholderTextColor="#999"
-          />
-        </View>
-        
-        <View style={styles.locationInputGroup}>
-          <View style={styles.locationIcon}>
-            <View style={styles.redDot} />
-          </View>
-          <TextInput
-            style={styles.locationInput}
-            value={destination}
-            onChangeText={setDestination}
-            placeholder="Enter destination"
-            placeholderTextColor="#999"
-          />
-        </View>
-      </View>
+  {/* Text Inputs */}
+  <View style={styles.inputContainer}>
+    <TextInput
+      style={styles.inputText}
+      value={pickup}
+      onChangeText={setPickup}
+      placeholder="Enter pickup location"
+      placeholderTextColor="#888"
+    />
+    <View style={styles.separator} />
+    <TextInput
+      style={styles.inputText}
+      value={destination}
+      onChangeText={setDestination}
+      placeholder="Enter destination"
+      placeholderTextColor="#888"
+    />
+  </View>
+</View>
+
 
       {/* Map Placeholder */}
       <View style={styles.mapContainer}>
@@ -131,7 +142,9 @@ const handleConfirmLocation = () => {
       <TouchableOpacity style={styles.confirmButton} onPress={handleConfirmLocation}>
         <Text style={styles.confirmButtonText}>Confirm Location</Text>
       </TouchableOpacity>
+       </LinearGradient>
     </SafeAreaView>
+    
   );
 };
 
@@ -140,97 +153,99 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#fff',
   },
-  header: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    paddingHorizontal: 20,
-    paddingVertical: 15,
-    backgroundColor: '#fff',
-    elevation: 2,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.1,
-    shadowRadius: 4,
-  },
-  welcomeSection: {
-    flexDirection: 'row',
-    alignItems: 'center',
-  },
-  welcomeText: {
-    marginLeft: 10,
-  },
-  hiText: {
-    fontSize: 14,
-    color: '#666',
-  },
-  nameText: {
-    fontSize: 16,
-    fontWeight: 'bold',
-    color: '#000',
-  },
-  headerIcons: {
-    flexDirection: 'row',
-    alignItems: 'center',
-  },
-  iconButton: {
-    marginRight: 15,
-  },
-  profileButton: {
-    width: 36,
-    height: 36,
-    borderRadius: 18,
-    backgroundColor: '#FF4444',
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  locationContainer: {
-    paddingHorizontal: 20,
-    paddingVertical: 15,
-    backgroundColor: '#fff',
-  },
-  locationInputGroup: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    marginBottom: 15,
-    paddingVertical: 12,
-    paddingHorizontal: 15,
-    backgroundColor: '#f8f9fa',
-    borderRadius: 8,
-  },
-  locationIcon: {
-    marginRight: 15,
-  },
-  greenDot: {
-    width: 12,
-    height: 12,
-    borderRadius: 6,
-    backgroundColor: '#22C55E',
-  },
-  redDot: {
-    width: 12,
-    height: 12,
-    borderRadius: 6,
-    backgroundColor: '#EF4444',
-  },
-  locationInput: {
-    flex: 1,
-    fontSize: 16,
-    color: '#000',
-  },
-  mapContainer: {
-    flex: 1,
-    margin: 20,
-    borderRadius: 12,
-    overflow: 'hidden',
-  },
-  mapPlaceholder: {
-    flex: 1,
-    backgroundColor: '#f0f0f0',
-    justifyContent: 'center',
-    alignItems: 'center',
-    position: 'relative',
-  },
+cardContainer: {
+  flexDirection: 'row',
+  backgroundColor: '#fff',
+  borderRadius: 12,
+  padding: 15,
+  elevation: 4,
+  shadowColor: '#000',
+  shadowOffset: { width: 0, height: 2 },
+  shadowOpacity: 0.1,
+  shadowRadius: 3,
+  margin: 20,
+},
+
+dotsContainer: {
+  width: 30,
+  alignItems: 'center',
+  justifyContent: 'space-between',
+},
+
+dotRow: {
+  height: 20,
+  justifyContent: 'center',
+  alignItems: 'center',
+},
+
+dotGreen: {
+  width: 12,
+  height: 12,
+  borderRadius: 6,
+  backgroundColor: '#22C55E',
+  borderWidth: 2,
+  borderColor: '#fff',
+},
+
+dotRed: {
+  width: 12,
+  height: 12,
+  borderRadius: 6,
+  backgroundColor: '#EF4444',
+  borderWidth: 2,
+  borderColor: '#fff',
+},
+
+verticalLine: {
+  alignItems: 'center',
+  justifyContent: 'center',
+  flex: 1,
+},
+
+dashedLine: {
+  width: 1,
+  height: 20,
+  borderLeftWidth: 1,
+  borderStyle: 'dashed',
+  borderColor: '#999',
+  marginBottom: 4,
+},
+
+inputContainer: {
+  flex: 1,
+  justifyContent: 'space-between',
+},
+
+inputText: {
+  fontSize: 16,
+  color: '#000',
+  fontWeight: '500',
+  marginBottom: 6,
+},
+
+separator: {
+  height: 1,
+  backgroundColor: '#ddd',
+  marginVertical: 6,
+},
+
+ 
+ mapContainer: {
+  width: '100%', // full width of the parent
+  height: hp('35%'), // or try 250, or adjust as needed
+  borderRadius: 12,
+  overflow: 'hidden',
+  marginTop: 20,
+},
+
+mapPlaceholder: {
+  flex: 1,
+  backgroundColor: '#f0f0f0',
+  justifyContent: 'center',
+  alignItems: 'center',
+  position: 'relative',
+},
+
   mapText: {
     fontSize: 18,
     fontWeight: 'bold',
@@ -300,11 +315,40 @@ const styles = StyleSheet.create({
     paddingVertical: 16,
     borderRadius: 12,
     alignItems: 'center',
+    top:'10%'
   },
   confirmButtonText: {
     color: '#fff',
     fontSize: 18,
     fontWeight: 'bold',
+  },
+  topBackground: {
+    flex: 1,
+    paddingTop: hp('4%'),
+    paddingHorizontal: wp('5%'),
+    position: 'relative',
+  },
+  header: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginBottom: hp('2%'),
+  },
+  logo: {
+    width: wp('10%'),
+    height: hp('5%'),
+    resizeMode: 'contain',
+  },
+  greetingContainer: { flex: 1, marginLeft: wp('3%') },
+  greeting: { fontSize: hp('2%'), color: 'black', fontFamily: Fonts.family.regular },
+  userName: { fontSize: hp('2%'), fontWeight: 'bold', color: 'black', fontFamily: Fonts.family.regular },
+  notificationButton: {
+    width: wp('10%'),
+    height: wp('10%'),
+    borderRadius: wp('5%'),
+    backgroundColor: 'white',
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginLeft: wp('2%'),
   },
 });
 

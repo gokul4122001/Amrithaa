@@ -9,7 +9,7 @@ import {
   StatusBar,
   Platform,
   Alert,
-  Image,
+  Image,TextInput
 } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
@@ -171,8 +171,8 @@ const AmbulanceBookingScreen = ({ navigation }) => {
       
       <LinearGradient
         colors={['#ffffff', '#C3DFFF']}
-        start={{ x: 0.1, y: 0 }}
-        end={{ x: 1, y: 0 }}
+      start={{ x: 0, y: 0.3 }}
+      end={{ x: 0, y: 0 }}
         style={styles.topBackground}
       >
         {/* Header */}
@@ -190,69 +190,131 @@ const AmbulanceBookingScreen = ({ navigation }) => {
           </TouchableOpacity>
         </View>
 
-        <ScrollView style={styles.content}>
+    <ScrollView
+  style={styles.content}
+  showsVerticalScrollIndicator={false}
+  contentContainerStyle={{ paddingBottom: 120 }} // Prevent button from being hidden
+>
+
           {/* Main Question */}
-          <Text style={styles.question}>Which ambulance variant do you choose?</Text>
+         <View style={styles.questionContainer}>
+  <TouchableOpacity onPress={() => navigation.goBack()}>
+    <Icon name="chevron-left" size={24} color="#000" />
+  </TouchableOpacity>
+  <Text style={styles.question}>Which ambulance variant do you choose?</Text>
+</View>
+
 
           {/* Booking For Section */}
           <View style={styles.section}>
             <Text style={styles.sectionTitle}>Ambulance Booking For</Text>
-            <View style={styles.radioGroup}>
-              {['Yourself', 'Others'].map((option) => (
-                <TouchableOpacity
-                  key={option}
-                  style={[styles.radioOption, bookingFor === option && styles.radioOptionSelected]}
-                  onPress={() => setBookingFor(option)}
-                >
-                  <View style={[styles.radio, bookingFor === option && styles.radioSelected]}>
-                    {bookingFor === option && <View style={styles.radioInner} />}
-                  </View>
-                  <Text style={styles.radioText}>{option}</Text>
-                </TouchableOpacity>
-              ))}
-            </View>
+         <View style={styles.radioGroup}>
+  {['Yourself', 'Others'].map((option) => {
+    const isSelected = bookingFor === option;
+    const isYourself = option === 'Yourself';
+    const isOthers = option === 'Others';
+
+    return (
+      <TouchableOpacity
+        key={option}
+        style={[
+          styles.radioOption,
+          isYourself && styles.radioYourself,
+          isOthers && styles.radioOthers,
+          isSelected && styles.radioOptionSelected,
+        ]}
+        onPress={() => setBookingFor(option)}
+      >
+        <View style={[styles.radio, isSelected && styles.radioSelected]}>
+          {isSelected && <View style={styles.radioInner} />}
+        </View>
+        <Text
+          style={[
+            styles.radioText,
+            isYourself && styles.radioTextYourself,
+            isOthers && styles.radioTextOthers,
+          ]}
+        >
+          {option}
+        </Text>
+      </TouchableOpacity>
+    );
+  })}
+</View>
+
           </View>
 
           {/* Booking Type Section */}
           <View style={styles.section}>
             <Text style={styles.sectionTitle}>Select the Option</Text>
-            <View style={styles.radioGroup}>
-              <TouchableOpacity
-                style={[styles.radioOption, bookingType === 'Emergency' && styles.radioOptionSelected]}
-                onPress={() => setBookingType('Emergency')}
-              >
-                <View style={[styles.radio, bookingType === 'Emergency' && styles.radioSelected]}>
-                  {bookingType === 'Emergency' && <View style={styles.radioInner} />}
-                </View>
-                <Text style={styles.radioText}>Emergency</Text>
-              </TouchableOpacity>
+          <View style={styles.bookingTypeGroup}>
+  <TouchableOpacity
+    style={[
+      styles.bookingTypeOption,
+      styles.emergencyDesign,
+      bookingType === 'Emergency' && styles.bookingTypeSelected
+    ]}
+    onPress={() => setBookingType('Emergency')}
+  >
+    <View style={[styles.radioCircle, bookingType === 'Emergency' && styles.radioSelected]}>
+      {bookingType === 'Emergency' && <View style={styles.radioDot} />}
+    </View>
+    <Text style={[styles.bookingTypeText, styles.emergencyText]}>
+      Emergency
+    </Text>
+  </TouchableOpacity>
 
-              <TouchableOpacity
-                style={[styles.radioOption, bookingType === 'Schedule Booking' && styles.radioOptionSelected]}
-                onPress={() => {
-                  setBookingType('Schedule Booking');
-                  toggleScheduleModal();
-                }}
-              >
-                <View style={[styles.radio, bookingType === 'Schedule Booking' && styles.radioSelected]}>
-                  {bookingType === 'Schedule Booking' && <View style={styles.radioInner} />}
-                </View>
-                <Text style={styles.radioText}>Schedule Booking</Text>
-              </TouchableOpacity>
-            </View>
+  <TouchableOpacity
+    style={[
+      styles.bookingTypeOption,
+      styles.scheduleDesign,
+      bookingType === 'Schedule Booking' && styles.bookingTypeSelected
+    ]}
+    onPress={() => {
+      setBookingType('Schedule Booking');
+      toggleScheduleModal();
+    }}
+  >
+    <View style={[styles.radioCircle, bookingType === 'Schedule Booking' && styles.radioSelected]}>
+      {bookingType === 'Schedule Booking' && <View style={styles.radioDot} />}
+    </View>
+    <Text style={[styles.bookingTypeText, styles.scheduleText]}>
+      Schedule Booking
+    </Text>
+  </TouchableOpacity>
+</View>
+
           </View>
 
-          {/* Hospital Options */}
-          <View style={styles.section}>
-            <View style={styles.hospitalOption}>
-              <View style={styles.hospitalIndicator} />
-              <Text style={styles.hospitalText}>West Mambalam, Chennai-1: 33</Text>
-            </View>
-            <View style={styles.hospitalOption}>
-              <View style={[styles.hospitalIndicator, { backgroundColor: '#ff4444' }]} />
-              <Text style={styles.hospitalText}>Apollo Hospital, Thousand Lights, Chennai</Text>
-            </View>
-          </View>
+       <View style={styles.locationCard}>
+  <View style={styles.locationRow}>
+    {/* Icon Column */}
+    <View style={styles.iconColumn}>
+      <View style={styles.circleGreen} />
+      <View style={styles.verticalLine}>
+        <Text style={styles.arrow}>↓</Text>
+      </View>
+      <View style={styles.circleRed} />
+    </View>
+
+    {/* Text Column */}
+    <View style={styles.textColumn}>
+      <TextInput
+        placeholder="Enter pickup location"
+        style={styles.locationInput}
+        placeholderTextColor="#555"
+      />
+      <View style={styles.separator} />
+      <TextInput
+        placeholder="Enter destination location"
+        style={styles.locationInput}
+        placeholderTextColor="#555"
+      />
+    </View>
+  </View>
+</View>
+
+
 
           {/* Emergency Categories */}
           <View style={styles.section}>
@@ -276,8 +338,9 @@ const AmbulanceBookingScreen = ({ navigation }) => {
 
           {/* Next Button */}
           <TouchableOpacity style={styles.nextButton} onPress={handleNext}>
-            <Text style={styles.nextButtonText}>Next</Text>
+            <Text style={{color:'#ffff',fontSize:16}}>Next</Text>
           </TouchableOpacity>
+
         </ScrollView>
 
         {/* Schedule Booking Modal */}
@@ -425,8 +488,7 @@ const styles = StyleSheet.create({
     marginLeft: wp('2%'),
   },
   content: {
-    flex: 1,
-    paddingHorizontal: 16,
+   
   },
   question: {
     fontSize: 16,
@@ -434,76 +496,7 @@ const styles = StyleSheet.create({
     color: '#000',
     marginVertical: 16,
   },
-  section: {
-    marginBottom: 20,
-  },
-  sectionTitle: {
-    fontSize: 14,
-    fontWeight: '600',
-    color: '#000',
-    marginBottom: 12,
-  },
-  radioGroup: {
-    flexDirection: 'row',
-    backgroundColor: '#E3F2FD',
-    borderRadius: 8,
-    padding: 4,
-  },
-  radioOption: {
-    flex: 1,
-    flexDirection: 'row',
-    alignItems: 'center',
-    paddingVertical: 12,
-    paddingHorizontal: 16,
-    borderRadius: 8,
-  },
-  radioOptionSelected: {
-    backgroundColor: '#fff',
-    elevation: 2,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 1 },
-    shadowOpacity: 0.1,
-    shadowRadius: 1,
-  },
-  radio: {
-    width: 20,
-    height: 20,
-    borderRadius: 10,
-    borderWidth: 2,
-    borderColor: '#ccc',
-    marginRight: 8,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  radioSelected: {
-    borderColor: '#8B5CF6',
-  },
-  radioInner: {
-    width: 10,
-    height: 10,
-    borderRadius: 5,
-    backgroundColor: '#8B5CF6',
-  },
-  radioText: {
-    fontSize: 14,
-    color: '#000',
-  },
-  hospitalOption: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    paddingVertical: 8,
-  },
-  hospitalIndicator: {
-    width: 12,
-    height: 12,
-    borderRadius: 6,
-    backgroundColor: '#4CAF50',
-    marginRight: 12,
-  },
-  hospitalText: {
-    fontSize: 14,
-    color: '#000',
-  },
+ 
   categoryTitle: {
     fontSize: 14,
     fontWeight: '500',
@@ -542,19 +535,8 @@ const styles = StyleSheet.create({
     fontWeight: '500',
     lineHeight: 14,
   },
-  nextButton: {
-    backgroundColor: '#8B5CF6',
-    borderRadius: 12,
-    paddingVertical: 16,
-    alignItems: 'center',
-    marginVertical: 20,
-    marginHorizontal: 16,
-  },
-  nextButtonText: {
-    color: '#fff',
-    fontSize: 16,
-    fontWeight: '600',
-  },
+ 
+   
   bottomModal: {
     justifyContent: 'flex-end',
     margin: 0,
@@ -654,6 +636,232 @@ const styles = StyleSheet.create({
     marginBottom: 10,
     textAlign: 'center',
   },
+ radioGroup: {
+  flexDirection: 'row',
+  justifyContent: 'space-between',
+  paddingHorizontal: 5,
+  marginVertical: 10,
+},
+
+radioOption: {
+  flexDirection: 'row',
+  alignItems: 'center',
+  padding: 12,
+  borderRadius: 10,
+  borderWidth: 1,
+  borderColor: '#ccc',
+  marginHorizontal: 5,
+  flex: 1,
+},
+
+radioOptionSelected: {
+  borderColor: '#E8E8E8',
+  backgroundColor: '#ffff',
+},
+
+radio: {
+  height: 20,
+  width: 20,
+  borderRadius: 10,
+  borderWidth: 2,
+  borderColor: '#aaa',
+  alignItems: 'center',
+  justifyContent: 'center',
+  marginRight: 10,
+},
+
+radioSelected: {
+  borderColor: '#E8E8E8',
+},
+
+radioInner: {
+  height: 10,
+  width: 10,
+  borderRadius: 5,
+  backgroundColor: '#7518AA',
+},
+
+radioText: {
+  fontSize: 16,
+},
+
+// Unique look for 'Yourself'
+radioYourself: {
+  backgroundColor: '#ffff',
+},
+
+radioTextYourself: {
+  color: '#4a4a4a',
+  fontWeight: 'bold',
+},
+
+// Unique look for 'Others'
+radioOthers: {
+  backgroundColor: '#ffff',
+},
+
+radioTextOthers: {
+  color: '#4a4a4a',
+  fontStyle: 'italic',
+},
+ bookingTypeGroup: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    paddingHorizontal: 5,
+    marginVertical: 10,
+  },
+
+  bookingTypeOption: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    padding: 12,
+    borderRadius: 10,
+    borderWidth: 1,
+    borderColor: '#ccc',
+    flex: 1,
+    marginHorizontal: 5,
+  },
+
+  bookingTypeSelected: {
+    borderColor: '#E8E8E8',
+    backgroundColor: '#ffff',
+  },
+
+  radioCircle: {
+    height: 20,
+    width: 20,
+    borderRadius: 10,
+    borderWidth: 2,
+    borderColor: '#E8E8E8',
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginRight: 10,
+  },
+
+  radioSelected: {
+    borderColor: '#7518AA',
+  },
+
+  radioDot: {
+    height: 10,
+    width: 10,
+    borderRadius: 5,
+    backgroundColor: '#7518AA',
+  },
+
+  bookingTypeText: {
+    fontSize: 16,
+  },
+
+  // Specific Emergency Design
+  emergencyDesign: {
+    backgroundColor: '#ffff',
+    borderColor: '#E8E8E8',
+  },
+
+  emergencyText: {
+    color: '#4a4a4a',
+    fontWeight: 'bold',
+  },
+
+ 
+  scheduleDesign: {
+    backgroundColor: '#ffff',
+    borderColor: '#E8E8E8',
+  },
+
+  scheduleText: {
+    color: '#4a4a4a',
+    fontStyle: 'italic',
+  },
+   locationCard: {
+    backgroundColor: '#fff',
+    borderRadius: 12,
+    padding: 16,
+    marginVertical: 16,
+    shadowColor: '#000',
+    shadowOpacity: 0.1,
+    shadowOffset: { width: 0, height: 2 },
+    shadowRadius: 6,
+    elevation: 3,
+    width: wp('90%'), // 90% of screen width
+    height: hp('13%'), // Adjust as needed, e.g., 18% screen height
+    alignSelf: 'center', // center horizontally
+  },
+  locationRow: {
+    flexDirection: 'row',
+  },
+  iconColumn: {
+    alignItems: 'center',
+    marginRight: 10,
+    paddingTop: 5,
+  },
+  circleGreen: {
+    width: 14,
+    height: 14,
+    borderRadius: 7,
+    backgroundColor: '#00C851',
+    borderWidth: 1.5,
+    borderColor: '#fff',
+  },
+  verticalLine: {
+    height: 40,
+    borderLeftWidth: 1,
+    borderStyle: 'dotted',
+    borderColor: '#999',
+    marginVertical: 6,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  arrow: {
+    fontSize: 10,
+    color: '#999',
+  },
+  circleRed: {
+    width: 14,
+    height: 14,
+    borderRadius: 7,
+    backgroundColor: '#ff4444',
+    borderWidth: 1.5,
+    borderColor: '#fff',
+    
+  },
+  textColumn: {
+    flex: 1,
+    justifyContent: 'center',
+  },
+  locationInput: {
+    fontSize: 14,
+    color: '#000',
+    paddingVertical: 4,
+    height: 40, // fixed height
+  },
+  separator: {
+    height: 1,
+    backgroundColor: '#ccc',
+    marginVertical: 6,
+  },
+  questionContainer: {
+  flexDirection: 'row',
+  alignItems: 'center',
+  marginBottom: 16,
+},
+question: {
+  fontSize: 18,
+  fontWeight: 'bold',
+  marginLeft: 8, // space between icon and text
+  color: '#000',
+},
+nextButton: {
+  backgroundColor: '#8B5CF6',
+  borderRadius: 12,
+  paddingVertical: 16,
+  alignItems: 'center',
+  alignSelf: 'center', // ✅ Center horizontally
+  width: '90%', // ✅ Optional: set width
+  marginVertical: 20,
+},
+
 });
 
 export default AmbulanceBookingScreen;
