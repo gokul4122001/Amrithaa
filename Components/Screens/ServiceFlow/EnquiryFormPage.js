@@ -169,7 +169,7 @@ import Colors from '../../Colors/Colors';
         backgroundColor: '#F8F9FA',
     },
     topBackground: {
-      paddingTop: hp('5%'),
+      paddingTop: hp('4%'),
       paddingBottom: hp('2%'),
       paddingHorizontal: wp('4%'),
       height: hp('100%'),

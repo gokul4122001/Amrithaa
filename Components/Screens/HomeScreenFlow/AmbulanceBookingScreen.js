@@ -21,6 +21,8 @@ import {
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
 import logo from '../../Assets/logos.png';
+import Colors from '../../Colors/Colors';
+import Fonts from '../../Fonts/Fonts';
 
 const AmbulanceBookingScreen = ({ navigation }) => {
   // Main booking states
@@ -37,18 +39,64 @@ const AmbulanceBookingScreen = ({ navigation }) => {
   const [after3HoursChecked, setAfter3HoursChecked] = useState(false);
   const [isScheduleValid, setIsScheduleValid] = useState(true);
 
-  // Emergency categories configuration
   const categories = [
-    { id: 'heart', title: 'Heart attack', icon: '❤️', screen: 'SelectHospitalScreen' },
-    { id: 'poisoning', title: 'Poisoning', icon: '🧪' },
-    { id: 'accident', title: 'Accidents care', icon: '🚗' },
-    { id: 'skin', title: 'Skin Diseases', icon: '👤' },
-    { id: 'cpr', title: 'CPR', icon: '👥' },
-    { id: 'stroke', title: 'Stroke', icon: '🧠' },
-    { id: 'unknown', title: 'Unknown', icon: '❓' },
-    { id: 'pediatric', title: 'Pediatric emergency medicine', icon: '👶' },
-    { id: 'others', title: 'Others Emergencies', icon: '🏥' },
-  ];
+  {
+    id: 'heart',
+    title: 'Heart attack',
+    icon: '❤️',
+    image: require('../../Assets/heartattact.png'),
+    screen: 'SelectHospitalScreen',
+  },
+  {
+    id: 'poisoning',
+    title: 'Poisoning',
+    icon: '🧪',
+    image: require('../../Assets/poisioning.png'),
+  },
+  {
+    id: 'accident',
+    title: 'Accidents care',
+    icon: '🚗',
+    image: require('../../Assets/caraccient.png'),
+  },
+  {
+    id: 'skin',
+    title: 'Skin Diseases',
+    icon: '👤',
+    image: require('../../Assets/skindiease.png'),
+  },
+  {
+    id: 'cpr',
+    title: 'CPR',
+    icon: '👥',
+    image: require('../../Assets/CPR.png'),
+  },
+  {
+    id: 'stroke',
+    title: 'Stroke',
+    icon: '🧠',
+    image: require('../../Assets/stoke.png'),
+  },
+  {
+    id: 'unknown',
+    title: 'Unknown Bites',
+    icon: '❓',
+    image: require('../../Assets/unknownbits.png'),
+  },
+  {
+    id: 'pediatric',
+    title: 'Pediatric emergency medicine',
+    icon: '👶',
+    image: require('../../Assets/pediatricemergency.png'),
+  },
+  {
+    id: 'others',
+    title: 'Others Emergencies',
+    icon: '🏥',
+    image: require('../../Assets/otherEmergency.png'),
+  },
+];
+
 
   // Event handlers
   const handleCategorySelect = (category) => {
@@ -167,7 +215,7 @@ const AmbulanceBookingScreen = ({ navigation }) => {
 
   return (
     <SafeAreaView style={styles.container}>
-      <StatusBar barStyle="light-content" backgroundColor="#8B5CF6" />
+      <StatusBar barStyle="light-content" backgroundColor={Colors.statusBar}  />
       
       <LinearGradient
         colors={['#ffffff', '#C3DFFF']}
@@ -207,7 +255,7 @@ const AmbulanceBookingScreen = ({ navigation }) => {
 
           {/* Booking For Section */}
           <View style={styles.section}>
-            <Text style={styles.sectionTitle}>Ambulance Booking For</Text>
+            <Text style={{  fontFamily:Fonts.family.regular,fontSize:16}}>Ambulance Booking For</Text>
          <View style={styles.radioGroup}>
   {['Yourself', 'Others'].map((option) => {
     const isSelected = bookingFor === option;
@@ -246,7 +294,7 @@ const AmbulanceBookingScreen = ({ navigation }) => {
 
           {/* Booking Type Section */}
           <View style={styles.section}>
-            <Text style={styles.sectionTitle}>Select the Option</Text>
+            <Text style={{ fontFamily:Fonts.family.regular,fontSize:16}}>Select the Option</Text>
           <View style={styles.bookingTypeGroup}>
   <TouchableOpacity
     style={[
@@ -292,7 +340,7 @@ const AmbulanceBookingScreen = ({ navigation }) => {
     <View style={styles.iconColumn}>
       <View style={styles.circleGreen} />
       <View style={styles.verticalLine}>
-        <Text style={styles.arrow}>↓</Text>
+        
       </View>
       <View style={styles.circleRed} />
     </View>
@@ -314,31 +362,28 @@ const AmbulanceBookingScreen = ({ navigation }) => {
   </View>
 </View>
 
+<View style={styles.categorySection}>
+  <Text style={styles.categoryHeader}>Don't know the issue? Select a category</Text>
+  <View style={styles.categoryGrid}>
+    {categories.map((category) => (
+      <TouchableOpacity
+        key={category.id}
+        style={styles.categoryButton}
+        onPress={() => handleCategorySelect(category)}
+      >
+        <Image source={category.image} style={styles.categoryImage} />
+        <Text style={styles.categoryLabel}>{category.title}</Text>
+      </TouchableOpacity>
+    ))}
+  </View>
+</View>
 
 
-          {/* Emergency Categories */}
-          <View style={styles.section}>
-            <Text style={styles.categoryTitle}>Don't know the issue? Select a category</Text>
-            <View style={styles.categoriesGrid}>
-              {categories.map((category) => (
-                <TouchableOpacity
-                  key={category.id}
-                  style={[
-                    styles.categoryCard,
-                    selectedCategory === category.id && styles.categoryCardSelected,
-                  ]}
-                  onPress={() => handleCategorySelect(category)}
-                >
-                  <Text style={styles.categoryIcon}>{category.icon}</Text>
-                  <Text style={styles.categoryText}>{category.title}</Text>
-                </TouchableOpacity>
-              ))}
-            </View>
-          </View>
+
 
           {/* Next Button */}
           <TouchableOpacity style={styles.nextButton} onPress={handleNext}>
-            <Text style={{color:'#ffff',fontSize:16}}>Next</Text>
+            <Text style={{color:'#ffff',fontSize:16 ,fontFamily:Fonts.family.regular}}>Next</Text>
           </TouchableOpacity>
 
         </ScrollView>
@@ -449,7 +494,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#F8F9FF',
   },
   topBackground: {
-    paddingTop: hp('5%'),
+    paddingTop: hp('4%'),
     paddingBottom: hp('2%'),
     paddingHorizontal: wp('4%'),
     height: hp('100%'),
@@ -472,11 +517,13 @@ const styles = StyleSheet.create({
     fontSize: hp('2%'),
     color: 'black',
     opacity: 0.9,
+      fontFamily:Fonts.family.regular
   },
   userName: {
     fontSize: hp('2%'),
     fontWeight: 'bold',
     color: 'black',
+      fontFamily:Fonts.family.regular
   },
   notificationButton: {
     width: wp('10%'),
@@ -495,47 +542,56 @@ const styles = StyleSheet.create({
     fontWeight: '600',
     color: '#000',
     marginVertical: 16,
+      fontFamily:Fonts.family.regular
   },
- 
-  categoryTitle: {
-    fontSize: 14,
-    fontWeight: '500',
-    color: '#000',
+   categorySection: {
+    marginVertical: 20,
+    paddingHorizontal: 16,
+  },
+
+  categoryHeader: {
+    fontSize: 16,
+    fontWeight: '700',
+    color: '#222',
     marginBottom: 16,
+     fontFamily:Fonts.family.regular
   },
-  categoriesGrid: {
+
+  categoryGrid: {
     flexDirection: 'row',
     flexWrap: 'wrap',
     justifyContent: 'space-between',
   },
-  categoryCard: {
+
+  categoryButton: {
     width: '30%',
-    aspectRatio: 1,
-    backgroundColor: '#f8f9fa',
-    borderRadius: 12,
-    justifyContent: 'center',
     alignItems: 'center',
-    marginBottom: 12,
-    padding: 8,
-    borderWidth: 2,
-    borderColor: 'transparent',
+    marginBottom: 16,
   },
-  categoryCardSelected: {
-    borderColor: '#8B5CF6',
-    backgroundColor: '#F3E8FF',
-  },
-  categoryIcon: {
-    fontSize: 24,
+
+  categoryImage: {
+    width: 110,
+    height:110,
+    resizeMode: 'contain',
     marginBottom: 8,
   },
-  categoryText: {
-    fontSize: 11,
-    textAlign: 'center',
+
+  categoryLabel: {
+    fontSize: 12,
     color: '#333',
+    textAlign: 'center',
     fontWeight: '500',
-    lineHeight: 14,
+     fontFamily:Fonts.family.regular
   },
- 
+
+
+categoryTitle: {
+  fontSize: 16,
+  fontWeight: '600',
+  color: '#222',
+  marginBottom: 16,
+},
+
    
   bottomModal: {
     justifyContent: 'flex-end',
@@ -558,11 +614,13 @@ const styles = StyleSheet.create({
     fontSize: 18,
     fontWeight: 'bold',
     color: '#000',
+      fontFamily:Fonts.family.regular
   },
   modalSubtitle: {
     fontSize: 14,
     color: '#666',
     marginBottom: 20,
+      fontFamily:Fonts.family.regular
   },
   datePickerInput: {
     flexDirection: 'row',
@@ -591,6 +649,7 @@ const styles = StyleSheet.create({
   datePickerText: {
     fontSize: 16,
     color: '#333',
+      fontFamily:Fonts.family.regular
   },
   checkboxContainer: {
     flexDirection: 'row',
@@ -615,6 +674,7 @@ const styles = StyleSheet.create({
     fontSize: 14,
     color: '#333',
     flexShrink: 1,
+      fontFamily:Fonts.family.regular
   },
   modalSubmitButton: {
     backgroundColor: '#8B5CF6',
@@ -626,6 +686,7 @@ const styles = StyleSheet.create({
     color: '#fff',
     fontSize: 16,
     fontWeight: '600',
+      fontFamily:Fonts.family.regular
   },
   modalSubmitButtonDisabled: {
     backgroundColor: '#cccccc',
@@ -635,6 +696,7 @@ const styles = StyleSheet.create({
     fontSize: 12,
     marginBottom: 10,
     textAlign: 'center',
+      fontFamily:Fonts.family.regular
   },
  radioGroup: {
   flexDirection: 'row',
@@ -751,6 +813,7 @@ radioTextOthers: {
 
   bookingTypeText: {
     fontSize: 16,
+     fontFamily:Fonts.family.regular,fontSize:16
   },
 
   // Specific Emergency Design
@@ -762,6 +825,7 @@ radioTextOthers: {
   emergencyText: {
     color: '#4a4a4a',
     fontWeight: 'bold',
+     fontFamily:Fonts.family.regular,fontSize:16
   },
 
  
@@ -853,7 +917,7 @@ question: {
   color: '#000',
 },
 nextButton: {
-  backgroundColor: '#8B5CF6',
+  backgroundColor: Colors.statusBar ,
   borderRadius: 12,
   paddingVertical: 16,
   alignItems: 'center',

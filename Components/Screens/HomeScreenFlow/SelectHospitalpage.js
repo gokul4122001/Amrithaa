@@ -184,11 +184,13 @@ const styles = StyleSheet.create({
     fontSize: 20,
     fontWeight: 'bold',
     marginLeft: 12,
+      fontFamily:Fonts.family.regular
   },
   subtitle: {
     fontSize: 14,
     color: '#666',
     marginBottom: 12,
+      fontFamily:Fonts.family.regular
   },
 
   searchBarContainer: {
@@ -223,7 +225,9 @@ const styles = StyleSheet.create({
     fontSize: 14,
     color: '#333',
     fontWeight: '500',
+      fontFamily:Fonts.family.regular
   },
+
 
   selectedHospitalsScroll: {
     marginBottom: 20,
@@ -240,6 +244,7 @@ const styles = StyleSheet.create({
   selectedHospitalText: {
     color: '#fff',
     marginRight: 5,
+      fontFamily:Fonts.family.regular
   },
 
   submitButton: {
@@ -262,6 +267,7 @@ const styles = StyleSheet.create({
     color: '#fff',
     fontSize: 16,
     fontWeight: '600',
+      fontFamily:Fonts.family.regular
   },
 });
 

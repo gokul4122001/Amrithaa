@@ -251,11 +251,13 @@ mapPlaceholder: {
     fontWeight: 'bold',
     color: '#666',
     marginBottom: 5,
+      fontFamily:Fonts.family.regular
   },
   mapSubText: {
     fontSize: 14,
     color: '#999',
     marginBottom: 30,
+      fontFamily:Fonts.family.regular
   },
   routeContainer: {
     alignItems: 'center',
@@ -278,6 +280,7 @@ mapPlaceholder: {
     borderRadius: 8,
     backgroundColor: '#EF4444',
     marginBottom: 5,
+      fontFamily:Fonts.family.regular
   },
   routeLine: {
     width: 2,
@@ -288,6 +291,7 @@ mapPlaceholder: {
   pointLabel: {
     fontSize: 12,
     color: '#666',
+      fontFamily:Fonts.family.regular
   },
   carsContainer: {
     position: 'absolute',
@@ -309,7 +313,7 @@ mapPlaceholder: {
     shadowRadius: 4,
   },
   confirmButton: {
-    backgroundColor: '#7C3AED',
+    backgroundColor: Colors.statusBar ,
     marginHorizontal: 20,
     marginBottom: 20,
     paddingVertical: 16,
@@ -321,6 +325,7 @@ mapPlaceholder: {
     color: '#fff',
     fontSize: 18,
     fontWeight: 'bold',
+      fontFamily:Fonts.family.regular
   },
   topBackground: {
     flex: 1,

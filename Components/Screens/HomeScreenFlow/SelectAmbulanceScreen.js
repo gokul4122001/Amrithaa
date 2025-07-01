@@ -208,12 +208,16 @@ const AmbulanceSelectionScreen = ({ navigation }) => {
         ))}
       </View>
 
-      {/* Ambulance List */}
-      <ScrollView style={styles.ambulanceList} showsVerticalScrollIndicator={false}>
-        {ambulanceTypes
-          .filter((item) => modelFilter === 'All' || item.type === modelFilter)
-          .map(renderAmbulanceCard)}
-      </ScrollView>
+     <ScrollView
+  style={styles.ambulanceList}
+  contentContainerStyle={{ paddingBottom: 120 }} // Adjust based on your bottom button height
+  showsVerticalScrollIndicator={false}
+>
+  {ambulanceTypes
+    .filter((item) => modelFilter === 'All' || item.type === modelFilter)
+    .map(renderAmbulanceCard)}
+</ScrollView>
+
 
       {/* Book Button */}
       {selectedAmbulance && (
@@ -235,7 +239,7 @@ const styles = StyleSheet.create({
   locationRow: { flexDirection: 'row', alignItems: 'center', marginBottom: 8 },
   greenDot: { width: 10, height: 10, borderRadius: 5, backgroundColor: '#22C55E', marginRight: 12 },
   redDot: { width: 10, height: 10, borderRadius: 5, backgroundColor: '#EF4444', marginRight: 12 },
-  locationText: { fontSize: 14, color: '#000', flex: 1 },
+  locationText: { fontSize: 14, color: '#000', flex: 1,  fontFamily:Fonts.family.regular },
   mapContainer: { height: 120, marginHorizontal: 20, marginBottom: 15, borderRadius: 8, overflow: 'hidden' },
   mapPlaceholder: { flex: 1, backgroundColor: '#f0f0f0', justifyContent: 'center', alignItems: 'center' },
   routeVisualization: { flexDirection: 'row', alignItems: 'center' },
@@ -248,7 +252,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center',
     paddingHorizontal: 20, paddingVertical: 15, borderBottomWidth: 1, borderBottomColor: '#f0f0f0',
   },
-  transferTitle: { fontSize: 16, fontWeight: '600', color: '#000' },
+  transferTitle: { fontSize: 16, fontWeight: '600', color: '#000',  fontFamily:Fonts.family.regular },
   modelFilterContainer: {
     flexDirection: 'row',
     justifyContent: 'space-around',
@@ -271,11 +275,13 @@ const styles = StyleSheet.create({
   modelText: {
     fontSize: 12,
     color: '#000',
+      fontFamily:Fonts.family.regular
   },
   modelTextSelected: {
     color: '#fff',
+      fontFamily:Fonts.family.regular
   },
-  ambulanceList: { flex: 1, paddingHorizontal: 20 },
+  ambulanceList: { flex: 1, paddingHorizontal: 20, },
   ambulanceCard: {
     backgroundColor: '#fff', borderRadius: 12, padding: 15, marginBottom: 15,
     borderWidth: 1, borderColor: '#f0f0f0', elevation: 2,
@@ -289,21 +295,21 @@ const styles = StyleSheet.create({
     width: 40, height: 40, borderRadius: 8,
     justifyContent: 'center', alignItems: 'center', marginRight: 12,
   },
-  ambulanceEmoji: { fontSize: 20 },
+  ambulanceEmoji: { fontSize: 20 ,  fontFamily:Fonts.family.regular},
   ambulanceDetails: { flex: 1 },
-  ambulanceType: { fontSize: 16, fontWeight: 'bold', color: '#000', marginBottom: 2 },
-  ambulanceSubtitle: { fontSize: 12, color: '#666', marginBottom: 2 },
-  ambulanceTime: { fontSize: 12, color: '#666' },
-  ambulancePrice: { fontSize: 18, fontWeight: 'bold', color: '#000' },
+  ambulanceType: { fontSize: 16, fontWeight: 'bold', color: '#000', marginBottom: 2 ,  fontFamily:Fonts.family.regular},
+  ambulanceSubtitle: { fontSize: 12, color: '#666', marginBottom: 2,  fontFamily:Fonts.family.regular },
+  ambulanceTime: { fontSize: 12, color: '#666',  fontFamily:Fonts.family.regular },
+  ambulancePrice: { fontSize: 18, fontWeight: 'bold', color: '#000',  fontFamily:Fonts.family.regular },
   includesSection: { marginTop: 12, paddingTop: 12, borderTopWidth: 1, borderTopColor: '#f0f0f0' },
-  includesTitle: { fontSize: 14, fontWeight: '600', color: '#000', marginBottom: 4 },
-  includesText: { fontSize: 12, color: '#666', lineHeight: 16 },
+  includesTitle: { fontSize: 14, fontWeight: '600', color: '#000', marginBottom: 4,  fontFamily:Fonts.family.regular },
+  includesText: { fontSize: 12, color: '#666', lineHeight: 16 ,  fontFamily:Fonts.family.regular},
   bookButton: {
     position: 'absolute',
     bottom: 80,
     left: 20,
     right: 20,
-    backgroundColor: '#7C3AED',
+backgroundColor:Colors.statusBar,
     paddingVertical: 16,
     borderRadius: 12,
     alignItems: 'center',
@@ -314,6 +320,7 @@ const styles = StyleSheet.create({
     paddingTop: hp('4%'),
     paddingHorizontal: wp('5%'),
     position: 'relative',
+      fontFamily:Fonts.family.regular
   },
   header: {
     flexDirection: 'row',

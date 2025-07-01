@@ -186,7 +186,7 @@ const styles = StyleSheet.create({
   },
   topBackground: {
     flex: 1,
-    paddingTop: hp('5%'),
+    paddingTop: hp('4%'),
     paddingBottom: hp('2%'),
     paddingHorizontal: wp('4%'),
   },

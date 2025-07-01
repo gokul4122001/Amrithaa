@@ -11,6 +11,7 @@ import EmergencyHomeScreen from '../Screens/EmergencyFlow/EmergencyHomeScreen'
 import EmergencyHospitalScreen from '../Screens/EmergencyFlow/EmergencyHospitalScreen'
 import NoteAvaliableAmbulancePage from '../Screens/HomeScreenFlow/NoteAvaliableAmbulancePage'
 import AmbulanceTrackingScreen from '../Screens/HomeScreenFlow/AmbulanceTrackingScreen';
+import Bookingconformation from '../Screens/HomeScreenFlow/Bookingconformation';
 const HomeStack = createNativeStackNavigator();
 
 const HomeStackScreen = () => {
@@ -69,6 +70,11 @@ const HomeStackScreen = () => {
        <HomeStack.Screen
         name="AmbulanceTrackingScreen"
         component={AmbulanceTrackingScreen}
+        options={{ headerShown: false }}
+      />
+       <HomeStack.Screen
+        name="Bookingconformation"
+        component={Bookingconformation}
         options={{ headerShown: false }}
       />
     </HomeStack.Navigator>
