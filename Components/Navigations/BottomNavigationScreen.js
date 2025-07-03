@@ -7,6 +7,8 @@ import EmergencyStackScreen from './EmergencyStackNavigationScreen';
 import BookmarkScreen from '../Screens/HomeScreenFlow/BookmarkScreen';
 import ProfileStackScreen from '../Navigations/ProfileStackNavigationScreen';
 import ServiceStackScreen from '../Navigations/ServiceStackNavigationScreen';
+import BoookingStackScreen from './BookingstackNavigation'
+
 
 const Tab = createBottomTabNavigator();
 
@@ -73,7 +75,7 @@ const BottomTabs = () => {
       />
       <Tab.Screen
         name="Bookmark"
-        component={BookmarkScreen}
+        component={BoookingStackScreen}
         options={{
           tabBarButton: (props) => (
             <CustomTabButton {...props} label="Bookmark" />
