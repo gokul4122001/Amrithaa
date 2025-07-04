@@ -143,12 +143,14 @@ const styles = StyleSheet.create({
     marginBottom: 10,
     top: 10,
   },
-  bottomImageContainer: {
+   bottomImageContainer: {
+   
+    bottom: '10%',
     width: width,
    
   },
   bottomImage: {
-    width: 350,
+    width: 410,
     height: 500,
     resizeMode: 'contain',
   },

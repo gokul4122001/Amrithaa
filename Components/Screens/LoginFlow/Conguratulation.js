@@ -1,13 +1,16 @@
 import React, { useEffect } from 'react';
-import { View, Text, StyleSheet, StatusBar } from 'react-native';
+import { View, Text, StyleSheet, StatusBar, Dimensions } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
-import Fonts from '../../Fonts/Fonts';
+import LottieView from 'lottie-react-native';
 import Colors from '../../Colors/Colors';
+
+const { width, height } = Dimensions.get('window');
+
 const CongratulationsScreen = ({ navigation }) => {
   useEffect(() => {
     const timeout = setTimeout(() => {
-      navigation.navigate('MainApp');
-    }, 3000);
+      navigation.navigate('MainApp'); // Change to your desired screen
+    }, 5500);
 
     return () => clearTimeout(timeout);
   }, [navigation]);
@@ -20,8 +23,17 @@ const CongratulationsScreen = ({ navigation }) => {
       style={styles.gradientContainer}
     >
       <StatusBar backgroundColor={Colors.statusBar} barStyle="light-content" />
-      <View style={styles.centerContent}>
-        <Text style={styles.congratsText}>Congratulations</Text>
+
+      <View style={styles.contentWrapper}>
+      
+        <LottieView
+          source={require('../../Assets/lottie/tick.json')}
+          autoPlay
+          loop={true} // ✅ makes the animation repeat forever
+          style={styles.lottieStyle}
+        />
+
+         <Text style={styles.congratsText}>Congratulations</Text>
       </View>
     </LinearGradient>
   );
@@ -33,16 +45,22 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
   },
-  centerContent: {
-    alignItems: 'center',
+  contentWrapper: {
     justifyContent: 'center',
+    alignItems: 'center',
   },
   congratsText: {
     fontSize: 35,
     fontWeight: '700',
-    color: '#188B0E',
+    color: '#7518AA',
     textAlign: 'center',
-     fontFamily:Fonts.family.regular
+    position:'absolute',
+    top:'75%'
+   
+  },
+  lottieStyle: {
+    width: width * 0.9,
+    height: height * 0.6,
   },
 });
 

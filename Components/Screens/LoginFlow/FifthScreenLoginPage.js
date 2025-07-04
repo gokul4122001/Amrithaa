@@ -143,7 +143,7 @@ const styles = StyleSheet.create({
   },
   bottomImageContainer: {
     position: 'absolute',
-    bottom: 0,
+    bottom: '10%',
     width: width,
     alignItems: 'center',
     justifyContent: 'center',

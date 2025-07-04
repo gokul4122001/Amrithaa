@@ -10,16 +10,64 @@ import {
   ScrollView,
   KeyboardAvoidingView,
   Platform,
-  Alert,
+  Animated,
 } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 import Fonts from '../../Fonts/Fonts';
 import Colors from '../../Colors/Colors';
 
+/* Toast with Slide Animation */
+const Toast = ({ message, visible }) => {
+  const slideAnim = useRef(new Animated.Value(-100)).current;
+
+  useEffect(() => {
+    if (visible) {
+      Animated.sequence([
+        Animated.timing(slideAnim, {
+          toValue: 0,
+          duration: 300,
+          useNativeDriver: true,
+        }),
+        Animated.delay(3000),
+        Animated.timing(slideAnim, {
+          toValue: -100,
+          duration: 300,
+          useNativeDriver: true,
+        }),
+      ]).start();
+    }
+  }, [visible]);
+
+  let backgroundColor = Colors.statusBar;
+  if (message === 'Please enter a 4-digit OTP') {
+    backgroundColor = 'red';
+  } else if (message.includes('New OTP has been sent')) {
+    backgroundColor = 'green';
+  }
+
+  if (!visible) return null;
+
+  return (
+    <Animated.View
+      style={[
+        toastStyles.toastContainer,
+        {
+          backgroundColor,
+          transform: [{ translateY: slideAnim }],
+        },
+      ]}
+    >
+      <Text style={toastStyles.toastText}>{message}</Text>
+    </Animated.View>
+  );
+};
+
 const OTPVerificationScreen = ({ route, navigation }) => {
   const [otp, setOtp] = useState(['', '', '', '']);
   const [timer, setTimer] = useState(120);
   const [isResendEnabled, setIsResendEnabled] = useState(false);
+  const [toastVisible, setToastVisible] = useState(false);
+  const [toastMessage, setToastMessage] = useState('');
   const inputRefs = useRef([]);
   const mobileNumber = route?.params?.mobileNumber || '9345665442';
 
@@ -36,6 +84,12 @@ const OTPVerificationScreen = ({ route, navigation }) => {
     }, 1000);
     return () => clearInterval(interval);
   }, []);
+
+  const showToast = (msg) => {
+    setToastMessage(msg);
+    setToastVisible(true);
+    setTimeout(() => setToastVisible(false), 4000);
+  };
 
   const formatTime = (seconds) => {
     const mins = Math.floor(seconds / 60);
@@ -59,15 +113,22 @@ const OTPVerificationScreen = ({ route, navigation }) => {
     }
   };
 
-  const handleSubmit = () => {
-    const enteredOtp = otp.join('');
-    if (enteredOtp.length !== 4) {
-      Alert.alert('Invalid OTP', 'Please enter a 4-digit OTP');
-      return;
-    }
-    navigation.navigate('Login8');
-    Alert.alert('Success', `OTP ${enteredOtp} verified successfully!`);
-  };
+ const handleSubmit = () => {
+  const enteredOtp = otp.join('');
+  if (enteredOtp.length !== 4) {
+    showToast('Please enter a 4-digit OTP');
+    return;
+  }
+
+  // Show success toast
+  showToast(`OTP ${enteredOtp} verified successfully!`);
+
+  // Navigate after 5 seconds
+  setTimeout(() => {
+    navigation.navigate('Login8'); // Adjust route name if needed
+  }, 4000);
+};
+
 
   const handleResend = () => {
     if (!isResendEnabled) return;
@@ -75,7 +136,7 @@ const OTPVerificationScreen = ({ route, navigation }) => {
     setIsResendEnabled(false);
     setOtp(['', '', '', '']);
     inputRefs.current[0]?.focus();
-    Alert.alert('OTP Resent', `New OTP has been sent to ${mobileNumber}`);
+    showToast(`New OTP has been sent to ${mobileNumber}`);
   };
 
   const handleChangeMobile = () => {
@@ -90,6 +151,8 @@ const OTPVerificationScreen = ({ route, navigation }) => {
       style={styles.gradientContainer}
     >
       <StatusBar barStyle="light-content" backgroundColor={Colors.statusBar} />
+      <Toast message={toastMessage} visible={toastVisible} />
+
       <KeyboardAvoidingView
         style={{ flex: 1 }}
         behavior={Platform.OS === 'ios' ? 'padding' : undefined}
@@ -173,9 +236,9 @@ const styles = StyleSheet.create({
   },
   logoBrand: {
     fontSize: 30,
-    color:  Colors.statusBar,
+    color: Colors.statusBar,
     fontWeight: '700',
-     fontFamily:Fonts.family.regular
+    fontFamily: Fonts.family.regular,
   },
   mainContent: {
     flex: 1,
@@ -192,7 +255,7 @@ const styles = StyleSheet.create({
     color: '#333',
     marginBottom: 10,
     textAlign: 'center',
-     fontFamily:Fonts.family.regular
+    fontFamily: Fonts.family.regular,
   },
   changeMobileText: {
     fontSize: 20,
@@ -201,7 +264,7 @@ const styles = StyleSheet.create({
     marginBottom: 40,
     top: 10,
     fontWeight: '700',
-     fontFamily:Fonts.family.regular
+    fontFamily: Fonts.family.regular,
   },
   otpContainer: {
     flexDirection: 'row',
@@ -210,14 +273,14 @@ const styles = StyleSheet.create({
     gap: 15,
   },
   otpInput: {
-    width: 70,
-    height: 70,
+    width: 50,
+    height: 50,
     borderRadius: 8,
     borderWidth: 2,
     fontSize: 18,
     fontWeight: 'bold',
     textAlign: 'center',
-     fontFamily:Fonts.family.regular
+    fontFamily: Fonts.family.regular,
   },
   otpInputEmpty: {
     borderColor: '#e0e0e0',
@@ -225,8 +288,8 @@ const styles = StyleSheet.create({
     color: '#333',
   },
   otpInputFilled: {
-    borderColor: '#7c3aed',
-    backgroundColor: '#7c3aed',
+    borderColor: Colors.statusBar,
+    backgroundColor: Colors.statusBar,
     color: 'white',
   },
   timerText: {
@@ -235,7 +298,7 @@ const styles = StyleSheet.create({
     fontWeight: '600',
     marginBottom: 20,
     top: 20,
-     fontFamily:Fonts.family.regular
+    fontFamily: Fonts.family.regular,
   },
   resendContainer: {
     flexDirection: 'row',
@@ -246,12 +309,12 @@ const styles = StyleSheet.create({
   resendQuestion: {
     fontSize: 17,
     color: '#666',
-     fontFamily:Fonts.family.regular
+    fontFamily: Fonts.family.regular,
   },
   resendLink: {
     fontSize: 14,
     fontWeight: '600',
-     fontFamily:Fonts.family.regular
+    fontFamily: Fonts.family.regular,
   },
   resendEnabled: {
     color: '#ff4444',
@@ -284,7 +347,26 @@ const styles = StyleSheet.create({
     color: 'white',
     fontSize: 16,
     fontWeight: '600',
-     fontFamily:Fonts.family.regular
+    fontFamily: Fonts.family.regular,
+  },
+});
+
+const toastStyles = StyleSheet.create({
+  toastContainer: {
+    position: 'absolute',
+    top: 50,
+    left: 20,
+    right: 20,
+    padding: 12,
+    borderRadius: 10,
+    zIndex: 1000,
+    alignItems: 'center',
+  },
+  toastText: {
+    color: 'white',
+    fontSize: 16,
+    fontWeight: '500',
+    fontFamily: Fonts.family.regular,
   },
 });
 

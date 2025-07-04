@@ -120,7 +120,7 @@ const styles = StyleSheet.create({
   },
   spinContainer: {
     position: 'absolute',
-    top: height * 0.47,
+    top: height * 0.37,
     left: width * 0.05,
   },
   spinImage: {
