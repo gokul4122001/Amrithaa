@@ -34,6 +34,7 @@ const BookingListScreen = ({ navigation }) => {
   const [selectedDateFilter, setSelectedDateFilter] = useState('Today');
   const [showDatePicker, setShowDatePicker] = useState(false);
   const [customDate, setCustomDate] = useState(new Date());
+  const [showServiceModal, setShowServiceModal] = useState(false);
 
   const tabs = [
     { id: 'current', label: 'Current Booking', key: 'current' },
@@ -50,6 +51,38 @@ const BookingListScreen = ({ navigation }) => {
     { id: 5, label: 'Select Date', value: 'selectDate', icon: 'calendar' },
   ];
 
+const serviceOptions = [
+  {
+    id: 1,
+    title: 'Ambulance',
+    image: require('../../Assets/HomeAmbulance.png'), // 🔁 Local image path
+    description: 'Emergency medical transport',
+    
+  },
+  {
+    id: 2,
+    title: 'Lab',
+    image: require('../../Assets/lap.png'),
+    description: 'Laboratory tests and diagnostics',
+   
+  },
+  {
+    id: 3,
+    title: 'Physiotherapy',
+    image: require('../../Assets/phisiotherapy.png'),
+    description: 'Physical therapy and rehabilitation',
+   
+  },
+  {
+    id: 4,
+    title: 'Home Care Nursing',
+    image: require('../../Assets/Homecarenursing.png'),
+    description: 'Professional nursing care at home',
+   
+  },
+];
+
+
   const handleTabChange = (tabKey) => {
     setActiveTab(tabKey);
     if (tabKey === 'complete' || tabKey === 'cancellation') {
@@ -64,6 +97,13 @@ const BookingListScreen = ({ navigation }) => {
     if (option.value === 'selectDate') {
       setShowDatePicker(true);
     }
+  };
+
+  const handleServiceSelect = (service) => {
+    console.log('Selected service:', service);
+    setShowServiceModal(false);
+    // Navigate to service booking screen or handle service selection
+    // navigation.navigate('ServiceBooking', { service });
   };
 
   const renderTabButton = (tab) => (
@@ -120,6 +160,55 @@ const BookingListScreen = ({ navigation }) => {
           />
         </View>
       </TouchableOpacity>
+    </Modal>
+  );
+
+  const renderServiceModal = () => (
+    <Modal
+      visible={showServiceModal}
+      transparent={true}
+      animationType="slide"
+      onRequestClose={() => setShowServiceModal(false)}
+    >
+      <View style={styles.serviceModalOverlay}>
+        <View style={styles.serviceModalContainer}>
+          {/* Modal Header */}
+          <View style={styles.serviceModalHeader}>
+            <Text style={styles.serviceModalTitle}>Service</Text>
+            <TouchableOpacity
+              style={styles.closeButton}
+              onPress={() => setShowServiceModal(false)}
+            >
+              <Icons name="close" size={24} color="#ffff" />
+            </TouchableOpacity>
+          </View>
+
+         {/* Services Grid */}
+<View style={styles.servicesGrid}>
+  {serviceOptions.map((service, index) => (
+    <TouchableOpacity
+      key={service.id}
+      style={[
+        styles.serviceCard,
+        index % 2 === 0 ? styles.serviceCardLeft : styles.serviceCardRight
+      ]}
+      onPress={() => handleServiceSelect(service)}
+    >
+      <View style={[styles.serviceIconContainer, { backgroundColor: service.color }]}>
+        <Image
+          source={service.image}
+          style={styles.serviceIconImage}
+        />
+      </View>
+      <Text style={styles.serviceTitle}>{service.title}</Text>
+    </TouchableOpacity>
+  ))}
+</View>
+
+
+        
+        </View>
+      </View>
     </Modal>
   );
 
@@ -196,7 +285,22 @@ const BookingListScreen = ({ navigation }) => {
         <View style={styles.tabContent}>{renderTabContent()}</View>
       </View>
 
+     <TouchableOpacity
+  style={styles.bottomServiceButton}
+  onPress={() => setShowServiceModal(true)}
+>
+  <LinearGradient
+    colors={[Colors.statusBar || '#7518AA', '#7518AA']}
+    style={styles.serviceButtonGradient}
+  >
+   
+    <Text style={styles.serviceButtonText}> Services</Text>
+  </LinearGradient>
+</TouchableOpacity>
+
+
       {renderDateDropdownModal()}
+      {renderServiceModal()}
 
       {showDatePicker && (
         <DateTimePicker
@@ -315,6 +419,129 @@ const styles = StyleSheet.create({
     color: Colors.statusBar || '#007AFF',
     fontWeight: '600',
   },
+  
+bottomServiceButton: {
+  position: 'absolute',
+  bottom: hp('13%'),
+  elevation: 10,
+  shadowColor: '#000',
+  shadowOffset: { width: 0, height: 4 },
+  shadowOpacity: 0.3,
+  shadowRadius: 8,
+  alignSelf: 'center',
+  height: '5%',
+  width: '30%',
+  backgroundColor: 'transparent', 
+  borderRadius: 30,
+  overflow: 'hidden',
+  
+},
+
+serviceButtonGradient: {
+  flex: 1, // ✅ make it fill the button
+  flexDirection: 'row',
+  alignItems: 'center',
+  justifyContent: 'center',
+ 
+  borderRadius: 12,
+  backgroundColor: 'transparent', // ✅ make sure it's transparent too
+  
+},
+
+  serviceButtonText: {
+    color: 'white',
+    fontSize: hp('2.2%'),
+    fontWeight: 'bold',
+    marginLeft: wp('2%'),
+    
+  },
+
+  
+  serviceModalOverlay: {
+    flex: 1,
+    backgroundColor: 'rgba(0, 0, 0, 0.5)',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  serviceModalContainer: {
+    backgroundColor: 'white',
+    borderRadius: 16,
+    margin: wp('5%'),
+    paddingVertical: hp('3%'),
+    paddingHorizontal: wp('4%'),
+    minHeight: hp('30%'),
+    minWidth: wp('85%'),
+    elevation: 10,
+  },
+  serviceModalHeader: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    marginBottom: hp('3%'),
+    paddingBottom: hp('1%'),
+    borderBottomWidth: 1,
+    borderBottomColor: '#F0F0F0',
+  },
+  serviceModalTitle: {
+    fontSize: hp('2.5%'),
+    fontWeight: 'bold',
+    color: '#333',
+  },
+  closeButton: {
+    padding: wp('1%'),
+    borderRadius: wp('6%'),
+    backgroundColor: '#7518AA',
+  },
+  servicesGrid: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    justifyContent: 'space-between',
+    marginBottom: hp('3%'),
+  },
+  serviceCard: {
+    width: wp('37%'),
+  
+    borderRadius: 12,
+    padding: wp('4%'),
+    marginBottom: hp('2%'),
+    alignItems: 'center',
+    justifyContent: 'center',
+  
+  },
+  serviceCardLeft: {
+    marginRight: wp('2%'),
+  },
+  serviceCardRight: {
+    marginLeft: wp('2%'),
+  },
+  serviceIconContainer: {
+    width: wp('15%'),
+    height: wp('15%'),
+    borderRadius: wp('7.5%'),
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginBottom: hp('1%'),
+  },
+  serviceIcon: {
+    fontSize: wp('8%'),
+  },
+ serviceTitle: {
+  fontSize: hp('1.8%'),
+  fontWeight: '600',
+  color: '#333',
+  textAlign: 'center',
+  lineHeight: hp('2.2%'),
+  marginTop: hp('2%'), // ✅ Add this line
+},
+
+  serviceIconImage: {
+  width: 110,
+  height: 110,
+  resizeMode: 'contain',
+  
+},
+
+
 });
 
 export default BookingListScreen;
