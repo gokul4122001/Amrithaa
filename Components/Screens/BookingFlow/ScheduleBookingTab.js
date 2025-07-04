@@ -378,6 +378,7 @@ const styles = StyleSheet.create({
     fontSize: hp('1.6%'),
     textAlignVertical: 'top',
     color: '#000',
+    height:'5%'
   },
   buttonRow: {
     flexDirection: 'row',

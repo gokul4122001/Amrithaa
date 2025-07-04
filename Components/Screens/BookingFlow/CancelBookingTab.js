@@ -87,11 +87,11 @@ const CurrentBookingTab = () => {
 
       <View style={styles.actionButtons}>
         <TouchableOpacity style={styles.viewDetailsButton}>
-          <Text style={styles.viewDetailsText}>View Details</Text>
+          <Text style={styles.viewDetailsText}>Cancelled</Text>
         </TouchableOpacity>
         <TouchableOpacity style={styles.trackButton}>
-          <MaterialCommunityIcons name="ambulance" size={16} color="white" />
-          <Text style={styles.trackButtonText}>Track Ambulance</Text>
+         
+          <Text style={styles.trackButtonText}>View Details</Text>
         </TouchableOpacity>
       </View>
     </View>
@@ -239,13 +239,15 @@ marginTop:10,
     paddingHorizontal: wp('4%'),
     paddingVertical: hp('1.5%'),
     borderRadius: 6,
-   
+   borderWidth:1,
+    borderColor:'#E3E6FF',
+    backgroundColor:'#E3E6FF',
     marginRight: wp('2%'),
     alignItems: 'center',
   },
   viewDetailsText: {
     fontSize: hp('1.6%'),
-    color:Colors.statusBar,
+    color:'#1824AA',
     fontWeight: '600'
   },
   trackButton: {
