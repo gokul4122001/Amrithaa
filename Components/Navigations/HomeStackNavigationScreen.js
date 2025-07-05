@@ -12,6 +12,11 @@ import EmergencyHospitalScreen from '../Screens/EmergencyFlow/EmergencyHospitalS
 import NoteAvaliableAmbulancePage from '../Screens/HomeScreenFlow/NoteAvaliableAmbulancePage'
 import AmbulanceTrackingScreen from '../Screens/HomeScreenFlow/AmbulanceTrackingScreen';
 import Bookingconformation from '../Screens/HomeScreenFlow/Bookingconformation';
+import UnavailabledrivingScreen from  '../Screens/HomeScreenFlow/UnavailabledriverLoadingScreen'
+import UnavailabledrivingConnectScreen from  '../Screens/HomeScreenFlow/UnavailableConnectdriverPage'
+import TrackAmulanceDriverPage from  '../Screens/HomeScreenFlow/TrackAmbulanceDriverPage'
+
+
 const HomeStack = createNativeStackNavigator();
 
 const HomeStackScreen = () => {
@@ -75,6 +80,21 @@ const HomeStackScreen = () => {
        <HomeStack.Screen
         name="Bookingconformation"
         component={Bookingconformation}
+        options={{ headerShown: false }}
+      />
+         <HomeStack.Screen
+        name="UnavailabledrivingScreen"
+        component={UnavailabledrivingScreen}
+        options={{ headerShown: false }}
+      />
+        <HomeStack.Screen
+        name="UnavailabledrivingConnectScreen"
+        component={UnavailabledrivingConnectScreen}
+        options={{ headerShown: false }}
+      />
+       <HomeStack.Screen
+        name="TrackAmulanceDriverPage"
+        component={TrackAmulanceDriverPage}
         options={{ headerShown: false }}
       />
     </HomeStack.Navigator>

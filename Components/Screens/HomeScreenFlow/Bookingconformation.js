@@ -1,44 +1,78 @@
-import { StyleSheet, Text, View, ActivityIndicator } from 'react-native';
-import React, { useState, useEffect } from 'react';
+import React, { useEffect } from 'react';
+import { View, Text, StyleSheet, StatusBar, Dimensions } from 'react-native';
+import LinearGradient from 'react-native-linear-gradient';
+import LottieView from 'lottie-react-native';
+import Colors from '../../Colors/Colors';
 
-const Bookingconformation = () => {
-  const [showText, setShowText] = useState(false);
+const { width, height } = Dimensions.get('window');
 
+const CongratulationsScreen = ({ navigation }) => {
   useEffect(() => {
-    const timer = setTimeout(() => {
-      setShowText(true);
-    }, 5000); // 5 seconds delay
+    const timeout = setTimeout(() => {
+      navigation.navigate('UnavailabledrivingScreen'); 
+    }, 5500);
 
-    return () => clearTimeout(timer);
-  }, []);
+    return () => clearTimeout(timeout);
+  }, [navigation]);
 
   return (
-    <View style={styles.container}>
-      {!showText ? (
-        <ActivityIndicator size="large" color="#6f42c1" style={styles.loader} />
-      ) : (
-        <Text style={styles.text}>Booking Confirmation</Text>
-      )}
-    </View>
+    <LinearGradient
+      colors={['#ffffff', '#C3DFFF']}
+      start={{ x: 0, y: 0.3 }}
+      end={{ x: 0, y: 0 }}
+      style={styles.gradientContainer}
+    >
+      <StatusBar backgroundColor={Colors.statusBar} barStyle="light-content" />
+
+      <View style={styles.contentWrapper}>
+      
+        <LottieView
+          source={require('../../Assets/lottie/tick.json')}
+          autoPlay
+          loop={true} // ✅ makes the animation repeat forever
+          style={styles.lottieStyle}
+        />
+
+         <Text style={styles.congratsText}>Booking Confirmed !</Text>
+         <Text style={styles.congratsText2}>Ambulance Arriving Shotly</Text>
+
+      </View>
+    </LinearGradient>
   );
 };
 
-export default Bookingconformation;
-
 const styles = StyleSheet.create({
-  container: {
+  gradientContainer: {
     flex: 1,
-    backgroundColor: '#fff',
     justifyContent: 'center',
     alignItems: 'center',
   },
-  text: {
-    fontSize: 22,
-    fontWeight: '700',
-    color: '#6f42c1',
+  contentWrapper: {
+    justifyContent: 'center',
+    alignItems: 'center',
   },
-  loader: {
-    height: 100,
-    width: 100,
+  congratsText: {
+    fontSize: 35,
+    fontWeight: '700',
+    color: '#7518AA',
+    textAlign: 'center',
+    position:'absolute',
+    top:'75%'
+   
+  },
+   congratsText2: {
+    fontSize: 20,
+    fontWeight: '700',
+    color: 'green',
+    textAlign: 'center',
+    position:'absolute',
+    top:'85%'
+   
+  },
+  lottieStyle: {
+    width: width * 0.9,
+    height: height * 0.6,
   },
 });
+
+export default CongratulationsScreen;

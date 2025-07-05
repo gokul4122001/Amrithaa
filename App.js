@@ -17,7 +17,7 @@ const Stack = createNativeStackNavigator();
 export default function App() {
   return (
     <NavigationContainer>
-      <Stack.Navigator initialRouteName="Login1" screenOptions={{ headerShown: false }}>
+      <Stack.Navigator initialRouteName="MainApp" screenOptions={{ headerShown: false }}>
          <Stack.Screen name="MainApp" component={BottomTabs} />
         <Stack.Screen name="Login1" component={Login1} />
         <Stack.Screen name="Login2" component={Login2} />
