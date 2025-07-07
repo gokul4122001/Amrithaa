@@ -255,7 +255,7 @@ const AmbulanceBookingScreen = ({ navigation }) => {
 
           {/* Booking For Section */}
           <View style={styles.section}>
-            <Text style={{  fontFamily:Fonts.family.regular,fontSize:16}}>Ambulance Booking For</Text>
+            <Text style={{  fontFamily:Fonts.family.regular,fontSize:Fonts.size.hd, marginBottom:15, fontWeight: '700',}}>Ambulance Booking For</Text>
          <View style={styles.radioGroup}>
   {['Yourself', 'Others'].map((option) => {
     const isSelected = bookingFor === option;
@@ -293,8 +293,8 @@ const AmbulanceBookingScreen = ({ navigation }) => {
           </View>
 
           {/* Booking Type Section */}
-          <View style={styles.section}>
-            <Text style={{ fontFamily:Fonts.family.regular,fontSize:16}}>Select the Option</Text>
+          <View style={{top:5}}>
+            <Text style={{  fontFamily:Fonts.family.regular,fontSize:Fonts.size.hd, marginBottom:15, fontWeight: '700'}}>Select the Option</Text>
           <View style={styles.bookingTypeGroup}>
   <TouchableOpacity
     style={[
@@ -514,13 +514,13 @@ const styles = StyleSheet.create({
     marginLeft: wp('3%'),
   },
   greeting: {
-    fontSize: hp('2%'),
+      fontSize: Fonts.size.md,
     color: 'black',
     opacity: 0.9,
       fontFamily:Fonts.family.regular
   },
   userName: {
-    fontSize: hp('2%'),
+    fontSize: Fonts.size.lg,
     fontWeight: 'bold',
     color: 'black',
       fontFamily:Fonts.family.regular
@@ -550,9 +550,9 @@ const styles = StyleSheet.create({
   },
 
   categoryHeader: {
-    fontSize: 16,
+    fontSize:Fonts.size.hd,
     fontWeight: '700',
-    color: '#222',
+    color: 'black',
     marginBottom: 16,
      fontFamily:Fonts.family.regular
   },
@@ -577,7 +577,7 @@ const styles = StyleSheet.create({
   },
 
   categoryLabel: {
-    fontSize: 12,
+    fontSize: Fonts.size.md,
     color: '#333',
     textAlign: 'center',
     fontWeight: '500',

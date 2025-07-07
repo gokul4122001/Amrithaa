@@ -30,6 +30,7 @@ const AmbulanceBookingScreen = ({ navigation }) => {
   const [customerName, setCustomerName] = useState('');
   const [customerMobile, setCustomerMobile] = useState('');
   const [additionalInfo, setAdditionalInfo] = useState('');
+  const [selectedSubOption, setSelectedSubOption] = useState(null);
 
   const handlePayment = () => {
     if (!customerName.trim() || !customerMobile.trim()) {
@@ -46,36 +47,22 @@ const AmbulanceBookingScreen = ({ navigation }) => {
   };
 
   const categories = [
-    {
-      id: 'heart',
-      title: 'Emergency Kit',
-      image: require('../../Assets/emkit.png'),
-    },
-    {
-      id: 'poisoning',
-      title: 'Oxygen Tank',
-      image: require('../../Assets/oxgenTank.png'),
-    },
-    {
-      id: 'accident',
-      title: 'IV Equipment',
-      image: require('../../Assets/ivequp.png'),
-    },
-    {
-      id: 'skin',
-      title: 'Cardiac Monitors',
-      image: require('../../Assets/cardiomonitor.png'),
-    },
-    {
-      id: 'cpr',
-      title: 'Ambulance Bed',
-      image: require('../../Assets/ambulancebet.png'),
-    },
+    { id: 'heart', title: 'Emergency Kit', image: require('../../Assets/emkit.png') },
+    { id: 'poisoning', title: 'Oxygen Tank', image: require('../../Assets/oxgenTank.png') },
+    { id: 'accident', title: 'IV Equipment', image: require('../../Assets/ivequp.png') },
+    { id: 'skin', title: 'Cardiac Monitors', image: require('../../Assets/cardiomonitor.png') },
+    { id: 'cpr', title: 'Ambulance Bed', image: require('../../Assets/ambulancebet.png') },
   ];
+
+  const firstRow = categories.slice(0, 3);
+  const secondRow = categories.slice(3);
 
   const handleCategorySelect = (category) => {
     console.log('Selected category:', category.title);
   };
+
+  // ...
+
 
   return (
     <SafeAreaView style={styles.container}>
@@ -86,54 +73,45 @@ const AmbulanceBookingScreen = ({ navigation }) => {
         end={{ x: 0, y: 0 }}
         style={styles.topBackground}
       >
-        {/* Header */}
-        <View style={styles.header}>
-          <Image source={logo} style={styles.logo} />
-          <View style={styles.greetingContainer}>
-            <Text style={styles.greeting}>Hi, Welcome</Text>
-            <Text style={styles.userName}>Jeswanth Kumar</Text>
-          </View>
-          <TouchableOpacity style={[styles.notificationButton, { right: hp('2%') }]}>
-            <Icons name="notifications-on" size={24} color="black" />
-          </TouchableOpacity>
-          <TouchableOpacity style={[styles.notificationButton, { backgroundColor: 'red' }]}>
-            <MaterialCommunityIcons name="alarm-light-outline" size={24} color="white" />
-          </TouchableOpacity>
-        </View>
+        
 
-        {/* Scrollable Content */}
+<View style={{flexDirection:'row'}}>
+  <Icons name="arrow-back" size={24} color="black" />
+  <Text style={{alignSelf:'center',left:10,fontSize:20}}>Booking Overview</Text>
+</View>
+        
         <ScrollView
           style={styles.content}
           contentContainerStyle={{ paddingBottom: 200 }}
           showsVerticalScrollIndicator={false}
         >
-          {/* Pickup Section */}
           <View style={styles.section}>
-            <Text style={styles.sectionTitle}>Pickup</Text>
+  <Text style={styles.sectionTitle}>Pickup</Text>
+  <View style={styles.locationRow}>
+    <View style={styles.iconCircle}>
+      <Ionicons name="location-sharp" size={18} color="#D30000" />
+    </View>
+    <Text style={styles.locationText}>West Mambalam, Chennai - 33</Text>
+  </View>
 
-            <View style={styles.locationItem}>
-              <View style={styles.locationDot} />
-              <View style={styles.locationInfo}>
-                <Text style={styles.locationText}>West Mambalam, Chennai - 33</Text>
-              </View>
-            </View>
-
-            <View style={styles.locationItem}>
-              <View style={[styles.locationDot, { backgroundColor: '#ff4444' }]} />
-              <View style={styles.locationInfo}>
-                <Text style={styles.locationText}>Vyasarpadi, Chennai - 39</Text>
-              </View>
-            </View>
-          </View>
+  <Text style={[styles.sectionTitle, { marginTop: 20 }]}>Drop</Text>
+  <View style={styles.locationRow}>
+    <View style={styles.iconCircle}>
+      <Ionicons name="location-sharp" size={18} color="#D30000" />
+    </View>
+    <Text style={styles.locationText}>Vyasarpadi, Chennai - 39</Text>
+  </View>
+</View>
 
           {/* Ambulance Details */}
           <View style={styles.section}>
-            <View style={styles.sectionHeader}>
-              <Text style={styles.sectionTitle}>Ambulance Details</Text>
-              <TouchableOpacity>
-                <Text style={styles.changeLink}>Change</Text>
-              </TouchableOpacity>
-            </View>
+          <View style={styles.sectionHeader}>
+  <Text style={styles.sectionTitle}>Ambulance Details</Text>
+  <TouchableOpacity>
+    <Text style={styles.changeLink}>Change</Text>
+  </TouchableOpacity>
+</View>
+
 
             <View style={styles.ambulanceCard}>
               <View style={styles.ambulanceHeader}>
@@ -148,51 +126,83 @@ const AmbulanceBookingScreen = ({ navigation }) => {
             </View>
           </View>
 
-          {/* Includes */}
-          <View style={styles.categorySection}>
-            <Text style={styles.categoryHeader}>Includes</Text>
-            <View style={styles.categoryGrid}>
-              {categories.map((category) => (
-                <TouchableOpacity
-                  key={category.id}
-                  style={styles.categoryButton}
-                  onPress={() => handleCategorySelect(category)}
-                >
-                  <Image source={category.image} style={styles.categoryImage} />
-                  <Text style={styles.categoryLabel}>{category.title}</Text>
-                </TouchableOpacity>
-              ))}
-            </View>
-          </View>
+            <View style={styles.categorySection}>
+      <Text style={styles.categoryHeader}>Includes</Text>
 
-          {/* Patient Assistance */}
+      <View style={styles.row}>
+        {firstRow.map((item) => (
+          <TouchableOpacity
+            key={item.id}
+            style={styles.categoryButton}
+            onPress={() => onSelect?.(item)}
+          >
+            <Image source={item.image} style={styles.categoryImage} />
+            <Text style={styles.categoryLabel}>{item.title}</Text>
+          </TouchableOpacity>
+        ))}
+      </View>
+
+      {secondRow.length > 0 && (
+        <View style={[styles.row, { justifyContent: 'flex-start' }]}>
+          {secondRow.map((item) => (
+            <TouchableOpacity
+              key={item.id}
+              style={styles.categoryButton}
+              onPress={() => onSelect?.(item)}
+            >
+              <Image source={item.image} style={styles.categoryImage} />
+              <Text style={styles.categoryLabel}>{item.title}</Text>
+            </TouchableOpacity>
+          ))}
+        </View>
+      )}
+    </View>
           <View style={styles.section}>
-            <Text style={styles.sectionTitle}>Patient Assistance</Text>
+      <Text style={styles.sectionTitle}>Patient Assistance</Text>
 
-            <TouchableOpacity
-              style={styles.radioOption}
-              onPress={() => setSelectedAssistance('not-required')}
-            >
-              <View style={[styles.radioButton, selectedAssistance === 'not-required' && styles.radioSelected]}>
-                {selectedAssistance === 'not-required' && <View style={styles.radioInner} />}
-              </View>
-              <Text style={styles.radioText}>Not Required Patient Assistance</Text>
-            </TouchableOpacity>
+      {/* Not Required */}
+      <TouchableOpacity
+        style={styles.radioOption}
+        onPress={() => {
+          setSelectedAssistance('not-required');
+          setSelectedSubOption(null); // hide sub-options
+        }}
+      >
+        <View style={[styles.radioButton, selectedAssistance === 'not-required' && styles.radioSelected]}>
+          {selectedAssistance === 'not-required' && <View style={styles.radioInner} />}
+        </View>
+        <Text style={styles.radioText}>Not Required Patient Assistance</Text>
+      </TouchableOpacity>
 
-            <TouchableOpacity
-              style={styles.radioOption}
-              onPress={() => setSelectedAssistance('required')}
-            >
-              <View style={[styles.radioButton, selectedAssistance === 'required' && styles.radioSelected]}>
-                {selectedAssistance === 'required' && <View style={styles.radioInner} />}
-              </View>
-              <View style={styles.radioContent}>
-                <Text style={styles.radioText}>Required Patient Assistance</Text>
-                <Text style={styles.radioSubText}>This contains attendant</Text>
-                <Text style={styles.radioPrice}>₹ 250</Text>
-              </View>
-            </TouchableOpacity>
+      {/* Required */}
+      <TouchableOpacity
+        style={styles.radioOption}
+        onPress={() => setSelectedAssistance('required')}
+      >
+        <View style={[styles.radioButton, selectedAssistance === 'required' && styles.radioSelected]}>
+          {selectedAssistance === 'required' && <View style={styles.radioInner} />}
+        </View>
+        <View style={styles.radioContent}>
+          <Text style={styles.radioText}>Required Patient Assistance</Text>
+        </View>
+      </TouchableOpacity>
+
+      {/* Sub Option - only visible if required selected */}
+      {selectedAssistance === 'required' && (
+        <TouchableOpacity
+          style={styles.subOptionCard}
+          onPress={() => setSelectedSubOption('common')}
+        >
+          <View style={[styles.radioButton, selectedSubOption === 'common' && styles.radioSelected]}>
+            {selectedSubOption === 'common' && <View style={styles.radioInner} />}
           </View>
+          <View style={styles.subOptionContent}>
+            <Text style={styles.subOptionText}>The common amount</Text>
+            <Text style={styles.subOptionPrice}>₹ 250</Text>
+          </View>
+        </TouchableOpacity>
+      )}
+    </View>
 
           {/* Customer Details */}
           <View style={styles.section}>
@@ -267,7 +277,7 @@ const AmbulanceBookingScreen = ({ navigation }) => {
           </View>
         </ScrollView>
 
-        {/* Floating Pay Now Button */}
+     
         <View style={styles.floatingButtonWrapper}>
           <TouchableOpacity style={styles.payNowButton} onPress={handlePayment}>
             <Text style={styles.payNowButtonText}>Pay Now</Text>
@@ -323,25 +333,7 @@ const styles = StyleSheet.create({
     marginBottom: 12,
     fontFamily: Fonts.family.regular,
   },
-  locationItem: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    marginBottom: 12,
-    top: 10,
-  },
-  locationDot: {
-    width: 12,
-    height: 12,
-    borderRadius: 6,
-    backgroundColor: '#28a745',
-    marginRight: 12,
-  },
-  locationInfo: { flex: 1 },
-  locationText: {
-    fontSize: 14,
-    color: '#666',
-    fontFamily: Fonts.family.regular,
-  },
+ 
   ambulanceCard: {
     borderWidth: 1,
     borderColor: '#e9ecef',
@@ -420,53 +412,7 @@ const styles = StyleSheet.create({
     fontWeight: '500',
     fontFamily: Fonts.family.regular,
   },
-  radioOption: {
-    flexDirection: 'row',
-    alignItems: 'flex-start',
-    marginBottom: 16,
-  },
-  radioButton: {
-    width: 20,
-    height: 20,
-    borderRadius: 10,
-    borderWidth: 2,
-    borderColor: '#ddd',
-    justifyContent: 'center',
-    alignItems: 'center',
-    marginRight: 12,
-    marginTop: 2,
-  },
-  radioSelected: {
-    borderColor: '#007bff',
-  },
-  radioInner: {
-    width: 10,
-    height: 10,
-    borderRadius: 5,
-    backgroundColor: '#007bff',
-  },
-  radioContent: {
-    flex: 1,
-  },
-  radioText: {
-    fontSize: 14,
-    color: '#333',
-    fontWeight: '500',
-    fontFamily: Fonts.family.regular,
-  },
-  radioSubText: {
-    fontSize: 12,
-    color: '#666',
-    marginTop: 2,
-    fontFamily: Fonts.family.regular,
-  },
-  radioPrice: {
-    fontSize: 14,
-    color: '#28a745',
-    fontWeight: '600',
-    marginTop: 4,
-    fontFamily: Fonts.family.regular,
-  },
+ 
   expandableHeader: {
     flexDirection: 'row',
     justifyContent: 'space-between',
@@ -557,6 +503,143 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: 'bold',
   },
+   radioOption: {
+    flexDirection: 'row',
+    alignItems: 'flex-start',
+    marginBottom: 12,
+  },
+  radioButton: {
+    width: 20,
+    height: 20,
+    borderRadius: 10,
+    borderWidth: 2,
+    borderColor: '#ccc',
+    marginRight: 12,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  radioSelected: {
+    borderColor: '#7518AA',
+  },
+  radioInner: {
+    width: 10,
+    height: 10,
+    borderRadius: 5,
+    backgroundColor: '#7518AA',
+  },
+  radioText: {
+    fontSize: 15,
+    color: '#000',
+  },
+  radioContent: {
+    flex: 1,
+  },
+  radioSubText: {
+    fontSize: 12,
+    color: '#555',
+    marginTop: 4,
+  },
+  radioPrice: {
+    fontSize: 14,
+    color: '#000',
+    marginTop: 4,
+  },
+  subOptionCard: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    borderRadius: 10,
+    borderColor: '#E5E5E5',
+    borderWidth: 1,
+    padding: 16,
+    marginTop: 10,
+    backgroundColor: '#fff',
+    shadowColor: '#000',
+    shadowOpacity: 0.05,
+    shadowOffset: { width: 0, height: 2 },
+    shadowRadius: 4,
+    elevation: 2,
+  },
+  subOptionContent: {
+    flex: 1,
+    marginLeft: 12,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+  },
+  subOptionText: {
+    fontSize: 15,
+    color: '#000',
+  },
+  subOptionPrice: {
+    fontSize: 15,
+    fontWeight: '600',
+    color: '#000',
+  },
+   categorySection: {
+    marginVertical: 20,
+    paddingHorizontal: 5,
+  },
+  categoryHeader: {
+    fontSize: 16,
+    fontWeight: '700',
+    color: '#222',
+    marginBottom: 16,
+  },
+  row: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    marginBottom: 16,
+  },
+  categoryButton: {
+    width: '30%',
+    alignItems: 'center',
+    marginBottom: 8,
+  },
+  categoryImage: {
+    width: 70,
+    height: 70,
+    resizeMode: 'contain',
+    marginBottom: 8,
+  },
+  categoryLabel: {
+    fontSize: 12,
+    color: '#333',
+    textAlign: 'center',
+    fontWeight: '500',
+  },
+  sectionHeader: {
+  flexDirection: 'row',
+  justifyContent: 'space-between',
+  alignItems: 'center',
+  marginBottom: 12,
+},
+changeLink: {
+  fontSize: 14,
+  color: 'red',
+  fontWeight: '500',
+  fontFamily: Fonts.family.regular,
+},
+locationRow: {
+  flexDirection: 'row',
+  alignItems: 'center',
+  marginTop: 10,
+},
+iconCircle: {
+  width: 32,
+  height: 32,
+  borderRadius: 16,
+  backgroundColor: '#FFECEC',
+  justifyContent: 'center',
+  alignItems: 'center',
+  marginRight: 12,
+},
+locationText: {
+  fontSize: 15,
+  color: '#000',
+  fontFamily: Fonts.family.regular,
+},
+
+
+
 });
 
 export default AmbulanceBookingScreen;

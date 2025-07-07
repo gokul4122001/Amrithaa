@@ -344,8 +344,8 @@ mapPlaceholder: {
     resizeMode: 'contain',
   },
   greetingContainer: { flex: 1, marginLeft: wp('3%') },
-  greeting: { fontSize: hp('2%'), color: 'black', fontFamily: Fonts.family.regular },
-  userName: { fontSize: hp('2%'), fontWeight: 'bold', color: 'black', fontFamily: Fonts.family.regular },
+  greeting: { fontSize: Fonts.size.md, color: 'black', fontFamily: Fonts.family.regular },
+  userName: { fontSize: Fonts.size.lg, fontWeight: 'bold', color: 'black', fontFamily: Fonts.family.regular },
   notificationButton: {
     width: wp('10%'),
     height: wp('10%'),

@@ -233,7 +233,7 @@ searchBox: {
   },
   cardTitle: {
     marginTop: 5,
-    fontSize: 16,
+    fontSize: Fonts.size.md,
     textAlign: 'center',
      fontFamily:Fonts.family.regular,
     fontWeight:'700',
@@ -259,11 +259,13 @@ searchBox: {
   doctorName: {
     color: '#fff',
     fontWeight: 'bold',
-     fontFamily:Fonts.family.regular
+     fontFamily:Fonts.family.regular,
+     fontsize:Fonts.size.xl
   },
   specialty: {
     color: '#ddd',
-     fontFamily:Fonts.family.regular
+     fontFamily:Fonts.family.regular,
+      fontsize:Fonts.size.lg
   },
   phoneIcon: {
     width: 34,
@@ -332,14 +334,15 @@ searchBox: {
     marginLeft: wp('3%'),
   },
   greeting: {
-    fontSize: hp('2%'),
+    fontSize: Fonts.size.md,
     color: 'black',
     opacity: 0.9,
-     fontFamily:Fonts.family.regular
+     fontFamily:Fonts.family.regular,
+
   },
   userName: {
-    fontSize: hp('2%'),
-    fontWeight: 'bold',
+    fontSize: Fonts.size.lg,
+    fontWeight: '900',
     color: 'black',
      fontFamily:Fonts.family.regular
   },
@@ -362,8 +365,8 @@ searchBox: {
     marginBottom: 10,
   },
   sectionTitle: {
-    fontSize: 18,
-    fontWeight: 'bold',
+    fontSize: Fonts.size.hd,
+    fontWeight: '700',
     marginBottom:15,
      fontFamily:Fonts.family.regular
 

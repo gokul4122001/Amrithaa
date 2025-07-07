@@ -275,7 +275,7 @@ const HospitalDetails = ({ navigation }) => {
     <Ionicons name="chevron-back" size={24} color="#000" />
   </TouchableOpacity>
   <Text style={{ fontSize: 16, fontWeight: 'bold', marginLeft: 8 }}>
-    Accident / Trauma
+   Hospital Details
   </Text>
  
 </View>

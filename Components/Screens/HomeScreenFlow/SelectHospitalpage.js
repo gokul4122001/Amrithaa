@@ -159,8 +159,8 @@ const styles = StyleSheet.create({
     resizeMode: 'contain',
   },
   greetingContainer: { flex: 1, marginLeft: wp('3%') },
-  greeting: { fontSize: hp('2%'), color: 'black', fontFamily: Fonts.family.regular },
-  userName: { fontSize: hp('2%'), fontWeight: 'bold', color: 'black', fontFamily: Fonts.family.regular },
+  greeting: {  fontSize: Fonts.size.md, color: 'black', fontFamily: Fonts.family.regular },
+  userName: {   fontSize: Fonts.size.lg, fontWeight: 'bold', color: 'black', fontFamily: Fonts.family.regular },
   notificationButton: {
     width: wp('10%'),
     height: wp('10%'),
@@ -181,16 +181,19 @@ const styles = StyleSheet.create({
     marginBottom: 16,
   },
   title: {
-    fontSize: 20,
+     fontSize: Fonts.size.lg,
     fontWeight: 'bold',
     marginLeft: 12,
-      fontFamily:Fonts.family.regular
+      fontFamily:Fonts.family.regular,
+      marginBottom:20,
+
   },
   subtitle: {
-    fontSize: 14,
+    fontSize: Fonts.size.md,
     color: '#666',
     marginBottom: 12,
-      fontFamily:Fonts.family.regular
+      fontFamily:Fonts.family.regular,
+        marginBottom:20
   },
 
   searchBarContainer: {
@@ -201,10 +204,12 @@ const styles = StyleSheet.create({
     paddingHorizontal: 15,
     height: 50,
     marginBottom: 20,
+    borderWidth:1,
+    borderColor:'#D9D9D9'
   },
   searchInput: {
     flex: 1,
-    fontSize: 16,
+    fontSize: Fonts.size.md,
     color: '#000',
   },
 
@@ -214,12 +219,14 @@ const styles = StyleSheet.create({
     marginBottom: 16,
   },
   hospitalTag: {
-    backgroundColor: '#f2f2f2',
-    borderRadius: 20,
-    paddingVertical: 8,
-    paddingHorizontal: 14,
+    backgroundColor: '#ffff',
+    borderRadius: 10,
+    paddingVertical: 10,
+    paddingHorizontal: 20,
     marginRight: 10,
     marginBottom: 10,
+    borderWidth:1,
+    borderColor:'#D9D9D9'
   },
   hospitalTagText: {
     fontSize: 14,

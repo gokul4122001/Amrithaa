@@ -15,15 +15,15 @@ import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
+import { RFValue } from 'react-native-responsive-fontsize';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import FontAwesome6 from 'react-native-vector-icons/FontAwesome6';
 import Entypo from 'react-native-vector-icons/Entypo';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import Ionicons from 'react-native-vector-icons/Ionicons';
-import logo from '../../Assets/logos.png'; 
-import Colors from '../../Colors/Colors';
-
+import logo from '../../Assets/logos.png'; // update this path
+import Colors from '../../Colors/Colors'; // update this path
 
 const AccidentScreen = ({ navigation }) => {
   const [searchQuery, setSearchQuery] = useState('');
@@ -64,48 +64,41 @@ const AccidentScreen = ({ navigation }) => {
   );
 
   const HospitalCard = ({ hospital }) => (
-<TouchableOpacity
-  style={styles.serviceCard}
-  onPress={() => navigation.navigate(hospital.route)}
->
-  <View style={{ flexDirection: 'row' }}>
-    <Image style={styles.serviceIcon} source={hospital.Image} />
-    <View style={[styles.serviceNameContainer, { marginLeft: 10, flex: 1 }]}>
-      <Text style={styles.serviceName}>
-        {hospital.name.length > 20 ? hospital.name.substring(0, 20) + '...' : hospital.name}
-      </Text>
+    <TouchableOpacity
+      style={styles.serviceCard}
+      onPress={() => navigation.navigate(hospital.route)}
+    >
+      <View style={{ flexDirection: 'row' }}>
+        <Image style={styles.serviceIcon} source={hospital.Image} />
+        <View style={[styles.serviceNameContainer, { marginLeft: 10, flex: 1 }]}>
+          <Text style={styles.serviceName}>
+            {hospital.name.length > 20 ? hospital.name.substring(0, 20) + '...' : hospital.name}
+          </Text>
+          <Text style={styles.timing}>{hospital.timing}</Text>
+          <Text style={styles.address}>
+            <Entypo name="location-pin" size={16} color="red" />{' '}
+            {hospital.address.length > 30 ? hospital.address.substring(0, 30) + '...' : hospital.address}
+          </Text>
 
-      <Text style={styles.timing}>{hospital.timing}</Text>
-      <Text style={styles.address}>
-        <Entypo name="location-pin" size={20} color="red" />{' '}
-        {hospital.address.length > 20
-          ? hospital.address.substring(0, 20) + '...'
-          : hospital.address}
-      </Text>
+          <View style={styles.ratingRow}>
+            <AntDesign name="star" size={14} color="gold" />
+            <Text style={styles.ratingText}>{hospital.rating}</Text>
+          </View>
 
-      {/* Rating */}
-      <View style={styles.ratingRow}>
-        <AntDesign name="star" size={16} color="gold" />
-        <Text style={styles.ratingText}>{hospital.rating}</Text>
+          <View style={styles.iconGroup}>
+            <TouchableOpacity style={[styles.iconCircle, { backgroundColor: '#BDEDFF' }]}>
+              <Entypo name="phone" size={16} color="#043446" />
+            </TouchableOpacity>
+            <TouchableOpacity style={[styles.iconCircle, { backgroundColor: '#FDDCCE' }]}>
+              <Entypo name="globe" size={16} color="#AC4A15" />
+            </TouchableOpacity>
+            <TouchableOpacity style={[styles.iconCircle, { backgroundColor: '#FFE2E2' }]}>
+              <Entypo name="location-pin" size={16} color="#FF0000" />
+            </TouchableOpacity>
+          </View>
+        </View>
       </View>
-
-      {/* Action Icons */}
-      <View style={styles.iconGroup}>
-        <TouchableOpacity style={[styles.iconCircle, { backgroundColor: '#BDEDFF' }]}>
-          <Entypo name="phone" size={16} color="#043446" />
-        </TouchableOpacity>
-        <TouchableOpacity style={[styles.iconCircle, { backgroundColor: '#FDDCCE' }]}>
-          <Entypo name="globe" size={16} color="#AC4A15" />
-        </TouchableOpacity>
-        <TouchableOpacity style={[styles.iconCircle, { backgroundColor: '#FFE2E2' }]}>
-          <Entypo name="location-pin" size={16} color="#FF0000" />
-        </TouchableOpacity>
-      </View>
-    </View>
-  </View>
-</TouchableOpacity>
-
-
+    </TouchableOpacity>
   );
 
   return (
@@ -113,8 +106,8 @@ const AccidentScreen = ({ navigation }) => {
       <StatusBar barStyle="light-content" backgroundColor={Colors.statusBar} />
       <LinearGradient
         colors={['#ffffff', '#C3DFFF']}
-      start={{ x: 0, y: 0.3 }}
-      end={{ x: 0, y: 0 }}
+        start={{ x: 0, y: 0.3 }}
+        end={{ x: 0, y: 0 }}
         style={styles.topBackground}
       >
         {/* Header */}
@@ -164,11 +157,7 @@ const AccidentScreen = ({ navigation }) => {
         </View>
 
         {/* Scrollable Hospital Cards */}
-   <ScrollView
-  contentContainerStyle={styles.scrollCardsOnly}
-  showsVerticalScrollIndicator={false}
-  showsHorizontalScrollIndicator={false}
->
+        <ScrollView contentContainerStyle={styles.scrollCardsOnly} showsVerticalScrollIndicator={false}>
           {filteredHospitals.map((item, index) => (
             <HospitalCard key={index} hospital={item} />
           ))}
@@ -179,6 +168,7 @@ const AccidentScreen = ({ navigation }) => {
 };
 
 export default AccidentScreen;
+
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -204,12 +194,12 @@ const styles = StyleSheet.create({
     marginLeft: wp('3%'),
   },
   greeting: {
-    fontSize: hp('2%'),
+    fontSize: RFValue(12),
     color: 'black',
     opacity: 0.9,
   },
   userName: {
-    fontSize: hp('2%'),
+    fontSize: RFValue(13),
     fontWeight: 'bold',
     color: 'black',
   },
@@ -225,27 +215,27 @@ const styles = StyleSheet.create({
   pageTitle: {
     flexDirection: 'row',
     alignItems: 'center',
-    marginVertical: 30,
+    marginVertical: hp('3%'),
   },
   type: {
-    fontSize: hp('3%'),
+    fontSize: RFValue(18),
     fontWeight: 'bold',
     color: '#7416B2',
     marginLeft: 10,
-    position:'absolute',
- left:'40%'
+    position: 'absolute',
+    left: '40%',
   },
   searchContainer: {
-    paddingHorizontal: 20,
-    paddingVertical: 20,
+    paddingHorizontal: wp('5%'),
+    paddingVertical: hp('2%'),
   },
   searchBar: {
     flexDirection: 'row',
     alignItems: 'center',
     backgroundColor: 'white',
-    borderRadius: 25,
-    paddingHorizontal: 20,
-    paddingVertical: 12,
+    borderRadius: wp('7%'),
+    paddingHorizontal: wp('4%'),
+    paddingVertical: hp('1.2%'),
     shadowColor: '#000',
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.1,
@@ -254,105 +244,90 @@ const styles = StyleSheet.create({
   },
   searchInput: {
     flex: 1,
-    marginLeft: 10,
-    fontSize: 16,
+    marginLeft: wp('2%'),
+    fontSize: RFValue(14),
     color: '#333',
   },
   locationRow: {
     flexDirection: 'row',
-    marginHorizontal: 20,
+    marginHorizontal: wp('5%'),
     alignItems: 'center',
-    marginBottom: 10,
+    marginBottom: hp('1%'),
   },
   locationLabel: {
-    fontSize: 16,
+    fontSize: RFValue(12),
     fontWeight: '500',
     color: '#535a5b',
   },
   locationText: {
-    fontSize: 16,
+    fontSize: RFValue(12),
     fontWeight: '500',
     color: '#000',
     textDecorationLine: 'underline',
   },
   scrollCardsOnly: {
-    paddingBottom: 30,
-    paddingTop: 10,
+    paddingBottom: hp('5%'),
+    paddingTop: hp('1%'),
   },
   serviceCard: {
     width: wp('90%'),
-    height: hp('25%'),
+    height: hp('20%'),
     backgroundColor: '#fff',
-    borderRadius: 12,
-    marginBottom: 20,
-    padding: 12,
+    borderRadius: wp('3%'),
+    marginBottom: hp('2%'),
+    padding: wp('3%'),
     alignSelf: 'center',
     shadowColor: '#000',
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.1,
     shadowRadius: 3.84,
     elevation: 5,
-    
   },
   serviceIcon: {
     width: wp('30%'),
-    height: '120%',
-    borderRadius: 8,
-    
+    height: hp('17%'),
+    borderRadius: wp('1%'),
   },
   serviceNameContainer: {
     flexDirection: 'column',
   },
   serviceName: {
-    fontSize: 16,
+    fontSize: RFValue(14),
     fontWeight: 'bold',
     color: '#333',
     flexWrap: 'wrap',
   },
   timing: {
-    fontSize: 14,
+    fontSize: RFValue(12),
     color: '#177C1B',
-    marginTop: 4,
+    marginTop: hp('0.5%'),
     fontWeight: 'bold',
   },
   address: {
-    fontSize: 13,
+    fontSize: RFValue(11),
     color: '#555',
-    marginTop: 6,
-  },
-  viewdetails: {
-    paddingHorizontal: 10,
-    paddingVertical: 3,
-    backgroundColor: '#600F8F',
-    color: 'white',
-    fontSize: 12,
-    borderRadius: 5,
-    fontWeight: 'bold',
+    marginTop: hp('0.5%'),
   },
   ratingRow: {
-  flexDirection: 'row',
-  alignItems: 'center',
-  marginTop: 6,
-},
-
-ratingText: {
-  fontSize: 14,
-  color: '#000',
-  marginLeft: 4,
-},
-
-iconGroup: {
-  flexDirection: 'row',
-  marginTop: 15,
-  gap: 20, 
-},
-
-iconCircle: {
-  width: 30,
-  height: 30,
-  borderRadius: 15,
-  justifyContent: 'center',
-  alignItems: 'center',
-},
-
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginTop: hp('1%'),
+  },
+  ratingText: {
+    fontSize: RFValue(12),
+    color: '#000',
+    marginLeft: wp('1%'),
+  },
+  iconGroup: {
+    flexDirection: 'row',
+    marginTop: hp('1.5%'),
+    gap: wp('4%'),
+  },
+  iconCircle: {
+    width: wp('8%'),
+    height: wp('8%'),
+    borderRadius: wp('4%'),
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
 });

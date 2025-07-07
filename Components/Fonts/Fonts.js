@@ -3,7 +3,8 @@ const Fonts = {
   size: {
     xs: 12,
     sm: 14,
-    md: 16,
+    md: 16.5,
+    hd:18,
     lg: 20,
     xl: 24,
     xxl: 30,
@@ -22,10 +23,6 @@ const Fonts = {
     medium: 'System',
     bold: 'System',
 
-    // Example custom fonts:
-    // regular: 'Poppins-Regular',
-    // medium: 'Poppins-Medium',
-    // bold: 'Poppins-Bold',
   },
 };
 

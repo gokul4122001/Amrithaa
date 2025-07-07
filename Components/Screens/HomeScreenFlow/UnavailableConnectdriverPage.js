@@ -298,7 +298,7 @@ const styles = StyleSheet.create({
     lineHeight: 16,
   },
   fixedBookingButton: {
-    backgroundColor: '#8B5CF6',
+    backgroundColor: '#7518AA',
     paddingVertical: 14,
     borderRadius: 10,
     alignItems: 'center',
